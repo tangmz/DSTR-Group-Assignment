@@ -452,7 +452,7 @@ public:
 		return Current->Data;
 	}
 	void PrintList() {
-		cout << setw(15) << "ID" <<
+		cout << setw(15) << left << "ID" <<
 			setw(20) << "Name" <<
 			setw(5) << "Age" <<
 			setw(5) << "M/F" <<
