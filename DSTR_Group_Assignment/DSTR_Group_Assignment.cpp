@@ -16,7 +16,6 @@ int main() {
 	DoublyLinkedList<User>* users = new DoublyLinkedList<User>();
 	AddUsers(users, 1000, 1, 100);
 	users->PrintList();
-	SortUsers(users);
-
+	users->Sort(AttributeValues::User::Age)->SearchByRegex(".*a.*", AttributeValues::User::Email)->PrintList();
 	return 0;
 }

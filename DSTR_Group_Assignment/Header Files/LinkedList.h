@@ -20,7 +20,9 @@ private:
 	DoublyLinkedList* NextElement, * PreviousElement, * Head, * Current, * Tail;
 	int Length = 0;
 public:
-	//Constructors and Delete Functions
+	/*
+	* CONSTRUCTORS AND DELETION FUNCTIONS
+	*/
 	DoublyLinkedList(T data) {
 		Data = data;
 		NextElement = NULL;
@@ -42,25 +44,29 @@ public:
 		//cout << "Doubly Linked List with head element " << Head->Data << " deleted." << endl;
 	}
 
-	//Adding or Inserting Data
+	/*
+	* ADD AND INSERT FUNCTIONS
+	*/
 	void AddToEnd(T data) {
+		//If the list is empty, add its first node data
 		if (Length == 0) {
 			Data = data;
 			Length++;
 			return;
 		}
 
+		//If the list has at least 1 element, go to the tail node and add the data as the next element
 		Current = Tail;
 		Current->NextElement = new DoublyLinkedList<T>(data);
 		Current->NextElement->PreviousElement = Current;
-		Current->NextElement->Current = NULL;
 
-		//Setup New Tail
-		Tail = Current->NextElement;
-
-		//Remove New Element's Head and Tail
+		//Set the new node's head, tail, and length value
 		Current->NextElement->Head = NULL;
 		Current->NextElement->Tail = NULL;
+		Current->NextElement->Length = NULL;
+
+		//Setup the new tail value
+		Tail = Current->NextElement;
 
 		Length++;
 	}
@@ -68,7 +74,7 @@ public:
 		//Insert new element at end of list
 		AddToEnd(data);
 
-		//Shift all data to the right
+		//Shift all data to the right, with the new data moved to the front
 		Current = Tail;
 		while (Current->PreviousElement != NULL) {
 			Current->Data = Current->PreviousElement->Data;
@@ -77,6 +83,7 @@ public:
 		Current->Data = data;
 	}
 	void Insert(int index, T data) {
+		//If requested index is longer than the list length, return an error
 		if (index > Length) {
 			cout << "ERROR INSERT: Index exceeds list length" << endl;
 			return;
@@ -92,51 +99,65 @@ public:
 			this->AddToEnd(data);
 			return;
 		}
+
 		//Insert between elements in list
+		//Go to the target index, right before the inserted index
 		Current = Head;
 		while (index > 1) {
 			Current = Current->NextElement;
 			index--;
-		} //Goes to target index, right before the inserted index
+		}
+
+		//Add the new node
 		DoublyLinkedList<T>* tempList = Current->NextElement;
 		Current->NextElement = new DoublyLinkedList<T>(data);
 		Current->NextElement->NextElement = tempList;
 		Current->NextElement->PreviousElement = Current;
 		Current->NextElement->NextElement->PreviousElement = Current->NextElement;
 
-		Current->NextElement->Head = NULL;
-		Current->NextElement->Current = NULL;
-		Current->NextElement->Tail = NULL;
+		//Update the new node's values
+		Current->NextElement->Head = Head;
+		Current->NextElement->Tail = Tail;
+		Current->NextElement->Length = Length;
 
 		Length++;
 	}
 
-	//Popping or Deleting Data
+	/*
+	* POP AND DELETE FUNCTIONS
+	*/
 	void PopEnd() {
+		//If list is empty, return an error
 		if (Length == 0) {
 			cout << "ERROR POP_END: List is empty" << endl;
 			return;
 		}
+		//If list only has one node, update the list length to 0
 		else if (Length == 1) {
 			Length--;
 			return;
 		}
 
+		//Go to the second last node and remove its next element
 		Current = Tail;
 		Current = Current->PreviousElement;
 		Tail = Current;
 		Current->NextElement = NULL;
+		Length--;
 	}
 	void PopStart() {
+		//If list is empty, return an error
 		if (Length == 0) {
 			cout << "ERROR POP_START: List is empty" << endl;
 			return;
 		}
+		//If list only has one node, update the list length to 0
 		else if (Length == 1) {
 			Length--;
 			return;
 		}
 
+		//Shift all node data to the left, and remove the rightmost node
 		Current = Head;
 		while (Current->NextElement != NULL) {
 			Current->Data = Current->NextElement->Data;
@@ -145,13 +166,16 @@ public:
 		Current = Current->PreviousElement;
 		Tail = Current;
 		Current->NextElement = NULL;
+		Length--;
 	}
 	void DeleteAtIndex(int index) {
+		//If index exceeds the list length, return an error
 		if (index >= Length) {
 			cout << "ERROR DELETE_AT_INDEX: Index exceeds list length" << endl;
 			return;
 		}
 
+		//If index is at the list start or end, call the respective Pop functions
 		if (index == 0) {
 			PopStart();
 			return;
@@ -161,57 +185,52 @@ public:
 			return;
 		}
 
+		//Start from head and go to the deletion index
 		Current = Head;
 		while (index > 0) {
 			Current = Current->NextElement;
 			index--;
 		}
+
+		//Remove the selected node
 		DoublyLinkedList<T>* tempList = Current->NextElement;
 		Current = Current->PreviousElement;
 		Current->NextElement = tempList;
 		Current->NextElement->PreviousElement = Current;
+		Length--;
 	}
 	void DeleteNthValue(T data, int n) {
 		int index = 0;
 		Current = Head;
 
-		//Searches through all elements until either the target match is found, or end is reached
+		//Searches through all elements until either the Nth target match is found, or the end is reached
 		while (index < Length && n > 0) {
 			//If the data matches and n == 0, the data is the delete target
-			if (Current->Data == data) {
-				//cout << "MATCH at index " << index << endl;
-				n--;
-			}
-			else {
-				//cout << "NO MATCH with index " << index << endl;
-			}
-			if (n == 0) {
-				//cout << "BREAK" << endl;
-				break;
-			}
+			if (Current->Data == data) n--;
+			if (n == 0) break;
 
 			Current = Current->NextElement;
 			index++;
 		}
-		if (n == 0) {
-			//Match found
-			DeleteAtIndex(index);
-		}
-		else {
-			//End reached
-			cout << "No items matching " << data << " found" << endl;
-		}
+
+		//Determine if the target data is found or the list end is reached
+		if (n == 0) DeleteAtIndex(index);
+		else cout << "No items matching " << data << " found" << endl;
 	}
 	void DeleteValues(T data) {
 		int index = 0;
 		Current = Head;
 
+		//Loop through the entire list and delete all nodes that have the same data values as the inputted data
 		while (index < Length) {
 			if (Current->Data == data) {
 				DeleteAtIndex(index);
+
+				//Reset the Current node as it may have been changed in the DeleteAtIndex function
 				Current = Head;
 				for (int i = 0; i < index; i++) Current = Current->NextElement;
 				Length--;
+
 				continue;
 			}
 			Current = Current->NextElement;
@@ -225,13 +244,17 @@ public:
 		Length = 0;
 	}
 
-	//Replacing Data
+	/*
+	* REPLACE FUNCTIONS
+	*/
 	void ReplaceAtIndex(int index, T newData) {
+		//If list length is 0, return an error
 		if (index > Length) {
 			cout << "ERROR REPLACE_AT_INDEX: Index exceeds list length" << endl;
 			return;
 		}
 
+		//Go to the selected index and replace the data value
 		Current = Head;
 		while (index > 0) {
 			Current = Current->NextElement;
@@ -243,37 +266,30 @@ public:
 		int index = 0;
 		Current = Head;
 
-		//Searches through all elements until either the target match is found, or end is reached
+		//Searches through all elements until either the Nth target match is found, or end is reached
 		while (index < Length && n > 0) {
 			//If the data matches and n == 0, the data is the delete target
-			if (Current->Data == replacedData) {
-				//cout << "MATCH at index " << index << endl;
-				n--;
-			}
-			else {
-				//cout << "NO MATCH with index " << index << endl;
-			}
-			if (n == 0) {
-				//cout << "BREAK" << endl;
-				break;
-			}
+			if (Current->Data == replacedData) n--;
+			if (n == 0) break;
 
 			Current = Current->NextElement;
 			index++;
 		}
+		//Match found - Delete the matching data and insert the new replacement data at the same index
 		if (n == 0) {
-			//Match found
 			DeleteAtIndex(index);
 			Insert(index, newData);
 		}
+		//End reached
 		else {
-			//End reached
 			cout << "No items matching " << replacedData << " found" << endl;
 		}
 	}
 	void ReplaceAllValues(T replacedData, T newData) {
 		int index = 0;
 		Current = Head;
+
+		//Loop through the list and replace all matching node data with the new data
 		while (index < Length) {
 			if (Current->Data == replacedData) {
 				Current->Data = newData;
@@ -285,6 +301,8 @@ public:
 	void ReplaceAll(T newData) {
 		int index = 0;
 		Current = Head;
+
+		//Loop through the list and replace ALL node data with the new data
 		while (index < Length) {
 			Current->Data = newData;
 			Current = Current->NextElement;
@@ -292,15 +310,20 @@ public:
 		}
 	}
 
-	//Search Data
+	/*
+	* SEARCH FUNCTIONS
+	*/
 	DoublyLinkedList<T>* SearchByRegex(string regExp, int searchAttributeValue) {
+		//Create a new DoublyLinkedList to store the filtered list
 		DoublyLinkedList<T>* filteredList = new DoublyLinkedList<T>();
 		int index = 0;
 		Current = Head;
+
 		while (index < Length) {
 			//Determines the class the list contents belong to
 			//In each class, determine the attribute to search based on the passed int value
-			//If the value is 0, consider ALL attributes
+			
+			//If the attribute value is 0, consider ALL attributes
 			if (searchAttributeValue == AttributeValues::All) {
 				if (typeid(T) == typeid(User)) {
 					if (regex_match(Current->Data.GetID(), regex(regExp)) ||
@@ -317,8 +340,6 @@ public:
 			else if (typeid(T) == typeid(User) || typeid(T) == typeid(Doctor) ||
 				typeid(T) == typeid(Nurse) || typeid(T) == typeid(Patient)) {
 				switch (searchAttributeValue) {
-					case AttributeValues::All:
-						break;
 					case AttributeValues::User::ID:
 						if (regex_match(Current->Data.GetID(), regex(regExp))) filteredList->AddToEnd(Current->Data);
 						break;
@@ -370,19 +391,22 @@ public:
 		return filteredList;
 	}
 
-	//Sorting Data
+	/*
+	* SORT FUNCTIONS
+	*/
 	DoublyLinkedList<T>* Sort(int sortAttributeValue) {
-		//Check if length is 0
+		//If list length is 0, return an error
 		if (Length == 0) {
 			cout << "Checkpoint ERR" << endl;
 			cout << "ERROR SORT: List of length 0 cannot be sorted" << endl;
 			return this;
 		}
 
-		//Using Merge Sort
+		//Use Merge Sort
 		DoublyLinkedList<T>* sortedList = new DoublyLinkedList<T>();
 		Current = Head;
 		int index = 0;
+		//If the list length is 1, it is already sorted, so return it
 		if (Length == 1) {
 			return this;
 		}
@@ -397,7 +421,7 @@ public:
 				index++;
 			}
 
-			//Sort the two lists
+			//Sort the two lists through recursive sorting
 			ListA = ListA->Sort(sortAttributeValue);
 			ListB = ListB->Sort(sortAttributeValue);
 
@@ -441,7 +465,9 @@ public:
 		return sortedList;
 	}
 
-	//Accessing List Elements and Length
+	/*
+	* GET, PRINT, LENGTH FUNCTIONS
+	*/
 	T Get(int index) {
 		int count = 0;
 		Current = Head;
@@ -452,6 +478,8 @@ public:
 		return Current->Data;
 	}
 	void PrintList() {
+		cout << "List Length: " << GetLength() << endl;
+		Interface::General::PrintLine('-', 90);
 		cout << setw(15) << left << "ID" <<
 			setw(20) << "Name" <<
 			setw(5) << "Age" <<
@@ -485,11 +513,12 @@ public:
 			Current = Current->NextElement;
 			index++;
 		}
+		cout << endl;
 	}
 	void PrintDetails() {
 		cout << setw(15) << "Data" << setw(15) << "Head" << setw(15) << "Current" << setw(15) << "Tail"
-			<< setw(15) << "Prev." << setw(15) << "Next" << endl;
-		Interface::General::PrintLine('-', 90);
+			<< setw(15) << "Prev." << setw(15) << "Next" << setw(10) << "Length" << endl;
+		Interface::General::PrintLine('-', 100);
 
 		Current = Head;
 		int count = 0;
@@ -510,6 +539,9 @@ public:
 
 			if (Current->NextElement == NULL) { cout << setw(15) << "-"; }
 			else { cout << setw(15) << Current->NextElement->Data; }
+
+			if (Current->Length == NULL) { cout << setw(10) << "-"; }
+			else { cout << setw(10) << Current->Length; }
 
 			cout << endl;
 			Current = Current->NextElement;
