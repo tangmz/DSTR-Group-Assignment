@@ -17,5 +17,6 @@ int main() {
 	AddUsers(users, 1000, 1, 100);
 	users->PrintList();
 	users->Sort(AttributeValues::User::Age)->SearchByRegex(".*a.*", AttributeValues::User::Email)->PrintList();
+	SortUsers(users);
 	return 0;
 }

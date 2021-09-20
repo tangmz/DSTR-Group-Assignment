@@ -51,33 +51,16 @@ void FilterUsers(DoublyLinkedList<User>* users) {
 	delete allFilter;
 }
 void SortUsers(DoublyLinkedList<User>* users) {
-	DoublyLinkedList<User>* sortedUsers = new DoublyLinkedList<User>();
-	/*
-	sortedUsers = users->Sort(AttributeValues::User::Name);
 	cout << "Sort by Name:" << endl;
-	sortedUsers->PrintList();
-	cout << endl;
-	*/
-	sortedUsers = users->Sort(AttributeValues::User::Age);
+	users->Sort(AttributeValues::User::Name)->PrintList();
 	cout << "Sort by Age:" << endl;
-	sortedUsers->PrintList();
-	cout << endl;
-	/*
-	sortedUsers = users->Sort(AttributeValues::User::Gender);
+	users->Sort(AttributeValues::User::Age)->PrintList();
 	cout << "Sort by Gender:" << endl;
-	sortedUsers->PrintList();
-	cout << endl;
-	sortedUsers = users->Sort(AttributeValues::User::Phone);
+	users->Sort(AttributeValues::User::Gender)->PrintList();
 	cout << "Sort by Phone:" << endl;
-	sortedUsers->PrintList();
-	cout << endl;
-	sortedUsers = users->Sort(AttributeValues::User::Email);
+	users->Sort(AttributeValues::User::Phone)->PrintList();
 	cout << "Sort by Email:" << endl;
-	sortedUsers->PrintList();
-	cout << endl;
-	sortedUsers = users->Sort(AttributeValues::User::Address);
+	users->Sort(AttributeValues::User::Email)->PrintList();
 	cout << "Sort by Address:" << endl;
-	sortedUsers->PrintList();
-	cout << endl;
-	*/
+	users->Sort(AttributeValues::User::Address)->PrintList();
 }
