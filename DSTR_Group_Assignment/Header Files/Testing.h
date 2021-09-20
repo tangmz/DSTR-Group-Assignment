@@ -22,30 +22,13 @@ void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int m
 			GetRandomName(NameList),
 			GetRandomName(NameList)));
 	}
-	/*
-	users->AddToStart(User("Alberto"));
-	users->AddToStart(User("Einstein"));
-	users->AddToEnd(User("Bob"));
-	users->AddToEnd(User("Franklin"));
-	users->Insert(4, User("Harold"));
-	users->Insert(5, User("Imp"));
-	users->Insert(6, User("James"));
-	users->Insert(7, User("Grant"));
-	users->Insert(8, User("Doug"));
-	users->Insert(9, User("Charles"));
-	*/
 }
 void DeleteUsers(DoublyLinkedList<User>* users) {
 	users->PopEnd();
 	users->PopStart();
 	users->DeleteAtIndex(1);
-	users->DeleteAtIndex(3);
 	users->DeleteNthValue(User("User A"), 2);
 	users->DeleteValues(User("User B"));
-	users->PopEnd();
-	users->PopStart();
-	users->PopStart();
-	users->PopEnd();
 }
 void ReplaceUsers(DoublyLinkedList<User>* users) {
 	users->ReplaceAtIndex(5, User("User P"));
@@ -56,11 +39,15 @@ void ReplaceUsers(DoublyLinkedList<User>* users) {
 	//users->ReplaceAll(User("User T"));
 }
 void FilterUsers(DoublyLinkedList<User>* users) {
-	string regExp;
-	regExp = ".*A.*";
-	DoublyLinkedList<User>* allFilter = users->SearchByRegex(regExp, AttributeValues::All);
-	cout << endl << "All Filter:" << endl;
+	//Setup the Regular Expression and Attribute Value to filter
+	string regExp = ".*A.*";
+	int attribute = AttributeValues::All;
+
+	DoublyLinkedList<User>* allFilter = users->SearchByRegex(regExp, attribute);
+	cout << endl << "Filter with Regular Expression " << regExp << " at attribute value " << attribute << ":" << endl;
 	allFilter->PrintList();
+	cout << endl;
+
 	delete allFilter;
 }
 void SortUsers(DoublyLinkedList<User>* users) {
