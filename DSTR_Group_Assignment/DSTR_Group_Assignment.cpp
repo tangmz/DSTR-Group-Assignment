@@ -14,9 +14,8 @@ int main() {
 	srand(unsigned(time(NULL)));
 
 	DoublyLinkedList<User>* users = new DoublyLinkedList<User>();
-	AddUsers(users, 1000, 1, 100);
-	users->PrintList();
-	users->Sort(AttributeValues::User::Age)->SearchByRegex(".*a.*", AttributeValues::User::Email)->PrintList();
-	SortUsers(users);
+	AddUsers(users, 20, 10, 20);
+	users->PrintDetails();
+	users->SearchByRegex(".*e.*", AttributeValues::User::Name)->Sort(AttributeValues::User::Age)->PrintDetails();
 	return 0;
 }

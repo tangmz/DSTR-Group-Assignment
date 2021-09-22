@@ -15,29 +15,33 @@ using namespace std;
 
 template <typename T>
 class DoublyLinkedList {
+	class Node {
+	public:
+		T Data;
+		Node* NextElement, * PreviousElement;
+
+		Node(T data) {
+			Data = data;
+			NextElement = NULL;
+			PreviousElement = NULL;
+		}
+	};
+
 private:
-	T Data;
-	DoublyLinkedList* NextElement, * PreviousElement, * Head, * Current, * Tail;
+	Node* Head, * Current, * Tail;
 	int Length = 0;
 public:
 	/*
 	* CONSTRUCTORS AND DELETION FUNCTIONS
 	*/
 	DoublyLinkedList(T data) {
-		Data = data;
-		NextElement = NULL;
-		PreviousElement = NULL;
-		Head = this;
-		Current = NULL;
-		Tail = this;
+		Head = new Node<T>(data);
+		Tail = Head;
 		Length = 1;
 	}
 	DoublyLinkedList() {
-		NextElement = NULL;
-		PreviousElement = NULL;
-		Head = this;
-		Current = NULL;
-		Tail = this;
+		Head = NULL;
+		Tail = NULL;
 		Length = 0;
 	}
 	~DoublyLinkedList() {
@@ -50,20 +54,16 @@ public:
 	void AddToEnd(T data) {
 		//If the list is empty, add its first node data
 		if (Length == 0) {
-			Data = data;
+			Head = new Node(data);
+			Tail = Head;
 			Length++;
 			return;
 		}
 
 		//If the list has at least 1 element, go to the tail node and add the data as the next element
 		Current = Tail;
-		Current->NextElement = new DoublyLinkedList<T>(data);
+		Current->NextElement = new Node(data);
 		Current->NextElement->PreviousElement = Current;
-
-		//Set the new node's head, tail, and length value
-		Current->NextElement->Head = NULL;
-		Current->NextElement->Tail = NULL;
-		Current->NextElement->Length = NULL;
 
 		//Setup the new tail value
 		Tail = Current->NextElement;
@@ -71,6 +71,19 @@ public:
 		Length++;
 	}
 	void AddToStart(T data) {
+		if (Length == 0) {
+			Head = new Node(data);
+			Tail = Head;
+			Length++;
+			return;
+		}
+		Current = new Node(data);
+		Current->NextElement = Head;
+		Current->NextElement->PreviousElement = Current;
+		Head = Current;
+		Length++;
+
+		/*
 		//Insert new element at end of list
 		AddToEnd(data);
 
@@ -81,6 +94,7 @@ public:
 			Current = Current->PreviousElement;
 		}
 		Current->Data = data;
+		*/
 	}
 	void Insert(int index, T data) {
 		//If requested index is longer than the list length, return an error
@@ -109,16 +123,11 @@ public:
 		}
 
 		//Add the new node
-		DoublyLinkedList<T>* tempList = Current->NextElement;
-		Current->NextElement = new DoublyLinkedList<T>(data);
+		Node* tempList = Current->NextElement;
+		Current->NextElement = new Node(data);
 		Current->NextElement->NextElement = tempList;
 		Current->NextElement->PreviousElement = Current;
 		Current->NextElement->NextElement->PreviousElement = Current->NextElement;
-
-		//Update the new node's values
-		Current->NextElement->Head = Head;
-		Current->NextElement->Tail = Tail;
-		Current->NextElement->Length = Length;
 
 		Length++;
 	}
@@ -132,17 +141,16 @@ public:
 			cout << "ERROR POP_END: List is empty" << endl;
 			return;
 		}
-		//If list only has one node, update the list length to 0
+		//If list only has one node, update the list length to 0 and remove the node pointers
 		else if (Length == 1) {
-			Length--;
+			Clear();
 			return;
 		}
 
 		//Go to the second last node and remove its next element
-		Current = Tail;
-		Current = Current->PreviousElement;
-		Tail = Current;
+		Current = Tail->PreviousElement;
 		Current->NextElement = NULL;
+		Tail = Current;
 		Length--;
 	}
 	void PopStart() {
@@ -151,12 +159,17 @@ public:
 			cout << "ERROR POP_START: List is empty" << endl;
 			return;
 		}
-		//If list only has one node, update the list length to 0
+		//If list only has one node, update the list length to 0 and remove the node pointers
 		else if (Length == 1) {
-			Length--;
+			Clear();
 			return;
 		}
 
+		Current = Head->NextElement;
+		Current->PreviousElement = NULL;
+		Head = Current;
+
+		/*
 		//Shift all node data to the left, and remove the rightmost node
 		Current = Head;
 		while (Current->NextElement != NULL) {
@@ -166,6 +179,7 @@ public:
 		Current = Current->PreviousElement;
 		Tail = Current;
 		Current->NextElement = NULL;
+		*/
 		Length--;
 	}
 	void DeleteAtIndex(int index) {
@@ -193,7 +207,7 @@ public:
 		}
 
 		//Remove the selected node
-		DoublyLinkedList<T>* tempList = Current->NextElement;
+		Node* tempList = Current->NextElement;
 		Current = Current->PreviousElement;
 		Current->NextElement = tempList;
 		Current->NextElement->PreviousElement = Current;
@@ -229,7 +243,6 @@ public:
 				//Reset the Current node as it may have been changed in the DeleteAtIndex function
 				Current = Head;
 				for (int i = 0; i < index; i++) Current = Current->NextElement;
-				Length--;
 
 				continue;
 			}
@@ -238,9 +251,8 @@ public:
 		}
 	}
 	void Clear() {
-		Current = Head;
-		Current->NextElement = NULL;
-		Tail = Current;
+		Head = NULL;
+		Tail = NULL;
 		Length = 0;
 	}
 
@@ -469,16 +481,20 @@ public:
 	* GET, PRINT, LENGTH FUNCTIONS
 	*/
 	T Get(int index) {
-		int count = 0;
+		if (index >= Length) {
+			cout << "ERROR GET: Index exceeds list length";
+			return T();
+		}
+
 		Current = Head;
-		while (Current->NextElement != NULL && count != index) {
+		while (index > 0) {
 			Current = Current->NextElement;
-			count++;
+			index--;
 		}
 		return Current->Data;
 	}
 	void PrintList() {
-		cout << "List Length: " << GetLength() << endl;
+		cout << "List Length: " << Length << endl;
 		Interface::General::PrintLine('-', 90);
 		cout << setw(15) << left << "ID" <<
 			setw(20) << "Name" <<
@@ -525,14 +541,14 @@ public:
 		while (count < Length) {
 			cout << setw(15) << Current->Data;
 
-			if (Current->Head == NULL) { cout << setw(15) << "-"; }
-			else { cout << setw(15) << Current->Head->Data; }
+			if (Head == NULL) { cout << setw(15) << "-"; }
+			else { cout << setw(15) << Head->Data; }
 
-			if (Current->Current == NULL) { cout << setw(15) << "-"; }
-			else { cout << setw(15) << Current->Current->Data; }
+			if (Current == NULL) { cout << setw(15) << "-"; }
+			else { cout << setw(15) << Current->Data; }
 
-			if (Current->Tail == NULL) { cout << setw(15) << "-"; }
-			else { cout << setw(15) << Current->Tail->Data; }
+			if (Tail == NULL) { cout << setw(15) << "-"; }
+			else { cout << setw(15) << Tail->Data; }
 
 			if (Current->PreviousElement == NULL) { cout << setw(15) << "-"; }
 			else { cout << setw(15) << Current->PreviousElement->Data; }
@@ -540,9 +556,7 @@ public:
 			if (Current->NextElement == NULL) { cout << setw(15) << "-"; }
 			else { cout << setw(15) << Current->NextElement->Data; }
 
-			if (Current->Length == NULL) { cout << setw(10) << "-"; }
-			else { cout << setw(10) << Current->Length; }
-
+			cout << setw(10) << Length;
 			cout << endl;
 			Current = Current->NextElement;
 			count++;
