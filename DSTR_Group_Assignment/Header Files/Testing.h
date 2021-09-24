@@ -52,15 +52,15 @@ void FilterUsers(DoublyLinkedList<User>* users) {
 }
 void SortUsers(DoublyLinkedList<User>* users) {
 	cout << "Sort by Name:" << endl;
-	users->Sort(AttributeValues::User::Name)->PrintList();
+	users->Sort(AttributeValues::User::Name)->PrintList(1);
 	cout << "Sort by Age:" << endl;
-	users->Sort(AttributeValues::User::Age)->PrintList();
+	users->Sort(AttributeValues::User::Age)->PrintList(1);
 	cout << "Sort by Gender:" << endl;
-	users->Sort(AttributeValues::User::Gender)->PrintList();
+	users->Sort(AttributeValues::User::Gender)->PrintList(1);
 	cout << "Sort by Phone:" << endl;
-	users->Sort(AttributeValues::User::Phone)->PrintList();
+	users->Sort(AttributeValues::User::Phone)->PrintList(1);
 	cout << "Sort by Email:" << endl;
-	users->Sort(AttributeValues::User::Email)->PrintList();
+	users->Sort(AttributeValues::User::Email)->PrintList(1);
 	cout << "Sort by Address:" << endl;
-	users->Sort(AttributeValues::User::Address)->PrintList();
+	users->Sort(AttributeValues::User::Address)->PrintList(1);
 }

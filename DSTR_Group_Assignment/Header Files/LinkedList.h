@@ -493,21 +493,25 @@ public:
 		}
 		return Current->Data;
 	}
-	void PrintList() {
+	void PrintList(int startIndex = -1) {
 		cout << "List Length: " << Length << endl;
 		Interface::General::PrintLine('-', 90);
-		cout << setw(15) << left << "ID" <<
-			setw(20) << "Name" <<
-			setw(5) << "Age" <<
-			setw(5) << "M/F" <<
-			setw(15) << "Phone" <<
-			setw(20) << "Email" <<
-			setw(30) << "Address" << endl;
+		if (typeid(Current->Data) == typeid(User)) {
+			if (startIndex >= 0) cout << setw(to_string(this->GetLength()).length() + 2) << left << "No.";
+			cout << setw(15) << left << "ID" <<
+				setw(20) << "Name" <<
+				setw(5) << "Age" <<
+				setw(5) << "M/F" <<
+				setw(15) << "Phone" <<
+				setw(20) << "Email" <<
+				setw(30) << "Address" << endl;
+		}
 		Interface::General::PrintLine('-', 90);
 
 		int index = 0;
 		Current = Head;
 		while (index < Length) {
+			if (startIndex >= 0) cout << setw(to_string(this->GetLength()).length() + 2) << index + startIndex;
 			if (typeid(Current->Data) == typeid(User)) {
 				cout << setw(15) << Current->Data.GetID() <<
 					setw(20) << Current->Data.GetName() <<
@@ -561,6 +565,50 @@ public:
 			Current = Current->NextElement;
 			count++;
 		}
+	}
+	void DisplayPages(int pageLength) {
+		int i = 0, length = this->GetLength();
+		while (true) {
+			system("cls");
+			cout << "Displaying list elements [" << i + 1 << "/" << length << "] to ["
+				<< i + pageLength - (i + pageLength > length ? i + pageLength - length : 0) << "/" << length << "]" << endl;
+			this->GetPage(i, pageLength)->PrintList(i + 1);
+
+			char answer;
+			bool exit = false;
+			cout << "Enter a navigation option [\">\" = Next Page; \"<\" = Previous Page; \"X\" = Exit]\n> ";
+			cin >> answer;
+			cin.ignore();
+			switch (toupper(answer)) {
+				case '>':
+					if (i + pageLength > length - 1) i = 0;
+					else i += pageLength;
+					continue;
+				case '<':
+					if (i - pageLength < 0) {
+						if (length % pageLength == 0) i = length - pageLength;
+						else i = length - (length % pageLength);
+					}
+					else i -= pageLength;
+					continue;
+				case 'X':
+					exit = true;
+					break;
+				default:
+					cout << "ERROR DISPLAY_PAGES: Invalid input. Exiting...";
+					exit = true;
+					break;
+			}
+			if (exit) break;
+		}
+		system("cls");
+	}
+	DoublyLinkedList<T>* GetPage(int index, int length) {
+		DoublyLinkedList<T>* displayedList = new DoublyLinkedList<T>();
+		for (int i = index; i < index + length && i < GetLength(); i++) {
+			displayedList->AddToEnd(this->Get(i));
+		}
+		return displayedList;
 	}
 	int GetLength() {
 		return Length;
