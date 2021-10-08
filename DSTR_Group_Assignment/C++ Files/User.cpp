@@ -6,7 +6,8 @@ using namespace std;
 
 bool User::Equals(User leftUser, User rightUser) {
 	bool match = true;
-	match = leftUser.Name == rightUser.Name ? match : false;
+	match = leftUser.FirstName == rightUser.FirstName ? match : false;
+	match = leftUser.LastName == rightUser.LastName ? match : false;
 	match = leftUser.Age == rightUser.Age ? match : false;
 	match = leftUser.Gender == rightUser.Gender ? match : false;
 	match = leftUser.Phone == rightUser.Phone ? match : false;
@@ -20,8 +21,11 @@ int User::CompareTo(User nextUser, int attributeValue) {
 		case AttributeValues::All:
 		case AttributeValues::User::ID:
 			return CompareStrings(this->ID, nextUser.ID);
-		case AttributeValues::User::Name:
-			value = CompareStrings(this->Name, nextUser.Name);
+		case AttributeValues::User::FirstName:
+			value = CompareStrings(this->FirstName, nextUser.FirstName);
+			break;
+		case AttributeValues::User::LastName:
+			value = CompareStrings(this->LastName, nextUser.LastName);
 			break;
 		case AttributeValues::User::Age:
 			value = this->Age < nextUser.Age ? 0 : 2;

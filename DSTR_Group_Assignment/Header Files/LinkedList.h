@@ -339,7 +339,8 @@ public:
 			if (searchAttributeValue == AttributeValues::All) {
 				if (typeid(T) == typeid(User)) {
 					if (regex_match(Current->Data.GetID(), regex(regExp)) ||
-						regex_match(Current->Data.GetName(), regex(regExp)) ||
+						regex_match(Current->Data.GetFirstName(), regex(regExp)) ||
+						regex_match(Current->Data.GetLastName(), regex(regExp)) ||
 						regex_match(to_string(Current->Data.GetAge()), regex(regExp)) ||
 						regex_match(string(1, Current->Data.GetGender()), regex(regExp)) ||
 						regex_match(Current->Data.GetPhone(), regex(regExp)) ||
@@ -355,8 +356,11 @@ public:
 					case AttributeValues::User::ID:
 						if (regex_match(Current->Data.GetID(), regex(regExp))) filteredList->AddToEnd(Current->Data);
 						break;
-					case AttributeValues::User::Name:
-						if (regex_match(Current->Data.GetName(), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					case AttributeValues::User::FirstName:
+						if (regex_match(Current->Data.GetFirstName(), regex(regExp))) filteredList->AddToEnd(Current->Data);
+						break;
+					case AttributeValues::User::LastName:
+						if (regex_match(Current->Data.GetLastName(), regex(regExp))) filteredList->AddToEnd(Current->Data);
 						break;
 					case AttributeValues::User::Age:
 						if (regex_match(to_string(Current->Data.GetAge()), regex(regExp))) filteredList->AddToEnd(Current->Data);
@@ -495,18 +499,19 @@ public:
 	}
 	void PrintList(int startIndex = -1) {
 		cout << "List Length: " << Length << endl;
-		Interface::General::PrintLine('-', 90);
+		Interface::General::PrintLine('-', 110);
 		if (typeid(Current->Data) == typeid(User)) {
 			if (startIndex >= 0) cout << setw(to_string(this->GetLength()).length() + 2) << left << "No.";
 			cout << setw(15) << left << "ID" <<
-				setw(20) << "Name" <<
+				setw(20) << "First Name" <<
+				setw(20) << "Last Name" <<
 				setw(5) << "Age" <<
 				setw(5) << "M/F" <<
 				setw(15) << "Phone" <<
 				setw(20) << "Email" <<
 				setw(30) << "Address" << endl;
 		}
-		Interface::General::PrintLine('-', 90);
+		Interface::General::PrintLine('-', 110);
 
 		int index = 0;
 		Current = Head;
@@ -514,7 +519,8 @@ public:
 			if (startIndex >= 0) cout << setw(to_string(this->GetLength()).length() + 2) << index + startIndex;
 			if (typeid(Current->Data) == typeid(User)) {
 				cout << setw(15) << Current->Data.GetID() <<
-					setw(20) << Current->Data.GetName() <<
+					setw(20) << Current->Data.GetFirstName() <<
+					setw(20) << Current->Data.GetLastName() <<
 					setw(5) << Current->Data.GetAge() <<
 					setw(5) << Current->Data.GetGender() <<
 					setw(15) << Current->Data.GetPhone() <<

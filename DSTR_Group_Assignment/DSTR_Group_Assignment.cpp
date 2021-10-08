@@ -14,8 +14,8 @@ int main() {
 	srand(unsigned(time(NULL)));
 
 	DoublyLinkedList<User>* users = new DoublyLinkedList<User>();
-	AddUsers(users, 25, 1, 99);
-	DoublyLinkedList<User>* sortedUsers = users->Sort(AttributeValues::User::Name);
-	sortedUsers->DisplayPages(10);
+	AddUsers(users, 1000, 1, 99);
+	DoublyLinkedList<User>* sortedUsers = users->Sort(AttributeValues::User::FirstName);
+	sortedUsers->DisplayPages(30);
 	return 0;
 }

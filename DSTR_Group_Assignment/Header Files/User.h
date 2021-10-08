@@ -6,7 +6,8 @@ using namespace std;
 class User {
 protected:
 	string ID;
-	string Name;
+	string FirstName;
+	string LastName;
 	int Age;
 	char Gender;
 	string Phone;
@@ -14,25 +15,26 @@ protected:
 	string Address;
 
 	friend ostream& operator<<(ostream& output, const User& user) {
-		return output << user.Name;
+		return output << user.FirstName << " " << user.LastName;
 	}
 	friend bool operator==(User left, const User right) {
 		return User::Equals(left, right);
 	}
 public:
-	User(string id, string name, int age, char gender, string phone, string email, string address) {
+	User(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address) {
 		ID = id;
-		Name = name;
+		FirstName = firstName;
+		LastName = lastName;
 		Age = age;
 		Gender = gender;
 		Phone = phone;
 		Email = email;
 		Address = address;
 	}
-	User(string name) : User("", name, 0, ' ', "", "", "") {
+	User(string firstName, string lastName) : User("", firstName, lastName, 0, ' ', "", "", "") {
 
 	}
-	User() : User("", "", 0, ' ', "", "", "") {
+	User() : User("", "", "", 0, ' ', "", "", "") {
 
 	}
 	~User() {
@@ -40,7 +42,8 @@ public:
 	}
 
 	string GetID() { return ID; }
-	string GetName() { return Name; }
+	string GetFirstName() { return FirstName; }
+	string GetLastName() { return LastName; }
 	int GetAge() { return Age; }
 	char GetGender() { return Gender; }
 	string GetPhone() { return Phone; }

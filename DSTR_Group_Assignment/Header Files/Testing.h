@@ -16,6 +16,7 @@ void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int m
 		users->AddToEnd(User(
 			User::GenerateID(users->GetLength() + 1),
 			GetRandomName(NameList),
+			GetRandomName(NameList),
 			rand() % (maxAge - minAge + 1) + minAge,
 			GetRandomGender(),
 			GetRandomPhone(),
@@ -27,15 +28,15 @@ void DeleteUsers(DoublyLinkedList<User>* users) {
 	users->PopEnd();
 	users->PopStart();
 	users->DeleteAtIndex(1);
-	users->DeleteNthValue(User("User A"), 2);
-	users->DeleteValues(User("User B"));
+	//users->DeleteNthValue(User("User A"), 2);
+	//users->DeleteValues(User("User B"));
 }
 void ReplaceUsers(DoublyLinkedList<User>* users) {
-	users->ReplaceAtIndex(5, User("User P"));
-	users->ReplaceNthValue(User("User B"), User("User Q"), 2);
-	users->ReplaceAllValues(User("User A"), User("User R"));
-	users->ReplaceAtIndex(0, User("User S"));
-	users->ReplaceAtIndex(users->GetLength() - 1, User("User T"));
+	//users->ReplaceAtIndex(5, User("User P"));
+	//users->ReplaceNthValue(User("User B"), User("User Q"), 2);
+	//users->ReplaceAllValues(User("User A"), User("User R"));
+	//users->ReplaceAtIndex(0, User("User S"));
+	//users->ReplaceAtIndex(users->GetLength() - 1, User("User T"));
 	//users->ReplaceAll(User("User T"));
 }
 void FilterUsers(DoublyLinkedList<User>* users) {
@@ -51,8 +52,10 @@ void FilterUsers(DoublyLinkedList<User>* users) {
 	delete allFilter;
 }
 void SortUsers(DoublyLinkedList<User>* users) {
-	cout << "Sort by Name:" << endl;
-	users->Sort(AttributeValues::User::Name)->PrintList(1);
+	cout << "Sort by First Name:" << endl;
+	users->Sort(AttributeValues::User::FirstName)->PrintList(1);
+	cout << "Sort by Last Name:" << endl;
+	users->Sort(AttributeValues::User::LastName)->PrintList(1);
 	cout << "Sort by Age:" << endl;
 	users->Sort(AttributeValues::User::Age)->PrintList(1);
 	cout << "Sort by Gender:" << endl;

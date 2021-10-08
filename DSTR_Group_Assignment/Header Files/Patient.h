@@ -18,23 +18,25 @@ private:
 	Medicine* Prescription;
 	string Note;
 public:
-	Patient(string id, string name, int age, char gender, string phone, string email, string address) {
+	Patient(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address) {
 		ID = id;
-		Name = name;
+		FirstName = firstName;
+		LastName = lastName;
 		Age = age;
 		Gender = gender;
 		Phone = phone;
 		Email = email;
 		Address = address;
 	}
-	Patient(string name, string illness) {
-		Name = name;
+	Patient(string firstName, string lastName, string illness) {
+		FirstName = firstName;
+		LastName = lastName;
 		Illness = illness;
 	}
-	Patient(string name) : Patient(name, "") {
+	Patient(string firstName, string lastName) : Patient(firstName, lastName, "") {
 
 	}
-	Patient() : Patient("", "") {
+	Patient() : Patient("", "", "") {
 
 	}
 
