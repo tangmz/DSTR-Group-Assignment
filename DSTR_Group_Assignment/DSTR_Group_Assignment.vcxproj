@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\Silver\Desktop\OneDrive - Asia Pacific University\APU\Courses\03 Degree Lvl 2\Sem 2\Data Structure\Assignment\Codes\DSTR Assignment Patient Mgmt\DSTR_Group_Assignment</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,7 +140,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="C++ Files\Doctor.cpp" />
+    <ClCompile Include="C++ Files\Interface.cpp" />
+    <ClCompile Include="C++ Files\SampleData.cpp" />
+    <ClCompile Include="C++ Files\User.cpp" />
     <ClCompile Include="DSTR_Group_Assignment.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header Files\Appointment.h" />
+    <ClInclude Include="Header Files\AttributeValues.h" />
+    <ClInclude Include="Header Files\Comparison.h" />
+    <ClInclude Include="Header Files\Doctor.h" />
+    <ClInclude Include="Header Files\Interface.h" />
+    <ClInclude Include="Header Files\LinkedList.h" />
+    <ClInclude Include="Header Files\Medicine.h" />
+    <ClInclude Include="Header Files\Nurse.h" />
+    <ClInclude Include="Header Files\Patient.h" />
+    <ClInclude Include="Header Files\SampleData.h" />
+    <ClInclude Include="Header Files\Testing.h" />
+    <ClInclude Include="Header Files\User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

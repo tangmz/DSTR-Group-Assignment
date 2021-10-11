@@ -1,4 +1,6 @@
 #pragma once
+
+#include <string>
 class Interface {
 public:
 	class General {
@@ -8,7 +10,7 @@ public:
 	class User {
 	public:
 		static void DisplayStartupPage();
-		static void DisplayLoginPage();
+		static string DisplayLoginPage();
 		static void DisplayRegisterPage();
 	};
 	class Patient {
