@@ -11,10 +11,21 @@ public:
 	public:
 		static void DisplayStartupPage();
 		static string DisplayLoginPage();
-		static void DisplayRegisterPage();
+		static string DisplayRegisterPage();
+		static void DisplayExitPage();
+	};
+	class Doctor {
+	public:
+		static void DisplayMainMenu();
+	};
+	class Nurse {
+	public:
+		static void DisplayMainMenu();
 	};
 	class Patient {
 	public:
-		static void DisplayPatientMainMenuPage();
+		static void DisplayMainMenu();
+		static void DisplaySortPatients();
+		static void DisplaySearchPatients();
 	};
 };

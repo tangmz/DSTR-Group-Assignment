@@ -14,13 +14,13 @@ public:
 	string GetDoctorID() { return DoctorID; }
 	string GetStatus() { return Status; }
 
-	void viewAllPatient();
-	void searchPatientbyName(Patient target);
-	void searchPatientbyIllness(string illness);
+	void viewAllPatients();
+	void searchPatientsbyName(Patient target);
+	void searchPatientsbyIllness(string illness);
 	void modifyPatientRecord(Patient newPatient);
-	void sortPatientbyVisit();
+	void sortPatientsbyVisit();
 
 	//Optional
 	void notifyNurse();
-	void sortPatient(string criteria); //sort by name, id, disability, assigned doctor, or prescription
+	void sortPatients(string criteria); //sort by name, id, disability, assigned doctor, or prescription
 };

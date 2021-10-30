@@ -15,9 +15,7 @@ void Interface::User::DisplayStartupPage() {
 	Interface::General::PrintLine('=', 100);
 	cout << "||" << setw(96) << left << "PATIENT QUEUE MANAGEMENT SYSTEM" << "||" << endl;
 	Interface::General::PrintLine('=', 100);
-
 }
-
 string Interface::User::DisplayLoginPage() {
 	//returns the login role as a string upon successful login, else return "Invalid"
 	/*Usage
@@ -61,5 +59,158 @@ string Interface::User::DisplayLoginPage() {
 		cout << endl << "Username not found.." << endl << "Returning to Login page." << endl;
 		system("PAUSE");
 		return "Invalid";
+	}
+}
+string Interface::User::DisplayRegisterPage() {
+
+}
+
+void Interface::Doctor::DisplayMainMenu() {
+	int decision = -1;
+	while (decision != 0) {
+		system("CLS");
+		draw('=', 70);
+		cout << "Logged in as: Doctor" << endl;
+		draw('=', 70);
+		cout << "Available Option: " << endl;
+		cout << "1. View All Patients" << endl;
+		cout << "2. Search Patient by Name" << endl;
+		cout << "3. Search Patient by Illness" << endl;
+		cout << "4. Modify Patient's Record" << endl;
+		cout << "5. View Patient Based On Visiting Order" << endl;
+		cout << "6. Notify Nurse" << endl;
+		cout << "7. View Sorted List of Patient" << endl;
+		cout << "0. Logout" << endl;
+		draw('-', 70);
+		cout << "Select Option: ";
+		cin >> decision;
+
+		switch (decision)
+		{
+			case 1:
+				//View all patient
+				break;
+			case 2:
+				//Search by name
+				break;
+			case 3:
+				//Search by illness
+				break;
+			case 4:
+				//Modify patient record
+				//Let user choose which patient first
+				break;
+			case 5:
+				//View by visiting order
+				break;
+			case 6:
+				//Notify nurse
+				break;
+			case 7:
+				//View sorted list
+				//Let user choose sort by what
+				break;
+			case 0:
+				//exit and go back to login page
+			default:
+				break;
+		}
+	}
+}
+
+void Interface::Nurse::DisplayMainMenu() {
+	int decision = -1;
+	while (decision != 0) {
+		system("CLS");
+		draw('=', 70);
+		cout << "Logged in as: Nurse" << endl;
+		draw('=', 70);
+		cout << "Available Option: " << endl;
+		cout << "1. Add New Patient to List" << endl;
+		cout << "2. View All Patients" << endl;
+		cout << "3. Search Patient" << endl;
+		cout << "4. View Sorted List of Patient" << endl;
+		cout << "5. Change Patient's Priority" << endl;
+		cout << "6. Notify Next Patient" << endl;
+		cout << "7. Collect Payment" << endl;
+		cout << "0. Logout" << endl;
+
+		draw('-', 70);
+		cout << "Select Option: ";
+		cin >> decision;
+
+		switch (decision)
+		{
+			case 1:
+				//Add patient
+				break;
+			case 2:
+				//View all patient
+				break;
+			case 3:
+				//Search patient
+				break;
+			case 4:
+				//View sorted list (need to create another list for sorted data?)
+				//Let user choose sort by what
+				break;
+			case 5:
+				//Change priority
+				break;
+			case 6:
+				//Notify patient
+				break;
+			case 7:
+				//Collect payment
+				break;
+			case 0:
+				//exit and go back to login page
+
+			default:
+				break;
+		}
+	}
+}
+
+void Interface::Patient::DisplayMainMenu() {
+	int decision = -1;
+	while (decision != 0) {
+		system("CLS");
+		draw('=', 70);
+		cout << "Logged in as: Patient" << endl;
+		draw('=', 70);
+		cout << "Available Option: " << endl;
+		cout << "1. Create Appointment" << endl;
+		cout << "2. Update Appointment" << endl;
+		cout << "3. Cancel Appointment" << endl;
+		cout << "4. Get Queue Number" << endl;
+		cout << "0. Logout" << endl;
+
+
+		draw('-', 70);
+		cout << "Select Option: ";
+		cin >> decision;
+
+		switch (decision)
+		{
+			case 1:
+				//Create appointment
+				break;
+			case 2:
+				//Update appointment
+				//Let user choose to update date, time, doctor (no need payment as unreasonable to let patient set payment for themselves)
+				break;
+			case 3:
+				//Cancel appointment
+				break;
+			case 4:
+				//Get queue number
+				break;
+			case 0:
+				//exit and go back to login page
+
+			default:
+				break;
+		}
 	}
 }

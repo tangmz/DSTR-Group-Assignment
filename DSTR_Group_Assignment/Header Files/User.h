@@ -13,6 +13,7 @@ protected:
 	string Phone;
 	string Email;
 	string Address;
+	string Password;
 
 	friend ostream& operator<<(ostream& output, const User& user) {
 		return output << user.FirstName << " " << user.LastName;
@@ -54,8 +55,8 @@ public:
 	int CompareTo(User nextUser, int attributeValue);
 
 	static string GenerateID(int n);
+	static void Login();
+	void Logout();
 	void ViewPatients();
 	void ShowDetails();
-	void Login();
-	void Logout();
 };

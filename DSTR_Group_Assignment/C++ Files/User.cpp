@@ -1,3 +1,4 @@
+#include "C++ Files/Interface.cpp"
 #include "Header Files/AttributeValues.h"
 #include "Header Files/Comparison.h"
 #include "Header Files/User.h"
@@ -54,4 +55,38 @@ string User::GenerateID(int n) {
 	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
 	id += to_string(n);
 	return id;
+}
+void User::Login() {
+	string loginResult = "";
+	do {
+		loginResult = Interface::User::DisplayLoginPage();
+		switch (loginResult) {
+			case "Doctor":
+				Interface::Doctor::DisplayMainMenu();
+				break;
+			case "Nurse":
+				Interface::Nurse::DisplayMainMenu();
+				break;
+			case "Patient":
+				Interface::Patient::DisplayMainMenu();
+				break;
+			case "Register":
+				loginResult = Interface::User::DisplayRegisterPage();
+				break;
+			case "Exit":
+				Interface::User::DisplayExitPage();
+				break;
+			default: //Invalid
+				break;
+		}
+	} while (loginResult != "Exit");
+}
+void User::Logout() {
+	User::Login();
+}
+void User::ViewPatients() {
+
+}
+void User::ShowDetails() {
+
 }
