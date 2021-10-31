@@ -27,9 +27,12 @@ string Interface::User::DisplayLoginPage() {
 	string user, pass = "";
 	system("CLS");
 	cout << "Hello, Welcome to Klinik Sulaiman Patient Management System." << endl << endl;
+	cout << "Keyword: \"Reg\" to register, \"Exit\" to exit" << endl;
 	cout << "Please enter your username: ";
 
 	cin >> user;
+	if (user == "Reg") return "Register";
+	if (user == "Exit") return "Exit";
 	if (user == "Doktah") {									//Hard coded Doctor's username
 		while (pass != "42069" || "0") {					//Hard coded pass: 42069, and 0 to return to login page again
 			cout << "Please enter password (or type 0 to return): ";
@@ -61,7 +64,7 @@ string Interface::User::DisplayLoginPage() {
 		return "Invalid";
 	}
 }
-string Interface::User::DisplayRegisterPage() {
+string Interface::User::DisplayRegisterPage(){
 
 }
 
@@ -69,9 +72,9 @@ void Interface::Doctor::DisplayMainMenu() {
 	int decision = -1;
 	while (decision != 0) {
 		system("CLS");
-		draw('=', 70);
+		Interface::General::PrintLine('=', 70);
 		cout << "Logged in as: Doctor" << endl;
-		draw('=', 70);
+		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
 		cout << "1. View All Patients" << endl;
 		cout << "2. Search Patient by Name" << endl;
@@ -81,7 +84,7 @@ void Interface::Doctor::DisplayMainMenu() {
 		cout << "6. Notify Nurse" << endl;
 		cout << "7. View Sorted List of Patient" << endl;
 		cout << "0. Logout" << endl;
-		draw('-', 70);
+		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
 
@@ -122,9 +125,9 @@ void Interface::Nurse::DisplayMainMenu() {
 	int decision = -1;
 	while (decision != 0) {
 		system("CLS");
-		draw('=', 70);
+		Interface::General::PrintLine('=', 70);
 		cout << "Logged in as: Nurse" << endl;
-		draw('=', 70);
+		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
 		cout << "1. Add New Patient to List" << endl;
 		cout << "2. View All Patients" << endl;
@@ -135,7 +138,7 @@ void Interface::Nurse::DisplayMainMenu() {
 		cout << "7. Collect Payment" << endl;
 		cout << "0. Logout" << endl;
 
-		draw('-', 70);
+		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
 
@@ -176,9 +179,9 @@ void Interface::Patient::DisplayMainMenu() {
 	int decision = -1;
 	while (decision != 0) {
 		system("CLS");
-		draw('=', 70);
+		Interface::General::PrintLine('=', 70);
 		cout << "Logged in as: Patient" << endl;
-		draw('=', 70);
+		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
 		cout << "1. Create Appointment" << endl;
 		cout << "2. Update Appointment" << endl;
@@ -187,7 +190,7 @@ void Interface::Patient::DisplayMainMenu() {
 		cout << "0. Logout" << endl;
 
 
-		draw('-', 70);
+		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
 

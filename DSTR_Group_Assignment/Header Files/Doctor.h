@@ -1,5 +1,6 @@
 #pragma once
 #include "Patient.h"
+#include "LinkedList.h"
 #include "User.h"
 #include <iostream>
 #include <string>
@@ -14,7 +15,7 @@ public:
 	string GetDoctorID() { return DoctorID; }
 	string GetStatus() { return Status; }
 
-	void viewAllPatients();
+	void viewAllPatients(DoublyLinkedList<Patient> *p);
 	void searchPatientsbyName(Patient target);
 	void searchPatientsbyIllness(string illness);
 	void modifyPatientRecord(Patient newPatient);
