@@ -81,12 +81,31 @@ void User::Login() {
 		}
 	} while (loginResult != "Exit");
 }
+void User::Register() {
+	string registerResult = Interface::User::DisplayRegisterPage();
+	switch (registerResult) {
+		case "Doctor":
+			Interface::Doctor::DisplayMainMenu();
+			break;
+		case "Nurse":
+			Interface::Nurse::DisplayMainMenu();
+			break;
+		case "Patient":
+			Interface::Patient::DisplayMainMenu();
+			break;
+		case "Login":
+			User::Login();
+			break;
+		case "Exit":
+			Interface::User::DisplayExitPage();
+			break;
+		default: //Invalid
+			break;
+	}
+}
 void User::Logout() {
 	User::Login();
 }
-void User::ViewPatients() {
-
-}
 void User::ShowDetails() {
-
+	cout << "User: " << ID << "; Name: " << FirstName << " " << LastName << endl;
 }

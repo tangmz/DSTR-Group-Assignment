@@ -56,7 +56,7 @@ public:
 
 	static string GenerateID(int n);
 	static void Login();
+	static void Register();
 	void Logout();
-	void ViewPatients();
 	void ShowDetails();
 };
