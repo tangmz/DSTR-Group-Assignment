@@ -1,17 +1,21 @@
 #include "Header Files/Doctor.h"
 
-void viewAllPatient() {
+
+void Doctor::viewAllPatients(DoublyLinkedList<Patient> *p) {
+	for (int i = 0; i < p->GetLength(); i++) {
+		Patient p1 = p->Get(i);
+		cout << p1.GetFirstName() << " : " << p1.GetLastName() << endl;
+	}
+}
+void Doctor::searchPatientsbyName(Patient target) {
 
 }
-void searchPatientbyName(Patient target) {
+void Doctor::searchPatientsbyIllness(string illness) {
 
 }
-void searchPatientbyIllness(string illness) {
+void Doctor::modifyPatientRecord(Patient newPatient) {
 
 }
-void modifyPatientRecord(Patient newPatient) {
-
-}
-void sortPatientbyVisit() {
+void Doctor::sortPatientsbyVisit() {
 
 }

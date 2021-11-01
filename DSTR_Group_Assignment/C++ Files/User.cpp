@@ -59,25 +59,27 @@ string User::GenerateID(int n) {
 void User::Login() {
 	string loginResult = "";
 	do {
+		//Cannot switch string in c++, unless using enum
 		loginResult = Interface::User::DisplayLoginPage();
-		switch (loginResult) {
-			case "Doctor":
-				Interface::Doctor::DisplayMainMenu();
-				break;
-			case "Nurse":
-				Interface::Nurse::DisplayMainMenu();
-				break;
-			case "Patient":
-				Interface::Patient::DisplayMainMenu();
-				break;
-			case "Register":
-				loginResult = Interface::User::DisplayRegisterPage();
-				break;
-			case "Exit":
-				Interface::User::DisplayExitPage();
-				break;
-			default: //Invalid
-				break;
+		if (loginResult == "Doctor") {
+			Interface::Doctor::DisplayMainMenu();
+			break;
+		}
+		else if (loginResult == "Nurse") {
+			Interface::Nurse::DisplayMainMenu();
+			break;
+		}
+		else if (loginResult == "Patient") {			
+			Interface::Patient::DisplayMainMenu();
+			break;
+		}
+		else if (loginResult == "Register") {
+			loginResult = Interface::User::DisplayRegisterPage();
+			break;
+		}
+		else if (loginResult == "Exit") {
+			Interface::User::DisplayExitPage();
+			break;
 		}
 	} while (loginResult != "Exit");
 }
