@@ -85,24 +85,20 @@ void User::Login() {
 }
 void User::Register() {
 	string registerResult = Interface::User::DisplayRegisterPage();
-	switch (registerResult) {
-		case "Doctor":
-			Interface::Doctor::DisplayMainMenu();
-			break;
-		case "Nurse":
-			Interface::Nurse::DisplayMainMenu();
-			break;
-		case "Patient":
-			Interface::Patient::DisplayMainMenu();
-			break;
-		case "Login":
-			User::Login();
-			break;
-		case "Exit":
-			Interface::User::DisplayExitPage();
-			break;
-		default: //Invalid
-			break;
+	if (registerResult == "Doctor") {
+		Interface::Doctor::DisplayMainMenu();
+	}
+	else if (registerResult == "Nurse") {
+		Interface::Nurse::DisplayMainMenu();
+	}
+	else if (registerResult == "Patient") {
+		Interface::Patient::DisplayMainMenu();
+	}
+	else if (registerResult == "Login") {
+		User::Login();
+	}
+	else if (registerResult == "Exit") {
+		Interface::User::DisplayExitPage();
 	}
 }
 void User::Logout() {
