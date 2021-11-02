@@ -9,8 +9,8 @@ private:
 	string AppointmentID;
 	string Date;
 	string Time;
-	Patient Patient;
-	Doctor Doctor;
+	Patient* Patient;
+	Doctor* Doctor;
 	bool Paid;
 public:
 	string GetAppointmentID() { return AppointmentID; }

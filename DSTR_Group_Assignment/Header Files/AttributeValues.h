@@ -20,7 +20,15 @@ public:
 		static const int DoctorID = 9;
 	};
 	class Patient : User {
-
+	public:
+		static const int PatientID = 9;
+		static const int Illness = 10;
+		static const int VisitDate = 11;
+		static const int VisitTime = 12;
+		static const int Disability = 13;
+		static const int AssignedDoctor = 14;
+		static const int Prescription = 15;
+		static const int Note = 16;
 	};
 	class Nurse : User {
 

@@ -1,7 +1,9 @@
+#pragma once
 #include "../Header Files/Interface.h"
 #include "../Header Files/AttributeValues.h"
 #include "../Header Files/Comparison.h"
 #include "../Header Files/User.h"
+#include "../ApplicationLists.cpp"
 #include <iostream>
 #include <iomanip>
 #include <regex>
@@ -94,7 +96,10 @@ bool User::MatchesRegex(string regExp, int attributeValue) {
 	return false;
 }
 
-string User::GenerateID(int n) {
+string User::GenerateID() {
+	int n = ApplicationLists::Patients->GetLength() +
+		ApplicationLists::Doctors->GetLength() +
+		ApplicationLists::Nurses->GetLength() + 1;
 	string id = "USR-";
 	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
 	id += to_string(n);

@@ -8,9 +8,8 @@
 #include "Header Files/User.h"
 #include "Header Files/Interface.h"
 #include "Header Files/SampleData.h"
+#include "ApplicationLists.cpp"
 using namespace std;
-
-static DoublyLinkedList<Patient>* patients = new DoublyLinkedList <Patient>();
 
 int main() {
 	srand(unsigned(time(NULL)));

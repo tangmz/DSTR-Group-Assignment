@@ -32,10 +32,10 @@ public:
 		Email = email;
 		Address = address;
 	}
-	User(string firstName, string lastName) : User("", firstName, lastName, 0, ' ', "", "", "") {
+	User(string firstName, string lastName) : User(GenerateID(), firstName, lastName, 0, ' ', "", "", "") {
 
 	}
-	User() : User("", "", "", 0, ' ', "", "", "") {
+	User() : User("", "") {
 
 	}
 	~User() {
@@ -55,7 +55,7 @@ public:
 	int CompareTo(User nextUser, int attributeValue);
 	bool MatchesRegex(string regExp, int attributeValue);
 
-	static string GenerateID(int n);
+	static string GenerateID();
 	static void Login();
 	static void Register();
 	void Logout();
