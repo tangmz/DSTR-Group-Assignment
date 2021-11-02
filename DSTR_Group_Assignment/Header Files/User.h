@@ -19,7 +19,7 @@ protected:
 		return output << user.FirstName << " " << user.LastName;
 	}
 	friend bool operator==(User left, const User right) {
-		return User::Equals(left, right);
+		return left.Equals(right);
 	}
 public:
 	User(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address) {
@@ -32,10 +32,7 @@ public:
 		Email = email;
 		Address = address;
 	}
-	User(string firstName, string lastName) : User(GenerateID(), firstName, lastName, 0, ' ', "", "", "") {
-
-	}
-	User() : User("", "") {
+	User() {
 
 	}
 	~User() {
@@ -51,11 +48,11 @@ public:
 	string GetEmail() { return Email; }
 	string GetAddress() { return Address; }
 
-	static bool Equals(User leftUser, User rightUser);
+	bool Equals(User nextUser);
 	int CompareTo(User nextUser, int attributeValue);
 	bool MatchesRegex(string regExp, int attributeValue);
 
-	static string GenerateID();
+	static string GenerateID(int n);
 	static void Login();
 	static void Register();
 	void Logout();

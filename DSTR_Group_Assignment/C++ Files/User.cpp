@@ -3,22 +3,21 @@
 #include "../Header Files/AttributeValues.h"
 #include "../Header Files/Comparison.h"
 #include "../Header Files/User.h"
-#include "../ApplicationLists.cpp"
 #include <iostream>
 #include <iomanip>
 #include <regex>
 #include <string>
 using namespace std;
 
-bool User::Equals(User leftUser, User rightUser) {
+bool User::Equals(User nextUser) {
 	bool match = true;
-	match = leftUser.FirstName == rightUser.FirstName ? match : false;
-	match = leftUser.LastName == rightUser.LastName ? match : false;
-	match = leftUser.Age == rightUser.Age ? match : false;
-	match = leftUser.Gender == rightUser.Gender ? match : false;
-	match = leftUser.Phone == rightUser.Phone ? match : false;
-	match = leftUser.Email == rightUser.Email ? match : false;
-	match = leftUser.Address == rightUser.Address ? match : false;
+	match = FirstName == nextUser.FirstName ? match : false;
+	match = LastName == nextUser.LastName ? match : false;
+	match = Age == nextUser.Age ? match : false;
+	match = Gender == nextUser.Gender ? match : false;
+	match = Phone == nextUser.Phone ? match : false;
+	match = Email == nextUser.Email ? match : false;
+	match = Address == nextUser.Address ? match : false;
 	return match;
 }
 int User::CompareTo(User nextUser, int attributeValue) {
@@ -55,51 +54,46 @@ int User::CompareTo(User nextUser, int attributeValue) {
 	return value == 1 ? CompareStrings(this->ID, nextUser.ID) : value;
 }
 bool User::MatchesRegex(string regExp, int attributeValue) {
-	if (attributeValue == AttributeValues::All) {
-		if (regex_match(ID, regex(regExp)) || regex_match(FirstName, regex(regExp)) ||
-			regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
-			regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
-			regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp))) {
-			return true;
-		}
-	}
-	else {
-		switch (attributeValue) {
-			case AttributeValues::User::ID:
-				if (regex_match(ID, regex(regExp))) return true;
-				break;
-			case AttributeValues::User::FirstName:
-				if (regex_match(FirstName, regex(regExp))) return true;
-				break;
-			case AttributeValues::User::LastName:
-				if (regex_match(LastName, regex(regExp))) return true;
-				break;
-			case AttributeValues::User::Age:
-				if (regex_match(to_string(Age), regex(regExp))) return true;
-				break;
-			case AttributeValues::User::Gender:
-				if (regex_match(string(1, Gender), regex(regExp))) return true;
-				break;
-			case AttributeValues::User::Phone:
-				if (regex_match(Phone, regex(regExp))) return true;
-				break;
-			case AttributeValues::User::Email:
-				if (regex_match(Email, regex(regExp))) return true;
-				break;
-			case AttributeValues::User::Address:
-				if (regex_match(Address, regex(regExp))) return true;
-				break;
-			default:
-				break;
-		}
+	switch (attributeValue) {
+		case AttributeValues::All:
+			if (regex_match(ID, regex(regExp)) || regex_match(FirstName, regex(regExp)) ||
+				regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
+				regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
+				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp))) {
+				return true;
+			}
+			break;
+		case AttributeValues::User::ID:
+			if (regex_match(ID, regex(regExp))) return true;
+			break;
+		case AttributeValues::User::FirstName:
+			if (regex_match(FirstName, regex(regExp))) return true;
+			break;
+		case AttributeValues::User::LastName:
+			if (regex_match(LastName, regex(regExp))) return true;
+			break;
+		case AttributeValues::User::Age:
+			if (regex_match(to_string(Age), regex(regExp))) return true;
+			break;
+		case AttributeValues::User::Gender:
+			if (regex_match(string(1, Gender), regex(regExp))) return true;
+			break;
+		case AttributeValues::User::Phone:
+			if (regex_match(Phone, regex(regExp))) return true;
+			break;
+		case AttributeValues::User::Email:
+			if (regex_match(Email, regex(regExp))) return true;
+			break;
+		case AttributeValues::User::Address:
+			if (regex_match(Address, regex(regExp))) return true;
+			break;
+		default:
+			break;
 	}
 	return false;
 }
 
-string User::GenerateID() {
-	int n = ApplicationLists::Patients->GetLength() +
-		ApplicationLists::Doctors->GetLength() +
-		ApplicationLists::Nurses->GetLength() + 1;
+string User::GenerateID(int n) {
 	string id = "USR-";
 	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
 	id += to_string(n);

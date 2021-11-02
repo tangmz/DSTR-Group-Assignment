@@ -31,12 +31,22 @@ public:
 		static const int Note = 16;
 	};
 	class Nurse : User {
-
+	public:
+		static const int NurseID = 9;
 	};
-	class Medicine {
 
+	class Medicine {
+	public:
+		static const int MedicineID = 1;
 	};
 	class Appointment {
-
+	public:
+		static const int AppointmentID = 1;
+		static const int Date = 2;
+		static const int Time = 3;
+		static const int Patient = 4;
+		static const int Doctor = 5;
+		static const int Paid = 6;
+		static const int Cancelled = 7;
 	};
 };

@@ -1,4 +1,5 @@
 #pragma once
+#include "ApplicationLists.h"
 #include "Appointment.h"
 #include "Doctor.h"
 #include "Interface.h"
@@ -15,7 +16,7 @@ void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int m
 	DoublyLinkedList<string>* NameList = LoadNames();
 	for (int i = 0; i < n; i++) {
 		users->AddToEnd(User(
-			User::GenerateID(users->GetLength() + 1),
+			User::GenerateID(ApplicationLists::Doctors->GetLength() + ApplicationLists::Nurses->GetLength() + ApplicationLists::Patients->GetLength() + 1),
 			GetRandomName(NameList),
 			GetRandomName(NameList),
 			rand() % (maxAge - minAge + 1) + minAge,

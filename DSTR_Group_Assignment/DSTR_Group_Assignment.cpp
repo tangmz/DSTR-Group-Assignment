@@ -1,3 +1,4 @@
+#pragma once
 #include "Header Files/Appointment.h"
 #include "Header Files/Doctor.h"
 #include "Header Files/LinkedList.h"
@@ -8,11 +9,12 @@
 #include "Header Files/User.h"
 #include "Header Files/Interface.h"
 #include "Header Files/SampleData.h"
-#include "ApplicationLists.cpp"
+#include "Header Files/ApplicationLists.h"
 using namespace std;
 
 int main() {
 	srand(unsigned(time(NULL)));
+
 	/*
 	Doctor d = Doctor();
 	int id = 0;

@@ -7,7 +7,7 @@
 using namespace std;
 
 class Doctor;
-class Patient : public User {
+class Patient : User {
 private:
 	string PatientID;
 	string Illness;
@@ -37,15 +37,7 @@ public:
 		Prescription = NULL;
 		Note = "";
 	}
-	Patient(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address) :
-		Patient(GeneratePatientID(), id, firstName, lastName, age, generate, phone, email, address) {
-
-	}
-	Patient(string firstName, string lastName, int age, char gender, string phone, string email, string address) :
-		Patient(User::GenerateID(), firstName, lastName, age, gender, phone, email, address) {
-
-	}
-	Patient(string firstName, string lastName) : Patient(firstName, lastName, "", ' ', "", "", "") {
+	Patient() {
 
 	}
 
@@ -62,14 +54,18 @@ public:
 	void SetNote(string note) { Note = note; }
 	void SetPrescription(Medicine* medicine) { Prescription = medicine; }
 
-	string GeneratePatientID();
+	bool Equals(Patient nextPatient);
+	int CompareTo(Patient nextPatient, int attributeValue);
+	bool MatchesRegex(string regExp, int attributeValue);
+
+	string GeneratePatientID(int n);
 	void CreateAppointment(string date, string time, Doctor doctor);
-	void UpdateAppointmentDate(string newDate);
-	void UpdateAppointmentTime(string newTime);
-	void UpdateAppointmentDoctor(Doctor newDoctor);
-	void UpdateAppointmentPayment(bool newStatus);
-	void CancelAppointment();
-	int GetQueueNumber();
+	void UpdateAppointmentDate(string appointmentID, string newDate);
+	void UpdateAppointmentTime(string appointmentID, string newTime);
+	void UpdateAppointmentDoctor(string appointmentID, Doctor newDoctor);
+	void UpdateAppointmentPayment(string appointmentID, bool newStatus);
+	void CancelAppointment(string appointmentID);
+	int GetQueueNumber(string appointmentID);
 
 	void DisplayAppointments();
 };
