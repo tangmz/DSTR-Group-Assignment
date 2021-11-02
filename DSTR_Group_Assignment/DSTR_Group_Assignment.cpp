@@ -5,16 +5,16 @@
 #include "Header Files/Nurse.h"
 #include "Header Files/Patient.h"
 #include "Header Files/Testing.h"
-#include "C++ Files/User.cpp"
-#include "C++ Files/Interface.cpp"
-#include "C++ Files/SampleData.cpp"
+#include "Header Files/User.h"
+#include "Header Files/Interface.h"
+#include "Header Files/SampleData.h"
 using namespace std;
-
 
 static DoublyLinkedList<Patient>* patients = new DoublyLinkedList <Patient>();
 
 int main() {
 	srand(unsigned(time(NULL)));
+	/*
 	Doctor d = Doctor();
 	int id = 0;
 	for (int i = 0; i < 5; i++) {
@@ -24,11 +24,10 @@ int main() {
 	}
 
 	d.viewAllPatients(patients);
+	*/
 
-	//patients
-	//DoublyLinkedList<User>* users = new DoublyLinkedList<User>();
-	//AddUsers(users, 1000, 1, 99);
-	//DoublyLinkedList<User>* sortedUsers = users->Sort(AttributeValues::User::FirstName);
-	//sortedUsers->DisplayPages(30);
+	DoublyLinkedList<User>* users = new DoublyLinkedList<User>();
+	AddUsers(users, 10000, 1, 99);
+	users->Sort(AttributeValues::User::FirstName)->DisplayPages(20);
 	return 0;
 }

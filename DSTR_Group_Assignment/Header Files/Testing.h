@@ -1,3 +1,4 @@
+#pragma once
 #include "Appointment.h"
 #include "Doctor.h"
 #include "Interface.h"

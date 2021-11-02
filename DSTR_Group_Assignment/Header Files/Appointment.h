@@ -1,8 +1,5 @@
 #pragma once
-#include "Header Files/Doctor.h"
-#include "Header Files/LinkedList.h"
-#include "C++ Files/Doctor.cpp"
-#include "Header Files/Patient.h"
+#include "Doctor.h"
 #include <iostream>
 #include <string>
 using namespace std;

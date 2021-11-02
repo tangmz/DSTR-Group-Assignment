@@ -53,10 +53,13 @@ public:
 
 	static bool Equals(User leftUser, User rightUser);
 	int CompareTo(User nextUser, int attributeValue);
+	bool MatchesRegex(string regExp, int attributeValue);
 
 	static string GenerateID(int n);
 	static void Login();
 	static void Register();
 	void Logout();
 	void ShowDetails();
+	void DisplayTableHeader(int startIndex, int tableLength);
+	void DisplayTableRow(int startIndex, int index, int tableLength);
 };

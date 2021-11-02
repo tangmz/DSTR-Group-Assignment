@@ -1,12 +1,10 @@
 #pragma once
 #include "Patient.h"
 #include "LinkedList.h"
-#include "User.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
-class Patient;
 class Doctor : User {
 private:
 	string DoctorID;

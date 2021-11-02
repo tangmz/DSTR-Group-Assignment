@@ -1,12 +1,6 @@
 #pragma once
-#include "Appointment.h"
 #include "AttributeValues.h"
-#include "Doctor.h"
 #include "Interface.h"
-#include "Medicine.h"
-#include "Nurse.h"
-#include "Patient.h"
-#include "User.h"
 #include <iostream>
 #include <iomanip>
 #include <regex>
@@ -331,78 +325,17 @@ public:
 		int index = 0;
 		Current = Head;
 
-		while (index < Length) {
-			//Determines the class the list contents belong to
-			//In each class, determine the attribute to search based on the passed int value
-
-			//If the attribute value is 0, consider ALL attributes
-			if (searchAttributeValue == AttributeValues::All) {
-				if (typeid(T) == typeid(User)) {
-					if (regex_match(Current->Data.GetID(), regex(regExp)) ||
-						regex_match(Current->Data.GetFirstName(), regex(regExp)) ||
-						regex_match(Current->Data.GetLastName(), regex(regExp)) ||
-						regex_match(to_string(Current->Data.GetAge()), regex(regExp)) ||
-						regex_match(string(1, Current->Data.GetGender()), regex(regExp)) ||
-						regex_match(Current->Data.GetPhone(), regex(regExp)) ||
-						regex_match(Current->Data.GetEmail(), regex(regExp)) ||
-						regex_match(Current->Data.GetAddress(), regex(regExp)))
-						filteredList->AddToEnd(Current->Data);
+		try {
+			while (index < Length) {
+				if (Current->Data.MatchesRegex(regExp, searchAttributeValue)) {
+					filteredList->AddToEnd(Current->Data);
 				}
+				Current = Current->NextElement;
+				index++;
 			}
-			//If the value is not 0, determine the specific attribute to search
-			else if (typeid(T) == typeid(User) || typeid(T) == typeid(Doctor) ||
-				typeid(T) == typeid(Nurse) || typeid(T) == typeid(Patient)) {
-				switch (searchAttributeValue) {
-				case AttributeValues::User::ID:
-					if (regex_match(Current->Data.GetID(), regex(regExp))) filteredList->AddToEnd(Current->Data);
-					break;
-				case AttributeValues::User::FirstName:
-					if (regex_match(Current->Data.GetFirstName(), regex(regExp))) filteredList->AddToEnd(Current->Data);
-					break;
-				case AttributeValues::User::LastName:
-					if (regex_match(Current->Data.GetLastName(), regex(regExp))) filteredList->AddToEnd(Current->Data);
-					break;
-				case AttributeValues::User::Age:
-					if (regex_match(to_string(Current->Data.GetAge()), regex(regExp))) filteredList->AddToEnd(Current->Data);
-					break;
-				case AttributeValues::User::Gender:
-					if (regex_match(string(1, Current->Data.GetGender()), regex(regExp))) filteredList->AddToEnd(Current->Data);
-					break;
-				case AttributeValues::User::Phone:
-					if (regex_match(Current->Data.GetPhone(), regex(regExp))) filteredList->AddToEnd(Current->Data);
-					break;
-				case AttributeValues::User::Email:
-					if (regex_match(Current->Data.GetEmail(), regex(regExp))) filteredList->AddToEnd(Current->Data);
-					break;
-				case AttributeValues::User::Address:
-					if (regex_match(Current->Data.GetAddress(), regex(regExp))) filteredList->AddToEnd(Current->Data);
-					break;
-				default:
-					break;
-				}
-				//Subclasses of User class
-				if (typeid(T) == typeid(Doctor)) {
-
-				}
-				else if (typeid(T) == typeid(Nurse)) {
-
-				}
-				else if (typeid(T) == typeid(Patient)) {
-
-				}
-			}
-			else if (typeid(T) == typeid(Medicine)) {
-
-			}
-			else if (typeid(T) == typeid(Appointment)) {
-
-			}
-			else {
-				cout << "ERROR SEARCH_BY_REGEX: No class detected" << endl;
-				break;
-			}
-			Current = Current->NextElement;
-			index++;
+		}
+		catch (int errorNum) {
+			cout << "ERROR SEARCH_BY_REGEX: Error Number = " << errorNum << endl;
 		}
 		return filteredList;
 	}
@@ -486,7 +419,7 @@ public:
 	*/
 	T Get(int index) {
 		if (index >= Length) {
-			cout << "ERROR GET: Index exceeds list length";
+			cout << "ERROR GET: Index " << index << " exceeds list length of " << Length << endl;
 			return T();
 		}
 
@@ -500,42 +433,13 @@ public:
 	void PrintList(int startIndex = -1) {
 		cout << "List Length: " << Length << endl;
 		Interface::General::PrintLine('-', 110);
-		if (typeid(Current->Data) == typeid(User)) {
-			if (startIndex >= 0) cout << setw(to_string(this->GetLength()).length() + 2) << left << "No.";
-			cout << setw(15) << left << "ID" <<
-				setw(20) << "First Name" <<
-				setw(20) << "Last Name" <<
-				setw(5) << "Age" <<
-				setw(5) << "M/F" <<
-				setw(15) << "Phone" <<
-				setw(20) << "Email" <<
-				setw(30) << "Address" << endl;
-		}
+		Current->Data.DisplayTableHeader(startIndex, Length);
 		Interface::General::PrintLine('-', 110);
 
 		int index = 0;
 		Current = Head;
 		while (index < Length) {
-			if (startIndex >= 0) cout << setw(to_string(this->GetLength()).length() + 2) << index + startIndex;
-			if (typeid(Current->Data) == typeid(User)) {
-				cout << setw(15) << Current->Data.GetID() <<
-					setw(20) << Current->Data.GetFirstName() <<
-					setw(20) << Current->Data.GetLastName() <<
-					setw(5) << Current->Data.GetAge() <<
-					setw(5) << Current->Data.GetGender() <<
-					setw(15) << Current->Data.GetPhone() <<
-					setw(20) << Current->Data.GetEmail() <<
-					setw(30) << Current->Data.GetAddress() << endl;
-			}
-			else if (typeid(Current->Data) == typeid(Doctor)) {
-				/*
-				* INSERT CODE HERE
-				*/
-			}
-			/*
-			* INSERT CODE FOR OTHER CLASSES HERE
-			*/
-
+			Current->Data.DisplayTableRow(startIndex, index, Length);
 			Current = Current->NextElement;
 			index++;
 		}

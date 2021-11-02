@@ -1,5 +1,5 @@
-#include "Header Files/LinkedList.h"
-#include "Header Files/SampleData.h"
+#include "../Header Files/LinkedList.h"
+#include "../Header Files/SampleData.h"
 #include <cstdlib>
 #include <direct.h>
 #include <filesystem>
@@ -19,7 +19,7 @@ DoublyLinkedList<string>* LoadNames() {
 	return names;
 }
 string GetRandomName(DoublyLinkedList<string>* nameList) {
-	return nameList->Get(rand() % (nameList->GetLength() + 1));
+	return nameList->Get(rand() % nameList->GetLength());
 }
 string GetRandomPhone() {
 	string sampleNumbers = "0123456789";

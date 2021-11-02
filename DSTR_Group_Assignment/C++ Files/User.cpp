@@ -1,8 +1,11 @@
-#include "C++ Files/Interface.cpp"
-#include "Header Files/AttributeValues.h"
-#include "Header Files/Comparison.h"
-#include "Header Files/User.h"
+#include "../Header Files/Interface.h"
+#include "../Header Files/AttributeValues.h"
+#include "../Header Files/Comparison.h"
+#include "../Header Files/User.h"
 #include <iostream>
+#include <iomanip>
+#include <regex>
+#include <string>
 using namespace std;
 
 bool User::Equals(User leftUser, User rightUser) {
@@ -48,6 +51,47 @@ int User::CompareTo(User nextUser, int attributeValue) {
 			return 1;
 	}
 	return value == 1 ? CompareStrings(this->ID, nextUser.ID) : value;
+}
+bool User::MatchesRegex(string regExp, int attributeValue) {
+	if (attributeValue == AttributeValues::All) {
+		if (regex_match(ID, regex(regExp)) || regex_match(FirstName, regex(regExp)) ||
+			regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
+			regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
+			regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp))) {
+			return true;
+		}
+	}
+	else {
+		switch (attributeValue) {
+			case AttributeValues::User::ID:
+				if (regex_match(ID, regex(regExp))) return true;
+				break;
+			case AttributeValues::User::FirstName:
+				if (regex_match(FirstName, regex(regExp))) return true;
+				break;
+			case AttributeValues::User::LastName:
+				if (regex_match(LastName, regex(regExp))) return true;
+				break;
+			case AttributeValues::User::Age:
+				if (regex_match(to_string(Age), regex(regExp))) return true;
+				break;
+			case AttributeValues::User::Gender:
+				if (regex_match(string(1, Gender), regex(regExp))) return true;
+				break;
+			case AttributeValues::User::Phone:
+				if (regex_match(Phone, regex(regExp))) return true;
+				break;
+			case AttributeValues::User::Email:
+				if (regex_match(Email, regex(regExp))) return true;
+				break;
+			case AttributeValues::User::Address:
+				if (regex_match(Address, regex(regExp))) return true;
+				break;
+			default:
+				break;
+		}
+	}
+	return false;
 }
 
 string User::GenerateID(int n) {
@@ -106,4 +150,26 @@ void User::Logout() {
 }
 void User::ShowDetails() {
 	cout << "User: " << ID << "; Name: " << FirstName << " " << LastName << endl;
+}
+void User::DisplayTableHeader(int startIndex, int tableLength) {
+	if (startIndex >= 0) cout << setw(to_string(tableLength).length() + 2) << left << "No.";
+	cout << setw(15) << left << "ID" <<
+		setw(20) << "First Name" <<
+		setw(20) << "Last Name" <<
+		setw(5) << "Age" <<
+		setw(5) << "M/F" <<
+		setw(15) << "Phone" <<
+		setw(20) << "Email" <<
+		setw(30) << "Address" << endl;
+}
+void User::DisplayTableRow(int startIndex, int index, int tableLength) {
+	if (startIndex >= 0) cout << setw(to_string(tableLength).length() + 2) << index + startIndex;
+	cout << setw(15) << ID <<
+		setw(20) << FirstName <<
+		setw(20) << LastName <<
+		setw(5) << Age <<
+		setw(5) << Gender <<
+		setw(15) << Phone <<
+		setw(20) << Email <<
+		setw(30) << Address << endl;
 }

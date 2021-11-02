@@ -1,7 +1,7 @@
-#include "Header Files/Interface.h"
+#pragma once
+#include "../Header Files/Interface.h"
 #include <iostream>
 #include <iomanip>
-
 using namespace std;
 
 void Interface::General::PrintLine(char symbol, int length) {
@@ -31,6 +31,7 @@ string Interface::User::DisplayLoginPage() {
 	cout << "Please enter your username: ";
 
 	cin >> user;
+	cin.ignore();
 	if (user == "Reg") return "Register";
 	if (user == "Exit") return "Exit";
 	if (user == "Doktah") {									//Hard coded Doctor's username
@@ -63,9 +64,13 @@ string Interface::User::DisplayLoginPage() {
 		system("PAUSE");
 		return "Invalid";
 	}
+	return "Invalid";
 }
 string Interface::User::DisplayRegisterPage(){
-
+	return "";
+}
+void Interface::User::DisplayExitPage() {
+	cout << "EXITED THE PROGRAM" << endl;
 }
 
 void Interface::Doctor::DisplayMainMenu() {
@@ -87,6 +92,7 @@ void Interface::Doctor::DisplayMainMenu() {
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
+		cin.ignore();
 
 		switch (decision)
 		{
