@@ -1,4 +1,6 @@
 #include "Header Files/Doctor.h"
+#include "Header Files/LinkedList.h"
+
 
 
 void Doctor::viewAllPatients(DoublyLinkedList<Patient> *p) {

@@ -1,4 +1,12 @@
 #pragma once
+#include "Appointment.h"
+#include "AttributeValues.h"
+#include "Doctor.h"
+#include "Interface.h"
+#include "Medicine.h"
+#include "Nurse.h"
+#include "Patient.h"
+#include "User.h"
 #include <iostream>
 #include <iomanip>
 #include <regex>
@@ -315,6 +323,165 @@ public:
 	}
 
 	/*
+	* SEARCH FUNCTIONS
+	*/
+	DoublyLinkedList<T>* SearchByRegex(string regExp, int searchAttributeValue) {
+		//Create a new DoublyLinkedList to store the filtered list
+		DoublyLinkedList<T>* filteredList = new DoublyLinkedList<T>();
+		int index = 0;
+		Current = Head;
+
+		while (index < Length) {
+			//Determines the class the list contents belong to
+			//In each class, determine the attribute to search based on the passed int value
+
+			//If the attribute value is 0, consider ALL attributes
+			if (searchAttributeValue == AttributeValues::All) {
+				if (typeid(T) == typeid(User)) {
+					if (regex_match(Current->Data.GetID(), regex(regExp)) ||
+						regex_match(Current->Data.GetFirstName(), regex(regExp)) ||
+						regex_match(Current->Data.GetLastName(), regex(regExp)) ||
+						regex_match(to_string(Current->Data.GetAge()), regex(regExp)) ||
+						regex_match(string(1, Current->Data.GetGender()), regex(regExp)) ||
+						regex_match(Current->Data.GetPhone(), regex(regExp)) ||
+						regex_match(Current->Data.GetEmail(), regex(regExp)) ||
+						regex_match(Current->Data.GetAddress(), regex(regExp)))
+						filteredList->AddToEnd(Current->Data);
+				}
+			}
+			//If the value is not 0, determine the specific attribute to search
+			else if (typeid(T) == typeid(User) || typeid(T) == typeid(Doctor) ||
+				typeid(T) == typeid(Nurse) || typeid(T) == typeid(Patient)) {
+				switch (searchAttributeValue) {
+				case AttributeValues::User::ID:
+					if (regex_match(Current->Data.GetID(), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					break;
+				case AttributeValues::User::FirstName:
+					if (regex_match(Current->Data.GetFirstName(), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					break;
+				case AttributeValues::User::LastName:
+					if (regex_match(Current->Data.GetLastName(), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					break;
+				case AttributeValues::User::Age:
+					if (regex_match(to_string(Current->Data.GetAge()), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					break;
+				case AttributeValues::User::Gender:
+					if (regex_match(string(1, Current->Data.GetGender()), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					break;
+				case AttributeValues::User::Phone:
+					if (regex_match(Current->Data.GetPhone(), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					break;
+				case AttributeValues::User::Email:
+					if (regex_match(Current->Data.GetEmail(), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					break;
+				case AttributeValues::User::Address:
+					if (regex_match(Current->Data.GetAddress(), regex(regExp))) filteredList->AddToEnd(Current->Data);
+					break;
+				default:
+					break;
+				}
+				//Subclasses of User class
+				if (typeid(T) == typeid(Doctor)) {
+
+				}
+				else if (typeid(T) == typeid(Nurse)) {
+
+				}
+				else if (typeid(T) == typeid(Patient)) {
+
+				}
+			}
+			else if (typeid(T) == typeid(Medicine)) {
+
+			}
+			else if (typeid(T) == typeid(Appointment)) {
+
+			}
+			else {
+				cout << "ERROR SEARCH_BY_REGEX: No class detected" << endl;
+				break;
+			}
+			Current = Current->NextElement;
+			index++;
+		}
+		return filteredList;
+	}
+
+	/*
+	* SORT FUNCTIONS
+	*/
+	DoublyLinkedList<T>* Sort(int sortAttributeValue) {
+		//If list length is 0, return an error
+		if (Length == 0) {
+			cout << "Checkpoint ERR" << endl;
+			cout << "ERROR SORT: List of length 0 cannot be sorted" << endl;
+			return this;
+		}
+
+		//Use Merge Sort
+		DoublyLinkedList<T>* sortedList = new DoublyLinkedList<T>();
+		Current = Head;
+		int index = 0;
+		//If the list length is 1, it is already sorted, so return it
+		if (Length == 1) {
+			return this;
+		}
+		else if (Length > 1) {
+			//Split the list into two even parts (If length is odd, first half gets 1 more element)
+			DoublyLinkedList<T>* ListA = new DoublyLinkedList<T>();
+			DoublyLinkedList<T>* ListB = new DoublyLinkedList<T>();
+			while (index < Length) {
+				if (index < Length / 2) ListA->AddToEnd(Current->Data);
+				else ListB->AddToEnd(Current->Data);
+				Current = Current->NextElement;
+				index++;
+			}
+
+			//Sort the two lists through recursive sorting
+			ListA = ListA->Sort(sortAttributeValue);
+			ListB = ListB->Sort(sortAttributeValue);
+
+			//Combine the two lists by comparing each of their sorted elements
+			int indexA = 0, indexB = 0;
+			int lengthA = ListA->GetLength(), lengthB = ListB->GetLength();
+			while (indexA < lengthA && indexB < lengthB) {
+				int compareResult = ListA->Get(indexA).CompareTo(ListB->Get(indexB), sortAttributeValue);
+				if (compareResult == 0) {
+					//ListA[indexA] has higher priority
+					sortedList->AddToEnd(ListA->Get(indexA));
+					indexA++;
+				}
+				else if (compareResult == 1) {
+					//ListA[indexA] has the same priority as ListB[indexB], meaning they are the same value
+					sortedList->AddToEnd(ListA->Get(indexA));
+					sortedList->AddToEnd(ListB->Get(indexB));
+					indexA++;
+					indexB++;
+				}
+				else {
+					//ListB[indexB] has higher priority
+					sortedList->AddToEnd(ListB->Get(indexB));
+					indexB++;
+				}
+			}
+			//One of the lists' elements have been inserted completely
+			//Add remaining elements of the other list
+			while (indexA < lengthA) {
+				sortedList->AddToEnd(ListA->Get(indexA));
+				indexA++;
+			}
+			while (indexB < lengthB) {
+				sortedList->AddToEnd(ListB->Get(indexB));
+				indexB++;
+			}
+			//Delete the two-part lists to save memory space
+			delete ListA;
+			delete ListB;
+		}
+		return sortedList;
+	}
+
+	/*
 	* GET, PRINT, LENGTH FUNCTIONS
 	*/
 	T Get(int index) {
@@ -329,6 +496,125 @@ public:
 			index--;
 		}
 		return Current->Data;
+	}
+	void PrintList(int startIndex = -1) {
+		cout << "List Length: " << Length << endl;
+		Interface::General::PrintLine('-', 110);
+		if (typeid(Current->Data) == typeid(User)) {
+			if (startIndex >= 0) cout << setw(to_string(this->GetLength()).length() + 2) << left << "No.";
+			cout << setw(15) << left << "ID" <<
+				setw(20) << "First Name" <<
+				setw(20) << "Last Name" <<
+				setw(5) << "Age" <<
+				setw(5) << "M/F" <<
+				setw(15) << "Phone" <<
+				setw(20) << "Email" <<
+				setw(30) << "Address" << endl;
+		}
+		Interface::General::PrintLine('-', 110);
+
+		int index = 0;
+		Current = Head;
+		while (index < Length) {
+			if (startIndex >= 0) cout << setw(to_string(this->GetLength()).length() + 2) << index + startIndex;
+			if (typeid(Current->Data) == typeid(User)) {
+				cout << setw(15) << Current->Data.GetID() <<
+					setw(20) << Current->Data.GetFirstName() <<
+					setw(20) << Current->Data.GetLastName() <<
+					setw(5) << Current->Data.GetAge() <<
+					setw(5) << Current->Data.GetGender() <<
+					setw(15) << Current->Data.GetPhone() <<
+					setw(20) << Current->Data.GetEmail() <<
+					setw(30) << Current->Data.GetAddress() << endl;
+			}
+			else if (typeid(Current->Data) == typeid(Doctor)) {
+				/*
+				* INSERT CODE HERE
+				*/
+			}
+			/*
+			* INSERT CODE FOR OTHER CLASSES HERE
+			*/
+
+			Current = Current->NextElement;
+			index++;
+		}
+		cout << endl;
+	}
+	void PrintDetails() {
+		cout << setw(15) << "Data" << setw(15) << "Head" << setw(15) << "Current" << setw(15) << "Tail"
+			<< setw(15) << "Prev." << setw(15) << "Next" << setw(10) << "Length" << endl;
+		Interface::General::PrintLine('-', 100);
+
+		Current = Head;
+		int count = 0;
+		while (count < Length) {
+			cout << setw(15) << Current->Data;
+
+			if (Head == NULL) { cout << setw(15) << "-"; }
+			else { cout << setw(15) << Head->Data; }
+
+			if (Current == NULL) { cout << setw(15) << "-"; }
+			else { cout << setw(15) << Current->Data; }
+
+			if (Tail == NULL) { cout << setw(15) << "-"; }
+			else { cout << setw(15) << Tail->Data; }
+
+			if (Current->PreviousElement == NULL) { cout << setw(15) << "-"; }
+			else { cout << setw(15) << Current->PreviousElement->Data; }
+
+			if (Current->NextElement == NULL) { cout << setw(15) << "-"; }
+			else { cout << setw(15) << Current->NextElement->Data; }
+
+			cout << setw(10) << Length;
+			cout << endl;
+			Current = Current->NextElement;
+			count++;
+		}
+	}
+	void DisplayPages(int pageLength) {
+		int i = 0, length = this->GetLength();
+		while (true) {
+			system("cls");
+			cout << "Displaying list elements [" << i + 1 << "/" << length << "] to ["
+				<< i + pageLength - (i + pageLength > length ? i + pageLength - length : 0) << "/" << length << "]" << endl;
+			this->GetPage(i, pageLength)->PrintList(i + 1);
+
+			char answer;
+			bool exit = false;
+			cout << "Enter a navigation option [\">\" = Next Page; \"<\" = Previous Page; \"X\" = Exit]\n> ";
+			cin >> answer;
+			cin.ignore();
+			switch (toupper(answer)) {
+			case '>':
+				if (i + pageLength > length - 1) i = 0;
+				else i += pageLength;
+				continue;
+			case '<':
+				if (i - pageLength < 0) {
+					if (length % pageLength == 0) i = length - pageLength;
+					else i = length - (length % pageLength);
+				}
+				else i -= pageLength;
+				continue;
+			case 'X':
+				exit = true;
+				break;
+			default:
+				cout << "ERROR DISPLAY_PAGES: Invalid input. Exiting...";
+				exit = true;
+				break;
+			}
+			if (exit) break;
+		}
+		system("cls");
+	}
+	DoublyLinkedList<T>* GetPage(int index, int length) {
+		DoublyLinkedList<T>* displayedList = new DoublyLinkedList<T>();
+		for (int i = index; i < index + length && i < GetLength(); i++) {
+			displayedList->AddToEnd(this->Get(i));
+		}
+		return displayedList;
 	}
 	int GetLength() {
 		return Length;

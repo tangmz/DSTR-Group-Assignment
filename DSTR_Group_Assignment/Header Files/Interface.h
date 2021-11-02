@@ -10,8 +10,8 @@ public:
 	class User {
 	public:
 		static void DisplayStartupPage();
-		static string DisplayLoginPage();
-		static string DisplayRegisterPage();
+		static std::string DisplayLoginPage();
+		static std::string DisplayRegisterPage();
 		static void DisplayExitPage();
 	};
 	class Doctor {
