@@ -12,10 +12,10 @@ public:
 
 	void addPatientToList();
 	void viewAllPatient();
-	void searchPatient(Patient target);
-	void sortRecord();
-	void changePatientPriority(Patient newPatient, int priority);
-	void notiifyNextPatient(Patient nextPatient);
+	//void searchPatient(Patient target);
+	//void sortRecord();
+	//void changePatientPriority(Patient newPatient, int priority);
+	//void notiifyNextPatient(Patient nextPatient);
 	void collectPayment(int total);
 
 	//Interface

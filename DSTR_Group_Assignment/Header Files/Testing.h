@@ -7,6 +7,7 @@
 #include "Medicine.h"
 #include "Nurse.h"
 #include "Patient.h"
+#include "C++ Files/Patient.cpp"
 #include "SampleData.h"
 #include "User.h"
 #include <iostream>
@@ -15,8 +16,9 @@ using namespace std;
 void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int maxAge = 60) {
 	DoublyLinkedList<string>* NameList = LoadNames();
 	for (int i = 0; i < n; i++) {
+		cout << "Adding User: " << i << endl;
 		users->AddToEnd(User(
-			User::GenerateID(ApplicationLists::Doctors->GetLength() + ApplicationLists::Nurses->GetLength() + ApplicationLists::Patients->GetLength() + 1),
+			User::GenerateID(ApplicationLists::Users->GetLength() + 1),
 			GetRandomName(NameList),
 			GetRandomName(NameList),
 			rand() % (maxAge - minAge + 1) + minAge,

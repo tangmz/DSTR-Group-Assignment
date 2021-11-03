@@ -7,22 +7,22 @@ public:
 	public:
 		static void PrintLine(char symbol, int length);
 	};
-	class User {
+	class UserInterface {
 	public:
 		static void DisplayStartupPage();
 		static std::string DisplayLoginPage();
 		static std::string DisplayRegisterPage();
 		static void DisplayExitPage();
 	};
-	class Doctor {
+	class DoctorInterface {
 	public:
 		static void DisplayMainMenu();
 	};
-	class Nurse {
+	class NurseInterface {
 	public:
 		static void DisplayMainMenu();
 	};
-	class Patient {
+	class PatientInterface {
 	public:
 		static void DisplayMainMenu();
 		static void DisplaySortPatients();

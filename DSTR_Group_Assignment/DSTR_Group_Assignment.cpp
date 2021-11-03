@@ -1,4 +1,5 @@
 #pragma once
+#include "C++ Files/Patient.cpp"
 #include "Header Files/Appointment.h"
 #include "Header Files/Doctor.h"
 #include "Header Files/LinkedList.h"
@@ -9,11 +10,12 @@
 #include "Header Files/User.h"
 #include "Header Files/Interface.h"
 #include "Header Files/SampleData.h"
-#include "Header Files/ApplicationLists.h"
+//#include "Header Files/ApplicationLists.h"
 using namespace std;
 
 int main() {
 	srand(unsigned(time(NULL)));
+	
 
 	/*
 	Doctor d = Doctor();
@@ -28,7 +30,15 @@ int main() {
 	*/
 
 	DoublyLinkedList<User>* users = new DoublyLinkedList<User>();
-	AddUsers(users, 10000, 1, 99);
-	users->Sort(AttributeValues::User::FirstName)->DisplayPages(20);
+	AddUsers(ApplicationLists::Users, 1000, 1, 99);
+	ApplicationLists::Users->Sort(AttributeValues::User::FirstName)->DisplayPages(20);
+
+	//int *i = new int;
+	//*i = 5;
+
+	//cout << i << endl;
+	//cout << *i << endl;
+	//cout << &i << endl;
+
 	return 0;
 }

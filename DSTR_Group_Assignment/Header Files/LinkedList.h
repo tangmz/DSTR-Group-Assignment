@@ -25,7 +25,7 @@ private:
 	Node* Head, * Current, * Tail;
 	int Length = 0;
 
-	void PrintLine(char symbol,, int length ) {
+	void PrintLine(char symbol, int length ) {
 		for (int i = 0; i < length; i++) {
 			cout << symbol;
 		}

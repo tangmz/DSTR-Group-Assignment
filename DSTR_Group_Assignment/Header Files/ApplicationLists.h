@@ -5,6 +5,7 @@
 #include "Medicine.h"
 #include "Nurse.h"
 #include "Patient.h"
+#include "User.h"
 using namespace std;
 
 class ApplicationLists {
@@ -12,11 +13,13 @@ public:
 	static DoublyLinkedList<Patient>* Patients;
 	static DoublyLinkedList<Doctor>* Doctors;
 	static DoublyLinkedList<Nurse>* Nurses;
-	static DoublyLinkedList<Appointment>* Appointments;
+	//static DoublyLinkedList<Appointment>* Appointments;
 	static DoublyLinkedList<Medicine>* Medicines;
+	static DoublyLinkedList<User>* Users;
 };
 
-DoublyLinkedList<Appointment>* ApplicationLists::Appointments = new DoublyLinkedList<Appointment>();
+//DoublyLinkedList<Appointment>* ApplicationLists::Appointments = new DoublyLinkedList<Appointment>();
+DoublyLinkedList<User>* ApplicationLists::Users = new DoublyLinkedList<User>();
 DoublyLinkedList<Doctor>* ApplicationLists::Doctors = new DoublyLinkedList<Doctor>();
 DoublyLinkedList<Medicine>* ApplicationLists::Medicines = new DoublyLinkedList<Medicine>();
 DoublyLinkedList<Nurse>* ApplicationLists::Nurses = new DoublyLinkedList<Nurse>();

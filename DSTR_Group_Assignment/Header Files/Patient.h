@@ -1,12 +1,14 @@
 #pragma once
 #include "Doctor.h"
+//#include "Nurse.h"
 #include "Medicine.h"
 #include "User.h"
 #include <iostream>
 #include <string>
 using namespace std;
 
-class Doctor;
+
+
 class Patient : User {
 private:
 	string PatientID;
@@ -80,4 +82,14 @@ public:
 	static void NotifyNextPatient(DoublyLinkedList<Patient>* patientList, int nextPatientIndex);
 	static void CollectPayment(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
 	static void ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
+	static void DisplayMainMenu();
+	static void DisplaySortPatients();
+	static void DisplaySearchPatients();
 };
+
+//DoublyLinkedList<User>* Users;
+//DoublyLinkedList<Doctor>* Doctors;
+//DoublyLinkedList<Medicine>* Medicines;
+//DoublyLinkedList<Nurse>* Nurses;
+//DoublyLinkedList<Patient>* Patients;
+
