@@ -65,8 +65,10 @@ public:
 	bool Equals(Patient nextPatient);
 	int CompareTo(Patient nextPatient, int attributeValue);
 	bool MatchesRegex(string regExp, int attributeValue);
+	void DisplayTableHeader(int startIndex, int tableLength);
+	void DisplayTableRow(int startIndex, int index, int tableLength);
 
-	string GeneratePatientID(int n);
+	static string GeneratePatientID(int n);
 	void CreateAppointment(string date, string time, Doctor* doctor);
 	void UpdateAppointmentDate(string appointmentID, string newDate);
 	void UpdateAppointmentTime(string appointmentID, string newTime);
@@ -82,9 +84,9 @@ public:
 	static void NotifyNextPatient(DoublyLinkedList<Patient>* patientList, int nextPatientIndex);
 	static void CollectPayment(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
 	static void ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
-	static void DisplayMainMenu();
-	static void DisplaySortPatients();
-	static void DisplaySearchPatients();
+	//static void DisplayMainMenu();
+	//static void DisplaySortPatients();
+	//static void DisplaySearchPatients();
 };
 
 //DoublyLinkedList<User>* Users;

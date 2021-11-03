@@ -2,12 +2,11 @@
 #include "ApplicationLists.h"
 #include "Appointment.h"
 #include "Doctor.h"
-#include "Interface.h"
+//#include "Interface.h"
 #include "LinkedList.h"
 #include "Medicine.h"
 #include "Nurse.h"
 #include "Patient.h"
-#include "C++ Files/Patient.cpp"
 #include "SampleData.h"
 #include "User.h"
 #include <iostream>
@@ -28,6 +27,39 @@ void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int m
 			GetRandomName(NameList),
 			GetRandomPhone()
 		));
+	}
+}
+void AddPatients(DoublyLinkedList<User>* users, DoublyLinkedList<Patient>* patients, int n = 100, int minAge = 20, int maxAge = 60) {
+	DoublyLinkedList<string>* NameList = LoadNames();
+	for (int i = 0; i < n; i++) {
+		cout << "Adding User: " << i << endl;
+		User newUser = User(
+			User::GenerateID(ApplicationLists::Users->GetLength() + 1),
+			GetRandomName(NameList),
+			GetRandomName(NameList),
+			rand() % (maxAge - minAge + 1) + minAge,
+			GetRandomGender(),
+			GetRandomPhone(),
+			GetRandomName(NameList),
+			GetRandomName(NameList),
+			GetRandomPhone()
+		);
+		Patient newPatient = Patient(
+			Patient::GeneratePatientID(ApplicationLists::Patients->GetLength() + 1),
+			newUser.GetID(),
+			newUser.GetFirstName(),
+			newUser.GetLastName(),
+			newUser.GetAge(),
+			newUser.GetGender(),
+			newUser.GetPhone(),
+			newUser.GetEmail(),
+			newUser.GetAddress(),
+			newUser.GetIC(),
+			rand() % (maxAge - minAge + 1) + minAge
+		);
+		//Parent* p2 = (Child*)pChild;
+		users->AddToEnd(newUser);
+		patients->AddToEnd(newPatient);
 	}
 }
 void DeleteUsers(DoublyLinkedList<User>* users) {

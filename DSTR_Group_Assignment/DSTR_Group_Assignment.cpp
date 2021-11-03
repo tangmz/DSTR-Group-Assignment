@@ -1,6 +1,5 @@
 #pragma once
-#include "C++ Files/Patient.cpp"
-#include "Header Files/Appointment.h"
+//#include "Header Files/Appointment.h"
 #include "Header Files/Doctor.h"
 #include "Header Files/LinkedList.h"
 #include "Header Files/Medicine.h"
@@ -10,7 +9,7 @@
 #include "Header Files/User.h"
 #include "Header Files/Interface.h"
 #include "Header Files/SampleData.h"
-//#include "Header Files/ApplicationLists.h"
+#include "Header Files/ApplicationLists.h"
 using namespace std;
 
 int main() {
@@ -29,9 +28,8 @@ int main() {
 	d.viewAllPatients(patients);
 	*/
 
-	DoublyLinkedList<User>* users = new DoublyLinkedList<User>();
-	AddUsers(ApplicationLists::Users, 1000, 1, 99);
-	ApplicationLists::Users->Sort(AttributeValues::User::FirstName)->DisplayPages(20);
+	//DoublyLinkedList<User>* users = new DoublyLinkedList<User>();
+	//ApplicationLists::Users->Sort(AttributeValues::User::FirstName)->DisplayPages(20);
 
 	//int *i = new int;
 	//*i = 5;
@@ -39,6 +37,11 @@ int main() {
 	//cout << i << endl;
 	//cout << *i << endl;
 	//cout << &i << endl;
+
+	AddUsers(ApplicationLists::Users, 10, 1, 99);
+	AddPatients(ApplicationLists::Users, ApplicationLists::Patients, 100, 18, 21);
+	AddUsers(ApplicationLists::Users, 10, 1, 99);
+	Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients);
 
 	return 0;
 }

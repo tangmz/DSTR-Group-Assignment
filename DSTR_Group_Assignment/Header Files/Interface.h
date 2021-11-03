@@ -1,4 +1,6 @@
 #pragma once
+#include "LinkedList.h"
+#include "Patient.h"
 #include <string>
 
 class Interface {
@@ -16,7 +18,7 @@ public:
 	};
 	class DoctorInterface {
 	public:
-		static void DisplayMainMenu();
+		static void DisplayMainMenu(DoublyLinkedList<Patient>* patientList);
 	};
 	class NurseInterface {
 	public:

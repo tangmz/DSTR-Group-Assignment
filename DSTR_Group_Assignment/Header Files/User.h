@@ -54,14 +54,14 @@ public:
 	bool Equals(User nextUser);
 	int CompareTo(User nextUser, int attributeValue);
 	bool MatchesRegex(string regExp, int attributeValue);
+	void DisplayTableHeader(int startIndex, int tableLength);
+	void DisplayTableRow(int startIndex, int index, int tableLength);
 
 	static string GenerateID(int n);
 	static void Login();
 	static void Register();
 	void Logout();
 	void ShowDetails();
-	void DisplayTableHeader(int startIndex, int tableLength);
-	void DisplayTableRow(int startIndex, int index, int tableLength);
 
 	//Interface stuff
 	static void DisplayStartupPage();

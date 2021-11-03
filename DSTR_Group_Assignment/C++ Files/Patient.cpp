@@ -3,9 +3,10 @@
 #include "../Header Files/Doctor.h"
 #include "../Header Files/Nurse.h"
 #include "../Header Files/User.h"
+#include "../Header Files/Medicine.h"
 #include "../Header Files/LinkedList.h"
 //#include "../Header Files/ApplicationLists.h"
-#include <Header Files\Comparison.h>
+#include "../Header Files/Comparison.h"
 using namespace std;
 
 //DoublyLinkedList<User>* Users;
@@ -157,6 +158,28 @@ bool Patient::MatchesRegex(string regExp, int attributeValue) {
 	}
 	return false;
 }
+void Patient::DisplayTableHeader(int startIndex, int tableLength) {
+	if (startIndex >= 0) cout << setw(to_string(tableLength).length() + 2) << left << "No.";
+	cout << setw(15) << left << "ID" <<
+		setw(15) << left << "Patient ID" <<
+		setw(20) << "First Name" <<
+		setw(20) << "Last Name" <<
+		setw(5) << "Age" <<
+		setw(5) << "M/F" <<
+		setw(15) << "Phone" <<
+		setw(20) << "Email" << endl;
+}
+void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
+	if (startIndex >= 0) cout << setw(to_string(tableLength).length() + 2) << index + startIndex;
+	cout << setw(15) << ID <<
+		setw(15) << PatientID <<
+		setw(20) << FirstName <<
+		setw(20) << LastName <<
+		setw(5) << Age <<
+		setw(5) << Gender <<
+		setw(15) << Phone <<
+		setw(20) << Email << endl;
+}
 
 string Patient::GeneratePatientID(int n) {
 	string id = "PAT-";
@@ -164,15 +187,12 @@ string Patient::GeneratePatientID(int n) {
 	id += to_string(n);
 	return id;
 }
-
 void Patient::UpdateAppointmentDate(string appointmentID, string newDate) {
 	//ApplicationLists::Appointments->SearchByRegex(appointmentID, AttributeValues::Appointment::AppointmentID)->Get(0)->SetDate(newDate);
 }
 void Patient::UpdateAppointmentTime(string appointmentID, string newTime) {
 	//ApplicationLists::Appointments->SearchByRegex(appointmentID, AttributeValues::Appointment::AppointmentID)->Get(0)->SetTime(newTime);
 }
-
-
 int Patient::GetQueueNumber(DoublyLinkedList<Patient>* patientList) {
 	////Determine the appointment's date
 	//string targetDate = ApplicationLists::Appointments
@@ -194,14 +214,12 @@ int Patient::GetQueueNumber(DoublyLinkedList<Patient>* patientList) {
 	//delete dateAppointments;
 	return 0;
 }
-
 void Patient::ViewAllPatients(DoublyLinkedList<Patient>* patientList) {
-	/*
-	for (int i = 0; i < p->GetLength(); i++) {
+	/*for (int i = 0; i < p->GetLength(); i++) {
 		Patient p1 = p->Get(i);
 		cout << p1.GetFirstName() << " : " << p1.GetLastName() << endl;
-	}
-	*/
+	}*/
+	patientList->DisplayPages(10);
 }
 void Patient::SearchPatient(DoublyLinkedList<Patient>* patientList, string regExp, int attributeValue) {
 
@@ -476,54 +494,54 @@ string User::GenerateID(int n) {
 	id += to_string(n);
 	return id;
 }
-void User::Login() {
-	string loginResult = "";
-	do {
-		//Cannot switch string in c++, unless using enum
-		loginResult = User::DisplayLoginPage();
-		if (loginResult == "Doctor") {
-			Doctor::DisplayMainMenu();
-			break;
-		}
-		else if (loginResult == "Nurse") {
-			Nurse::DisplayMainMenu();
-			break;
-		}
-		else if (loginResult == "Patient") {
-			Patient::DisplayMainMenu();
-			break;
-		}
-		else if (loginResult == "Register") {
-			loginResult = ::User::DisplayRegisterPage();
-			break;
-		}
-		else if (loginResult == "Exit") {
-			User::DisplayExitPage();
-			break;
-		}
-	} while (loginResult != "Exit");
-}
-void User::Register() {
-	string registerResult = User::DisplayRegisterPage();
-	if (registerResult == "Doctor") {
-		Doctor::DisplayMainMenu();
-	}
-	else if (registerResult == "Nurse") {
-		Nurse::DisplayMainMenu();
-	}
-	else if (registerResult == "Patient") {
-		Patient::DisplayMainMenu();
-	}
-	else if (registerResult == "Login") {
-		User::Login();
-	}
-	else if (registerResult == "Exit") {
-		User::DisplayExitPage();
-	}
-}
-void User::Logout() {
-	User::Login();
-}
+//void User::Login() {
+//	string loginResult = "";
+//	do {
+//		//Cannot switch string in c++, unless using enum
+//		loginResult = User::DisplayLoginPage();
+//		if (loginResult == "Doctor") {
+//			Doctor::DisplayMainMenu();
+//			break;
+//		}
+//		else if (loginResult == "Nurse") {
+//			Nurse::DisplayMainMenu();
+//			break;
+//		}
+//		else if (loginResult == "Patient") {
+//			Patient::DisplayMainMenu();
+//			break;
+//		}
+//		else if (loginResult == "Register") {
+//			loginResult = ::User::DisplayRegisterPage();
+//			break;
+//		}
+//		else if (loginResult == "Exit") {
+//			User::DisplayExitPage();
+//			break;
+//		}
+//	} while (loginResult != "Exit");
+//}
+//void User::Register() {
+//	string registerResult = User::DisplayRegisterPage();
+//	if (registerResult == "Doctor") {
+//		Doctor::DisplayMainMenu();
+//	}
+//	else if (registerResult == "Nurse") {
+//		Nurse::DisplayMainMenu();
+//	}
+//	else if (registerResult == "Patient") {
+//		Patient::DisplayMainMenu();
+//	}
+//	else if (registerResult == "Login") {
+//		User::Login();
+//	}
+//	else if (registerResult == "Exit") {
+//		User::DisplayExitPage();
+//	}
+//}
+//void User::Logout() {
+//	User::Login();
+//}
 void User::ShowDetails() {
 	cout << "User: " << ID << "; Name: " << FirstName << " " << LastName << endl;
 }
