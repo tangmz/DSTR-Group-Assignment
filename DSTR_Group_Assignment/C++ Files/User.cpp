@@ -18,6 +18,7 @@ bool User::Equals(User nextUser) {
 	match = Phone == nextUser.Phone ? match : false;
 	match = Email == nextUser.Email ? match : false;
 	match = Address == nextUser.Address ? match : false;
+	match = IC == nextUser.IC ? match : false;
 	return match;
 }
 int User::CompareTo(User nextUser, int attributeValue) {
@@ -48,6 +49,9 @@ int User::CompareTo(User nextUser, int attributeValue) {
 		case AttributeValues::User::Address:
 			value = CompareStrings(this->Address, nextUser.Address);
 			break;
+		case AttributeValues::User::IC:
+			value = CompareStrings(this->IC, nextUser.IC);
+			break;
 		default:
 			return 1;
 	}
@@ -59,7 +63,7 @@ bool User::MatchesRegex(string regExp, int attributeValue) {
 			if (regex_match(ID, regex(regExp)) || regex_match(FirstName, regex(regExp)) ||
 				regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
 				regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
-				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp))) {
+				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp)) || regex_match(IC, regex(regExp))) {
 				return true;
 			}
 			break;
@@ -86,6 +90,9 @@ bool User::MatchesRegex(string regExp, int attributeValue) {
 			break;
 		case AttributeValues::User::Address:
 			if (regex_match(Address, regex(regExp))) return true;
+			break;
+		case AttributeValues::User::IC:
+			if (regex_match(IC, regex(regExp))) return true;
 			break;
 		default:
 			break;

@@ -14,6 +14,7 @@ public:
 		static const int Phone = 6;
 		static const int Email = 7;
 		static const int Address = 8;
+		static const int IC = 17;
 	};
 	class Doctor : User {
 	public:

@@ -1,6 +1,6 @@
 #pragma once
 #include "../Header Files/Patient.h"
-#include "../ApplicationLists.cpp"
+#include "../Header Files/ApplicationLists.h"
 using namespace std;
 
 bool Patient::Equals(Patient nextPatient) {

@@ -14,6 +14,7 @@ protected:
 	string Email;
 	string Address;
 	string Password;
+	string IC;
 
 	friend ostream& operator<<(ostream& output, const User& user) {
 		return output << user.FirstName << " " << user.LastName;
@@ -22,7 +23,7 @@ protected:
 		return left.Equals(right);
 	}
 public:
-	User(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address) {
+	User(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address, string ic) {
 		ID = id;
 		FirstName = firstName;
 		LastName = lastName;
@@ -31,6 +32,7 @@ public:
 		Phone = phone;
 		Email = email;
 		Address = address;
+		IC = ic;
 	}
 	User() {
 
@@ -47,6 +49,7 @@ public:
 	string GetPhone() { return Phone; }
 	string GetEmail() { return Email; }
 	string GetAddress() { return Address; }
+	string GetIC() { return IC; }
 
 	bool Equals(User nextUser);
 	int CompareTo(User nextUser, int attributeValue);

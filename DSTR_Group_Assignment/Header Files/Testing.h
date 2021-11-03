@@ -23,7 +23,9 @@ void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int m
 			GetRandomGender(),
 			GetRandomPhone(),
 			GetRandomName(NameList),
-			GetRandomName(NameList)));
+			GetRandomName(NameList),
+			GetRandomPhone()
+		));
 	}
 }
 void DeleteUsers(DoublyLinkedList<User>* users) {
