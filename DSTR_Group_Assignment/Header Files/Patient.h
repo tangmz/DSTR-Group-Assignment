@@ -17,8 +17,9 @@ private:
 	Doctor* AssignedDoctor;
 	Medicine* Prescription;
 	string Note;
+	int Priority;
 public:
-	Patient(string patientID, string id, string firstName, string lastName, int age, char gender, string phone, string email, string address) {
+	Patient(string patientID, string id, string firstName, string lastName, int age, char gender, string phone, string email, string address, string ic, int priority) {
 		PatientID = patientID;
 		ID = id;
 		FirstName = firstName;
@@ -49,28 +50,34 @@ public:
 	Doctor* GetAssignedDoctor() { return AssignedDoctor; }
 	Medicine* GetPrescription() { return Prescription; }
 	string GetNote() { return Note; }
+	int GetPriority() { return Priority; }
 
 	void SetIllness(string illness) { Illness = illness; }
-	void SetNote(string note) { Note = note; }
+	void SetVisitDate(string visitDate) { VisitDate = visitDate; }
+	void SetVisitTime(string visitTime) { VisitTime = visitTime; }
+	void SetDisability(string disability) { Disability = disability; }
+	void SetAssignedDoctor(Doctor* doctor) { AssignedDoctor = doctor; }
 	void SetPrescription(Medicine* medicine) { Prescription = medicine; }
+	void SetNote(string note) { Note = note; }
 
 	bool Equals(Patient nextPatient);
 	int CompareTo(Patient nextPatient, int attributeValue);
 	bool MatchesRegex(string regExp, int attributeValue);
 
 	string GeneratePatientID(int n);
-	void CreateAppointment(string date, string time, Doctor doctor);
+	void CreateAppointment(string date, string time, Doctor* doctor);
 	void UpdateAppointmentDate(string appointmentID, string newDate);
 	void UpdateAppointmentTime(string appointmentID, string newTime);
-	void UpdateAppointmentDoctor(string appointmentID, Doctor newDoctor);
-	void UpdateAppointmentPayment(string appointmentID, bool newStatus);
-	void CancelAppointment(string appointmentID);
-	int GetQueueNumber(string appointmentID);
-
-	void DisplayAppointments();
+	void UpdateAppointmentDoctor(string appointmentID, Doctor* newDoctor);
+	int GetQueueNumber(DoublyLinkedList<Patient>* patientList);
 
 	//Interface
-	static void DisplayMainMenu();
-	static void DisplaySortPatients();
-	static void DisplaySearchPatients();
+	static void AddPatientToList(DoublyLinkedList<Patient>* patientList, Patient newPatient);
+	static void ViewAllPatients(DoublyLinkedList<Patient>* patientList);
+	static void SearchPatient(DoublyLinkedList<Patient>* patientList, string regExp, int attributeValue);
+	static void SortRecords(DoublyLinkedList<Patient>* patientList, int attributeValue);
+	static void ChangePatientPriority(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
+	static void NotifyNextPatient(DoublyLinkedList<Patient>* patientList, int nextPatientIndex);
+	static void CollectPayment(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
+	static void ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
 };
