@@ -17,4 +17,7 @@ public:
 	void changePatientPriority(Patient newPatient, int priority);
 	void notiifyNextPatient(Patient nextPatient);
 	void collectPayment(int total);
+
+	//Interface
+	static void DisplayMainMenu();
 };

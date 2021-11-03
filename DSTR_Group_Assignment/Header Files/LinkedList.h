@@ -1,6 +1,6 @@
 #pragma once
 #include "AttributeValues.h"
-#include "Interface.h"
+//#include "Interface.h"
 #include <iostream>
 #include <iomanip>
 #include <regex>
@@ -24,6 +24,13 @@ class DoublyLinkedList {
 private:
 	Node* Head, * Current, * Tail;
 	int Length = 0;
+
+	void PrintLine(char symbol,, int length ) {
+		for (int i = 0; i < length; i++) {
+			cout << symbol;
+		}
+		cout << endl;
+	}
 public:
 	/*
 	* CONSTRUCTORS AND DELETION FUNCTIONS
@@ -432,9 +439,9 @@ public:
 	}
 	void PrintList(int startIndex = -1) {
 		cout << "List Length: " << Length << endl;
-		Interface::General::PrintLine('-', 110);
+		PrintLine('-', 110);
 		Current->Data.DisplayTableHeader(startIndex, Length);
-		Interface::General::PrintLine('-', 110);
+		PrintLine('-', 110);
 
 		int index = 0;
 		Current = Head;
@@ -448,7 +455,7 @@ public:
 	void PrintDetails() {
 		cout << setw(15) << "Data" << setw(15) << "Head" << setw(15) << "Current" << setw(15) << "Tail"
 			<< setw(15) << "Prev." << setw(15) << "Next" << setw(10) << "Length" << endl;
-		Interface::General::PrintLine('-', 100);
+		PrintLine('-', 100);
 
 		Current = Head;
 		int count = 0;

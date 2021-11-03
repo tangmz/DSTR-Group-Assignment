@@ -1,5 +1,5 @@
 #pragma once
-#include "Patient.h"
+//#include "Patient.h"
 #include "LinkedList.h"
 #include <iostream>
 #include <string>
@@ -22,4 +22,7 @@ public:
 	//Optional
 	void notifyNurse();
 	void sortPatients(string criteria); //sort by name, id, disability, assigned doctor, or prescription
+
+	//Interface
+	static void DisplayMainMenu();
 };

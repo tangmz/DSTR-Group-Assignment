@@ -62,4 +62,10 @@ public:
 	void ShowDetails();
 	void DisplayTableHeader(int startIndex, int tableLength);
 	void DisplayTableRow(int startIndex, int index, int tableLength);
+
+	//Interface stuff
+	static void DisplayStartupPage();
+	static std::string DisplayLoginPage();
+	static std::string DisplayRegisterPage();
+	static void DisplayExitPage();
 };

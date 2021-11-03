@@ -68,4 +68,9 @@ public:
 	int GetQueueNumber(string appointmentID);
 
 	void DisplayAppointments();
+
+	//Interface
+	static void DisplayMainMenu();
+	static void DisplaySortPatients();
+	static void DisplaySearchPatients();
 };
