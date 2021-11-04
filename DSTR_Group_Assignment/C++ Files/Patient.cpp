@@ -319,11 +319,118 @@ DoublyLinkedList<Patient>* Patient::SearchPatient(DoublyLinkedList<Patient>* pat
 	return patientList->SearchByRegex(regExp, attributeValue);
 }
 void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList) {
-	DoublyLinkedList<Patient> selectedPatients = patientList->DisplayPages(10);
-	if (selectedPatients.GetLength() == 0) return;
+	//Here will return a Doubly linked list with only 1 (the selected) item inside, retains all operation of DoublyLL
+	int selectedIndex = patientList->DisplayPages(10);
+	if (selectedIndex == -1) return;
+	Patient* selectedPatients = patientList->GetReference(selectedIndex);
+	
 	system("cls");
-	selectedPatients.Get(0).DisplayDetails();
-	system("pause");
+	string s;
+	DoublyLinkedList<Medicine> selectedMed;
+	int decision = -1;
+	while (decision != 0) {
+		PrintLine('-', 100);
+		selectedPatients->DisplayDetails();
+		//PrintLine('-', 100);
+		cout << "1. Update Patient's First Name" << endl;
+		cout << "2. Update Patient's Last Name" << endl;
+		cout << "3. Update Patient's Age" << endl;
+		cout << "4. Update Patient's Gender" << endl;
+		cout << "5. Update Patient's Phone" << endl;
+		cout << "6. Update Patient's Email" << endl;
+		cout << "7. Update Patient's Address" << endl;
+		cout << "8. Update Patient's Illness" << endl;
+		cout << "9. Update Patient's Visit Date" << endl;
+		cout << "10. Update Patient's Visit Time" << endl;
+		cout << "11. Update Patient's Disability" << endl;
+		cout << "12. Update Patient's Prescription" << endl;
+		cout << "13. Update Patient's Note" << endl;
+		cout << "0. Exit Modifying Patient" << endl;
+		PrintLine('-', 70);
+		cout << "Select Option: ";
+		cin >> decision;
+		cin.ignore();
+		int age = -1;
+		switch (decision)
+		{
+		case 1:
+			cout << "Enter new first name: ";
+			getline(cin, s);
+			selectedPatients->SetFirstName(s);
+			break;
+		case 2:
+			cout << "Enter new last name: ";
+			getline(cin, s);
+			selectedPatients->SetLastName(s);
+			break;
+		case 3:
+			cout << "Enter new age: ";
+			getline(cin, s);
+		
+			while (age < 0) {
+				cout << "Enter new age: ";
+				getline(cin, s);
+			}
+			selectedPatients->SetAge(age);
+			break;
+		case 4:
+			cout << "Enter new gender: ";
+			cin >> s;
+			cin.ignore();
+			selectedPatients->SetGender(s[0]);
+			break;
+		case 5:
+			cout << "Enter new phone: ";
+			getline(cin, s);
+			selectedPatients->SetPhone(s);
+			break;
+		case 6:
+			cout << "Enter new email: ";
+			getline(cin, s);
+			selectedPatients->SetEmail(s);
+			break;
+		case 7:
+			cout << "Enter new Address: ";
+			getline(cin, s);
+			selectedPatients->SetAddress(s);
+			break;
+		case 8:
+			cout << "Enter new illness: ";
+			getline(cin, s);
+			selectedPatients->SetIllness(s);
+			break;
+		case 9:
+			cout << "Enter new visit date: ";
+			getline(cin, s);
+			selectedPatients->SetVisitDate(s);
+			break;
+		case 10:
+			cout << "Enter new visit time: ";
+			getline(cin, s);
+			selectedPatients->SetVisitTime(s);
+			break;
+		case 11:
+			cout << "Enter new disability: ";
+			getline(cin, s);
+			selectedPatients->SetDisability(s);
+			break;
+		case 12:
+			/*selectedMed = mediList->DisplayPages(10);
+			selectedPatients.Get(0).SetPrescription(&selectedMed.Get(0));*/
+			break;
+		case 13:
+			cout << "Enter new patient note: ";
+			getline(cin, s);
+			selectedPatients->SetNote(s);
+			break;
+		default:
+			break;
+		}
+		//cout << "Name " << selectedPatients->FirstName << endl;
+
+	}
+	
+	//system("pause");
 }
 void Patient::SortRecords(DoublyLinkedList<Patient>* patientList, int attributeValue) {
 	patientList = patientList->Sort(attributeValue);
