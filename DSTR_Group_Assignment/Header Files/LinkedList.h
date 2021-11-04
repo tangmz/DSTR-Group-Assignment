@@ -394,9 +394,9 @@ public:
 				else if (compareResult == 1) {
 					//ListA[indexA] has the same priority as ListB[indexB], meaning they are the same value
 					sortedList->AddToEnd(ListA->Get(indexA));
-					sortedList->AddToEnd(ListB->Get(indexB));
+					//sortedList->AddToEnd(ListB->Get(indexB));
 					indexA++;
-					indexB++;
+					//indexB++;
 				}
 				else {
 					//ListB[indexB] has higher priority
@@ -436,6 +436,19 @@ public:
 			index--;
 		}
 		return Current->Data;
+	}
+	T GetReference(int index) {
+		if (index >= Length) {
+			cout << "ERROR GET: Index " << index << " exceeds list length of " << Length << endl;
+			return T();
+		}
+
+		Current = Head;
+		while (index > 0) {
+			Current = Current->NextElement;
+			index--;
+		}
+		return *(Current->Data);
 	}
 	void PrintList(int startIndex = -1) {
 		cout << "List Length: " << Length << endl;
@@ -483,7 +496,7 @@ public:
 			count++;
 		}
 	}
-	void DisplayPages(int pageLength) {
+	DoublyLinkedList<T> DisplayPages(int pageLength) {
 		int i = 0, length = this->GetLength();
 		while (true) {
 			system("cls");
@@ -491,34 +504,83 @@ public:
 				<< i + pageLength - (i + pageLength > length ? i + pageLength - length : 0) << "/" << length << "]" << endl;
 			this->GetPage(i, pageLength)->PrintList(i + 1);
 
+			string answer;
+			bool exit = false;
+			cout << "Enter a navigation option [\">\" = Next Page; \"<\" = Previous Page; \"X\" = Exit]\n> ";
+			getline(cin, answer);
+			try { //Integer answer for selected a specific element
+				int selectedIndex = stoi(answer);
+				//Example: i = 0, pageLength = 10 >> Range = 1 ~ 10
+				if (selectedIndex < i + 1 || selectedIndex > i + pageLength - (i + pageLength > length ? i + pageLength - length : 0)) {
+					throw - 1;
+				}
+				DoublyLinkedList<T> selectedList = DoublyLinkedList<T>();
+				selectedList.AddToEnd(this->Get(selectedIndex - 1));
+				return selectedList;
+			}
+			catch (...) { //Error = char input for navigation
+				char ans = answer[0];
+				switch (toupper(ans)) {
+					case '>':
+						if (i + pageLength > length - 1) i = 0;
+						else i += pageLength;
+						continue;
+					case '<':
+						if (i - pageLength < 0) {
+							if (length % pageLength == 0) i = length - pageLength;
+							else i = length - (length % pageLength);
+						}
+						else i -= pageLength;
+						continue;
+					case 'X':
+						exit = true;
+						break;
+					default:
+						cout << "ERROR DISPLAY_PAGES: Invalid input. Exiting..." << endl;
+						system("pause");
+						exit = true;
+						break;
+				}
+				if (exit) break;
+			}
+		}
+		system("cls");
+		return DoublyLinkedList<T>();
+	}
+	DoublyLinkedList<T> DisplayDetails() {
+		int i = 0, length = this->GetLength();
+		while (true) {
+			system("cls");
+			cout << "Displaying list element [" << i + 1 << "/" << length << "]" << endl;
+			this->Get(i).DisplayDetails();
+
 			char answer;
 			bool exit = false;
 			cout << "Enter a navigation option [\">\" = Next Page; \"<\" = Previous Page; \"X\" = Exit]\n> ";
 			cin >> answer;
 			cin.ignore();
 			switch (toupper(answer)) {
-			case '>':
-				if (i + pageLength > length - 1) i = 0;
-				else i += pageLength;
-				continue;
-			case '<':
-				if (i - pageLength < 0) {
-					if (length % pageLength == 0) i = length - pageLength;
-					else i = length - (length % pageLength);
-				}
-				else i -= pageLength;
-				continue;
-			case 'X':
-				exit = true;
-				break;
-			default:
-				cout << "ERROR DISPLAY_PAGES: Invalid input. Exiting...";
-				exit = true;
-				break;
+				case '>':
+					if (i + 1 >= Length) i = 0;
+					else i++;
+					continue;
+				case '<':
+					if (i - 1 < 0) i = Length - 1;
+					else i--;
+					continue;
+				case 'X':
+					exit = true;
+					break;
+				default:
+					cout << "ERROR DISPLAY_DETAILS: Invalid input. Exiting..." << endl;
+					system("pause");
+					exit = true;
+					break;
 			}
 			if (exit) break;
 		}
 		system("cls");
+		return DoublyLinkedList<T>();
 	}
 	DoublyLinkedList<T>* GetPage(int index, int length) {
 		DoublyLinkedList<T>* displayedList = new DoublyLinkedList<T>();

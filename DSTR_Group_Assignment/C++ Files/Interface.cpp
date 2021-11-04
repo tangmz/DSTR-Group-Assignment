@@ -102,6 +102,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 				break;
 			case 2:
 				//Search by name
+				patientList->DisplayDetails();
 				break;
 			case 3:
 				//Search by illness
@@ -109,6 +110,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 			case 4:
 				//Modify patient record
 				//Let user choose which patient first
+				Patient::ModifyPatientRecord(patientList);
 				break;
 			case 5:
 				//View by visiting order

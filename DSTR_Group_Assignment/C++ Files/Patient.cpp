@@ -180,6 +180,45 @@ void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
 		setw(15) << Phone <<
 		setw(20) << Email << endl;
 }
+void Patient::DisplayDetails() {
+	PrintLine('=', 100);
+
+	cout << "User ID: " << ID << endl;
+	cout << "Patient ID: " << PatientID << endl << endl;
+
+	PrintLine('-', 100);
+
+	cout << "Name: " << FirstName << " " << LastName << endl;
+	cout << "IC: " << IC << endl;
+	cout << "Age: " << Age << endl;
+	cout << "Gender: " << Gender << endl;
+	cout << "Phone: " << Phone << endl;
+	cout << "Email: " << Email << endl;
+	cout << "Address: " << Address << endl;
+
+	PrintLine('-', 100);
+
+	cout << "Illness: ";
+	if (Illness == "") cout << "NOT DIAGNOSED YET" << endl;
+	else cout << Illness << endl;
+	cout << "Visit Date and Time: ";
+	if (VisitDate == "" || VisitTime == "") cout << "NO APPOINTMENT SCHEDULED" << endl;
+	else cout << VisitDate << ", " << VisitTime << endl;
+	cout << "Disability: ";
+	if (Disability == "") cout << "UNDEFINED" << endl;
+	else cout << Disability << endl;
+	cout << "Assigned Doctor: ";
+	if (AssignedDoctor == NULL) cout << "NO DOCTOR ASSIGNED" << endl;
+	else cout << "Dr. " << AssignedDoctor->GetFirstName() << endl;
+	cout << "Prescription: ";
+	if (Prescription == NULL) cout << "NO PRESCRIPTION" << endl;
+	else cout << Prescription->GetName() << endl;
+	cout << "Notes: ";
+	if (Note == "") cout << "NONE" << endl;
+	else cout << Note << endl << endl;
+
+	PrintLine('=', 100);
+}
 
 string Patient::GeneratePatientID(int n) {
 	string id = "PAT-";
@@ -187,31 +226,25 @@ string Patient::GeneratePatientID(int n) {
 	id += to_string(n);
 	return id;
 }
-void Patient::UpdateAppointmentDate(string appointmentID, string newDate) {
+void Patient::UpdateAppointmentDate(DoublyLinkedList<Patient>* patientList, string newDate) {
 	//ApplicationLists::Appointments->SearchByRegex(appointmentID, AttributeValues::Appointment::AppointmentID)->Get(0)->SetDate(newDate);
 }
-void Patient::UpdateAppointmentTime(string appointmentID, string newTime) {
+void Patient::UpdateAppointmentTime(DoublyLinkedList<Patient>* patientList, string newTime) {
 	//ApplicationLists::Appointments->SearchByRegex(appointmentID, AttributeValues::Appointment::AppointmentID)->Get(0)->SetTime(newTime);
 }
 int Patient::GetQueueNumber(DoublyLinkedList<Patient>* patientList) {
-	////Determine the appointment's date
-	//string targetDate = ApplicationLists::Appointments
-	//	->SearchByRegex(appointmentID, AttributeValues::Appointment::AppointmentID)
-	//	->Get(0)->GetDate();
+	//Get patient's visit date and find all patients visiting on the same day
+	string targetDate = VisitDate;
+	DoublyLinkedList<Patient>* dayPatients = new DoublyLinkedList<Patient>();
+	for (int i = 0; i < patientList->GetLength(); i++) {
+		if (patientList->Get(0).VisitDate == targetDate) dayPatients->AddToEnd(patientList->Get(i));
+	}
 
-	////Find all appointments on the same date, sorted by time
-	//DoublyLinkedList<Appointment>* dateAppointments = ApplicationLists::Appointments
-	//	->SearchByRegex(targetDate, AttributeValues::Appointment::Date)
-	//	->Sort(AttributeValues::Appointment::Time);
-
-	////Find the queue number based on the appointment's time
-	//int queueNumber = 1;
-	//for (int i = 0; i < dateAppointments->GetLength(); i++) {
-	//	if (dateAppointments->Get(i).GetAppointmentID() == appointmentID) break;
-	//	queueNumber++;
-	//}
-	//if (queueNumber == dateAppointments->GetLength() + 1) queueNumber = -1;
-	//delete dateAppointments;
+	//Find the position of the patient in the day's patient list, sorted by time
+	dayPatients = dayPatients->Sort(AttributeValues::Patient::VisitTime);
+	for (int i = 0; i < dayPatients->GetLength(); i++) {
+		if (dayPatients->Get(0).PatientID == PatientID) return i + 1;
+	}
 	return 0;
 }
 void Patient::ViewAllPatients(DoublyLinkedList<Patient>* patientList) {
@@ -220,15 +253,20 @@ void Patient::ViewAllPatients(DoublyLinkedList<Patient>* patientList) {
 		cout << p1.GetFirstName() << " : " << p1.GetLastName() << endl;
 	}*/
 	patientList->DisplayPages(10);
+	system("pause");
 }
-void Patient::SearchPatient(DoublyLinkedList<Patient>* patientList, string regExp, int attributeValue) {
-
+DoublyLinkedList<Patient>* Patient::SearchPatient(DoublyLinkedList<Patient>* patientList, string regExp, int attributeValue) {
+	return patientList->SearchByRegex(regExp, attributeValue);
 }
-void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Patient targetPatient) {
-
+void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList) {
+	DoublyLinkedList<Patient> selectedPatients = patientList->DisplayPages(10);
+	if (selectedPatients.GetLength() == 0) return;
+	system("cls");
+	selectedPatients.Get(0).DisplayDetails();
+	system("pause");
 }
 void Patient::SortRecords(DoublyLinkedList<Patient>* patientList, int attributeValue) {
-
+	patientList = patientList->Sort(attributeValue);
 }
 
 //Interface
@@ -443,7 +481,8 @@ int User::CompareTo(User nextUser, int attributeValue) {
 	default:
 		return 1;
 	}
-	return value == 1 ? CompareStrings(this->ID, nextUser.ID) : value;
+	return value;
+	//return value == 1 ? CompareStrings(this->ID, nextUser.ID) : value;
 }
 bool User::MatchesRegex(string regExp, int attributeValue) {
 	switch (attributeValue) {

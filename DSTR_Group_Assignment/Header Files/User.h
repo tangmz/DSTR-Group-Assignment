@@ -51,6 +51,14 @@ public:
 	string GetAddress() { return Address; }
 	string GetIC() { return IC; }
 
+	void SetFirstName(string firstName) { FirstName = firstName; }
+	void SetLastName(string lastName) { LastName = lastName; }
+	void SetAge(int age) { Age = age; }
+	void SetGender(char gender) { Gender = gender; }
+	void SetPhone(string phone) { Phone = phone; }
+	void SetEmail(string email) { Email = email; }
+	void SetAddress(string address) { Address = address; }
+
 	bool Equals(User nextUser);
 	int CompareTo(User nextUser, int attributeValue);
 	bool MatchesRegex(string regExp, int attributeValue);
