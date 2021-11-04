@@ -437,10 +437,10 @@ public:
 		}
 		return Current->Data;
 	}
-	T GetReference(int index) {
+	T* GetReference(int index) {
 		if (index >= Length) {
 			cout << "ERROR GET: Index " << index << " exceeds list length of " << Length << endl;
-			return T();
+			return &(T());
 		}
 
 		Current = Head;
@@ -448,7 +448,7 @@ public:
 			Current = Current->NextElement;
 			index--;
 		}
-		return *(Current->Data);
+		return &(Current->Data);
 	}
 	void PrintList(int startIndex = -1) {
 		cout << "List Length: " << Length << endl;
@@ -496,7 +496,7 @@ public:
 			count++;
 		}
 	}
-	DoublyLinkedList<T> DisplayPages(int pageLength) {
+	int DisplayPages(int pageLength) {
 		int i = 0, length = this->GetLength();
 		while (true) {
 			system("cls");
@@ -514,9 +514,9 @@ public:
 				if (selectedIndex < i + 1 || selectedIndex > i + pageLength - (i + pageLength > length ? i + pageLength - length : 0)) {
 					throw - 1;
 				}
-				DoublyLinkedList<T> selectedList = DoublyLinkedList<T>();
-				selectedList.AddToEnd(this->Get(selectedIndex - 1));
-				return selectedList;
+				/*DoublyLinkedList<T> selectedList = DoublyLinkedList<T>();
+				selectedList.AddToEnd(this->Get(selectedIndex - 1));*/
+				return selectedIndex -1;
 			}
 			catch (...) { //Error = char input for navigation
 				char ans = answer[0];
@@ -545,7 +545,7 @@ public:
 			}
 		}
 		system("cls");
-		return DoublyLinkedList<T>();
+		return -1;
 	}
 	DoublyLinkedList<T> DisplayDetails() {
 		int i = 0, length = this->GetLength();

@@ -93,6 +93,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 		cout << "Select Option: ";
 		cin >> decision;
 		cin.ignore();
+		string s;
 
 		switch (decision)
 		{
@@ -102,10 +103,19 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 				break;
 			case 2:
 				//Search by name
-				patientList->DisplayDetails();
+				system("cls");				
+				cout << "Enter Keyword: ";
+				getline(cin, s);
+				s = ".*" + s + ".*";
+				Patient::SearchPatient(patientList, s, AttributeValues::User::FirstName)->DisplayPages(10);
 				break;
 			case 3:
 				//Search by illness
+				system("cls");
+				cout << "Enter Keyword: ";
+				getline(cin, s);
+				s = ".*" + s + ".*";
+				Patient::SearchPatient(patientList, s, AttributeValues::Patient::Illness)->DisplayPages(10);
 				break;
 			case 4:
 				//Modify patient record

@@ -43,7 +43,7 @@ int main() {
 	//AddUsers(ApplicationLists::Users, 5, 1, 99);
 	//Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients);
 
-	AddUsers(ApplicationLists::Users, 100000, 10, 21);
+	AddUsers(ApplicationLists::Users, 50000, 10, 21);
 	//".*Adam.*" = Adam1, 1Adam, Adam, 1Adam2
 	//"Adam" = Adam ONLY
 	//ApplicationLists::Users->SearchByRegex(".*e{2}.*", AttributeValues::User::FirstName)->Sort(AttributeValues::User::Age)->DisplayPages(25);
@@ -54,12 +54,12 @@ int main() {
 		->Sort(AttributeValues::User::Age)
 		->Sort(AttributeValues::User::Gender)
 		->DisplayPages(100);
-	/*ApplicationLists::Users
-		->Sort(AttributeValues::User::LastName)
-		->Sort(AttributeValues::User::FirstName)
-		->Sort(AttributeValues::User::Gender)
-		->Sort(AttributeValues::User::Age)
-		->DisplayPages(100);*/
+	///*ApplicationLists::Users
+	//	->Sort(AttributeValues::User::LastName)
+	//	->Sort(AttributeValues::User::FirstName)
+	//	->Sort(AttributeValues::User::Gender)
+	//	->Sort(AttributeValues::User::Age)
+	//	->DisplayPages(100);*/
 
 	return 0;
 }

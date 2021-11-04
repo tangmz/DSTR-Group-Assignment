@@ -55,6 +55,7 @@ public:
 	string GetNote() { return Note; }
 	int GetPriority() { return Priority; }
 
+
 	void SetIllness(string illness) { Illness = illness; }
 	void SetVisitDate(string visitDate) { VisitDate = visitDate; }
 	void SetVisitTime(string visitTime) { VisitTime = visitTime; }
