@@ -5,7 +5,6 @@
 #include "../Header Files/User.h"
 #include "../Header Files/Medicine.h"
 #include "../Header Files/LinkedList.h"
-//#include "../Header Files/ApplicationLists.h"
 #include "../Header Files/Comparison.h"
 using namespace std;
 
@@ -23,7 +22,6 @@ using namespace std;
 //	Nurses = nurses;
 //	Patients = patients;
 //}
-
 //class ApplicationLists {
 //public:
 //	static DoublyLinkedList<Patient>* Patients;
@@ -33,14 +31,12 @@ using namespace std;
 //	static DoublyLinkedList<Medicine>* Medicines;
 //	static DoublyLinkedList<User>* Users;
 //};
-
 //DoublyLinkedList<Appointment>* ApplicationLists::Appointments = new DoublyLinkedList<Appointment>();
 //DoublyLinkedList<User>* ApplicationLists::Users = new DoublyLinkedList<User>();
 //DoublyLinkedList<Doctor>* ApplicationLists::Doctors = new DoublyLinkedList<Doctor>();
 //DoublyLinkedList<Medicine>* ApplicationLists::Medicines = new DoublyLinkedList<Medicine>();
 //DoublyLinkedList<Nurse>* ApplicationLists::Nurses = new DoublyLinkedList<Nurse>();
 //DoublyLinkedList<Patient>* ApplicationLists::Patients = new DoublyLinkedList<Patient>();
-
 //static void LoadData(DoublyLinkedList<User>* users, DoublyLinkedList<Doctor>* doctors, DoublyLinkedList<Medicine>* medicines,
 //	DoublyLinkedList<Nurse>* nurses, DoublyLinkedList<Patient>* patients) {
 //	ApplicationLists::Users = users;
@@ -67,7 +63,14 @@ bool Patient::Equals(Patient nextPatient) {
 	match = Phone == nextPatient.Phone ? match : false;
 	match = Email == nextPatient.Email ? match : false;
 	match = Address == nextPatient.Address ? match : false;
+	match = Password == nextPatient.Password ? match : false;
+	match = IC == nextPatient.IC ? match : false;
+	match = Illness == nextPatient.Illness ? match : false;
+	match = VisitDate == nextPatient.VisitDate ? match : false;
+	match = VisitTime == nextPatient.VisitTime ? match : false;
 	match = Disability == nextPatient.Disability ? match : false;
+	match = AssignedDoctor->GetDoctorID() == nextPatient.AssignedDoctor->GetDoctorID() ? match : false;
+	match = Prescription->GetMedicineID() == nextPatient.Prescription->GetMedicineID() ? match : false;
 	match = Note == nextPatient.Note ? match : false;
 	return match;
 }
@@ -75,32 +78,56 @@ int Patient::CompareTo(Patient nextPatient, int attributeValue) {
 	int index = 0, value = 0;
 	switch (attributeValue) {
 		case AttributeValues::All:
-		case AttributeValues::User::ID:
+		case AttributeValues::Patient::UserID:
 			return CompareStrings(this->ID, nextPatient.ID);
-		case AttributeValues::User::FirstName:
+		case AttributeValues::Patient::FirstName:
 			value = CompareStrings(this->FirstName, nextPatient.FirstName);
 			break;
-		case AttributeValues::User::LastName:
+		case AttributeValues::Patient::LastName:
 			value = CompareStrings(this->LastName, nextPatient.LastName);
 			break;
-		case AttributeValues::User::Age:
+		case AttributeValues::Patient::Age:
 			value = this->Age < nextPatient.Age ? 0 : 2;
 			value = this->Age == nextPatient.Age ? 1 : value;
 			break;
-		case AttributeValues::User::Gender:
+		case AttributeValues::Patient::Gender:
 			value = CompareStrings(string(1, this->Gender), string(1, nextPatient.Gender));
 			break;
-		case AttributeValues::User::Phone:
+		case AttributeValues::Patient::Phone:
 			value = CompareStrings(this->Phone, nextPatient.Phone);
 			break;
-		case AttributeValues::User::Email:
+		case AttributeValues::Patient::Email:
 			value = CompareStrings(this->Email, nextPatient.Email);
 			break;
-		case AttributeValues::User::Address:
+		case AttributeValues::Patient::Address:
 			value = CompareStrings(this->Address, nextPatient.Address);
+			break;
+		case AttributeValues::Patient::Password:
+			value = CompareStrings(this->Password, nextPatient.Password);
+			break;
+		case AttributeValues::Patient::IC:
+			value = CompareStrings(this->IC, nextPatient.IC);
+			break;
+		case AttributeValues::Patient::PatientID:
+			value = CompareStrings(this->PatientID, nextPatient.PatientID);
+			break;
+		case AttributeValues::Patient::Illness:
+			value = CompareStrings(this->Illness, nextPatient.Illness);
+			break;
+		case AttributeValues::Patient::VisitDate:
+			value = CompareStrings(this->VisitDate, nextPatient.VisitDate);
+			break;
+		case AttributeValues::Patient::VisitTime:
+			value = CompareStrings(this->VisitTime, nextPatient.VisitTime);
 			break;
 		case AttributeValues::Patient::Disability:
 			value = CompareStrings(this->Disability, nextPatient.Disability);
+			break;
+		case AttributeValues::Patient::AssignedDoctor:
+			value = CompareStrings(this->AssignedDoctor->GetDoctorID(), nextPatient.AssignedDoctor->GetDoctorID());
+			break;
+		case AttributeValues::Patient::Prescription:
+			value = CompareStrings(this->Prescription->GetMedicineID(), nextPatient.Prescription->GetMedicineID());
 			break;
 		case AttributeValues::Patient::Note:
 			value = CompareStrings(this->Note, nextPatient.Note);
@@ -108,7 +135,8 @@ int Patient::CompareTo(Patient nextPatient, int attributeValue) {
 		default:
 			return 1;
 	}
-	return value == 1 ? CompareStrings(this->ID, nextPatient.ID) : value;
+	return value;
+	//return value == 1 ? CompareStrings(this->ID, nextPatient.ID) : value;
 }
 bool Patient::MatchesRegex(string regExp, int attributeValue) {
 	switch (attributeValue) {
@@ -116,39 +144,67 @@ bool Patient::MatchesRegex(string regExp, int attributeValue) {
 			if (regex_match(ID, regex(regExp)) || regex_match(FirstName, regex(regExp)) ||
 				regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
 				regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
-				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp))) {
+				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp)) ||
+				regex_match(Password, regex(regExp)) || regex_match(IC, regex(regExp)) ||
+				regex_match(PatientID, regex(regExp)) || regex_match(Illness, regex(regExp)) ||
+				regex_match(VisitDate, regex(regExp)) || regex_match(VisitTime, regex(regExp)) ||
+				regex_match(Disability, regex(regExp)) ||
+				regex_match(AssignedDoctor->GetDoctorID(), regex(regExp)) ||
+				regex_match(Prescription->GetMedicineID(), regex(regExp)) ||
+				regex_match(Note, regex(regExp))) {
 				return true;
 			}
 			break;
-		case AttributeValues::User::ID:
+		case AttributeValues::Patient::UserID:
 			if (regex_match(ID, regex(regExp))) return true;
 			break;
-		case AttributeValues::User::FirstName:
+		case AttributeValues::Patient::FirstName:
 			if (regex_match(FirstName, regex(regExp))) return true;
 			break;
-		case AttributeValues::User::LastName:
+		case AttributeValues::Patient::LastName:
 			if (regex_match(LastName, regex(regExp))) return true;
 			break;
-		case AttributeValues::User::Age:
+		case AttributeValues::Patient::Age:
 			if (regex_match(to_string(Age), regex(regExp))) return true;
 			break;
-		case AttributeValues::User::Gender:
+		case AttributeValues::Patient::Gender:
 			if (regex_match(string(1, Gender), regex(regExp))) return true;
 			break;
-		case AttributeValues::User::Phone:
+		case AttributeValues::Patient::Phone:
 			if (regex_match(Phone, regex(regExp))) return true;
 			break;
-		case AttributeValues::User::Email:
+		case AttributeValues::Patient::Email:
 			if (regex_match(Email, regex(regExp))) return true;
 			break;
-		case AttributeValues::User::Address:
+		case AttributeValues::Patient::Address:
 			if (regex_match(Address, regex(regExp))) return true;
+			break;
+		case AttributeValues::Patient::Password:
+			if (regex_match(Password, regex(regExp))) return true;
+			break;
+		case AttributeValues::Patient::IC:
+			if (regex_match(IC, regex(regExp))) return true;
 			break;
 		case AttributeValues::Patient::PatientID:
 			if (regex_match(PatientID, regex(regExp))) return true;
 			break;
+		case AttributeValues::Patient::Illness:
+			if (regex_match(Illness, regex(regExp))) return true;
+			break;
+		case AttributeValues::Patient::VisitDate:
+			if (regex_match(VisitDate, regex(regExp))) return true;
+			break;
+		case AttributeValues::Patient::VisitTime:
+			if (regex_match(VisitTime, regex(regExp))) return true;
+			break;
 		case AttributeValues::Patient::Disability:
 			if (regex_match(Disability, regex(regExp))) return true;
+			break;
+		case AttributeValues::Patient::AssignedDoctor:
+			if (regex_match(AssignedDoctor->GetDoctorID(), regex(regExp))) return true;
+			break;
+		case AttributeValues::Patient::Prescription:
+			if (regex_match(Prescription->GetMedicineID(), regex(regExp))) return true;
 			break;
 		case AttributeValues::Patient::Note:
 			if (regex_match(Note, regex(regExp))) return true;
@@ -159,7 +215,8 @@ bool Patient::MatchesRegex(string regExp, int attributeValue) {
 	return false;
 }
 void Patient::DisplayTableHeader(int startIndex, int tableLength) {
-	if (startIndex >= 0) cout << setw(to_string(tableLength).length() + 2) << left << "No.";
+	PrintLine('=', 135);
+	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << left << "No.";
 	cout << setw(15) << left << "ID" <<
 		setw(15) << left << "Patient ID" <<
 		setw(20) << "First Name" <<
@@ -167,10 +224,12 @@ void Patient::DisplayTableHeader(int startIndex, int tableLength) {
 		setw(5) << "Age" <<
 		setw(5) << "M/F" <<
 		setw(15) << "Phone" <<
-		setw(20) << "Email" << endl;
+		setw(20) << "Email" <<
+		setw(20) << "Illness" << endl;
+	PrintLine('-', 135);
 }
 void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
-	if (startIndex >= 0) cout << setw(to_string(tableLength).length() + 2) << index + startIndex;
+	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << index + startIndex;
 	cout << setw(15) << ID <<
 		setw(15) << PatientID <<
 		setw(20) << FirstName <<
@@ -178,7 +237,8 @@ void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
 		setw(5) << Age <<
 		setw(5) << Gender <<
 		setw(15) << Phone <<
-		setw(20) << Email << endl;
+		setw(20) << Email <<
+		setw(20) << Illness << endl;
 }
 void Patient::DisplayDetails() {
 	PrintLine('=', 100);
@@ -269,6 +329,354 @@ void Patient::SortRecords(DoublyLinkedList<Patient>* patientList, int attributeV
 	patientList = patientList->Sort(attributeValue);
 }
 
+//---Doctor--------
+string Doctor::GenerateDoctorID(int n) {
+	string id = "DOC-";
+	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
+	id += to_string(n);
+	return id;
+}
+
+bool Doctor::Equals(Doctor nextDoctor) {
+	bool match = true;
+	match = FirstName == nextDoctor.FirstName ? match : false;
+	match = LastName == nextDoctor.LastName ? match : false;
+	match = Age == nextDoctor.Age ? match : false;
+	match = Gender == nextDoctor.Gender ? match : false;
+	match = Phone == nextDoctor.Phone ? match : false;
+	match = Email == nextDoctor.Email ? match : false;
+	match = Address == nextDoctor.Address ? match : false;
+	match = Password == nextDoctor.Password ? match : false;
+	match = IC == nextDoctor.IC ? match : false;
+	return match;
+}
+int Doctor::CompareTo(Doctor nextDoctor, int attributeValue) {
+	int index = 0, value = 0;
+	switch (attributeValue) {
+		case AttributeValues::All:
+		case AttributeValues::Doctor::UserID:
+			return CompareStrings(this->ID, nextDoctor.ID);
+		case AttributeValues::Doctor::FirstName:
+			value = CompareStrings(this->FirstName, nextDoctor.FirstName);
+			break;
+		case AttributeValues::Doctor::LastName:
+			value = CompareStrings(this->LastName, nextDoctor.LastName);
+			break;
+		case AttributeValues::Doctor::Age:
+			value = this->Age < nextDoctor.Age ? 0 : 2;
+			value = this->Age == nextDoctor.Age ? 1 : value;
+			break;
+		case AttributeValues::Doctor::Gender:
+			value = CompareStrings(string(1, this->Gender), string(1, nextDoctor.Gender));
+			break;
+		case AttributeValues::Doctor::Phone:
+			value = CompareStrings(this->Phone, nextDoctor.Phone);
+			break;
+		case AttributeValues::Doctor::Email:
+			value = CompareStrings(this->Email, nextDoctor.Email);
+			break;
+		case AttributeValues::Doctor::Address:
+			value = CompareStrings(this->Address, nextDoctor.Address);
+			break;
+		case AttributeValues::Doctor::Password:
+			value = CompareStrings(this->Password, nextDoctor.Password);
+			break;
+		case AttributeValues::Doctor::IC:
+			value = CompareStrings(this->IC, nextDoctor.IC);
+			break;
+		default:
+			return 1;
+	}
+	return value;
+	//return value == 1 ? CompareStrings(this->ID, nextDoctor.ID) : value;
+}
+bool Doctor::MatchesRegex(string regExp, int attributeValue) {
+	switch (attributeValue) {
+		case AttributeValues::All:
+			if (regex_match(ID, regex(regExp)) || regex_match(FirstName, regex(regExp)) ||
+				regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
+				regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
+				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp)) ||
+				regex_match(Password, regex(regExp)) || regex_match(IC, regex(regExp))) {
+				return true;
+			}
+			break;
+		case AttributeValues::Doctor::UserID:
+			if (regex_match(ID, regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::FirstName:
+			if (regex_match(FirstName, regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::LastName:
+			if (regex_match(LastName, regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::Age:
+			if (regex_match(to_string(Age), regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::Gender:
+			if (regex_match(string(1, Gender), regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::Phone:
+			if (regex_match(Phone, regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::Email:
+			if (regex_match(Email, regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::Address:
+			if (regex_match(Address, regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::Password:
+			if (regex_match(Password, regex(regExp))) return true;
+			break;
+		case AttributeValues::Doctor::IC:
+			if (regex_match(IC, regex(regExp))) return true;
+			break;
+		default:
+			break;
+	}
+	return false;
+}
+void Doctor::DisplayTableHeader(int startIndex, int tableLength) {
+	PrintLine('=', 135);
+	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << left << "No.";
+	cout << setw(15) << left << "ID" <<
+		setw(15) << left << "Doctor ID" <<
+		setw(20) << "First Name" <<
+		setw(20) << "Last Name" <<
+		setw(5) << "Age" <<
+		setw(5) << "M/F" <<
+		setw(15) << "Phone" <<
+		setw(20) << "Email" <<
+		setw(20) << "Password" << endl;
+	PrintLine('-', 135);
+}
+void Doctor::DisplayTableRow(int startIndex, int index, int tableLength) {
+	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << index + startIndex;
+	cout << setw(15) << ID <<
+		setw(15) << DoctorID <<
+		setw(20) << FirstName <<
+		setw(20) << LastName <<
+		setw(5) << Age <<
+		setw(5) << Gender <<
+		setw(15) << Phone <<
+		setw(20) << Email <<
+		setw(20) << Password << endl;
+}
+void Doctor::DisplayDetails() {
+	PrintLine('=', 100);
+
+	cout << "User ID: " << ID << endl;
+	cout << "Doctor ID: " << DoctorID << endl << endl;
+
+	PrintLine('-', 100);
+
+	cout << "Name: " << FirstName << " " << LastName << endl;
+	cout << "IC: " << IC << endl;
+	cout << "Age: " << Age << endl;
+	cout << "Gender: " << Gender << endl;
+	cout << "Phone: " << Phone << endl;
+	cout << "Email: " << Email << endl;
+	cout << "Address: " << Address << endl;
+
+	PrintLine('-', 100);
+
+	cout << "Illness: ";
+	if (Illness == "") cout << "NOT DIAGNOSED YET" << endl;
+	else cout << Illness << endl;
+	cout << "Visit Date and Time: ";
+	if (VisitDate == "" || VisitTime == "") cout << "NO APPOINTMENT SCHEDULED" << endl;
+	else cout << VisitDate << ", " << VisitTime << endl;
+	cout << "Disability: ";
+	if (Disability == "") cout << "UNDEFINED" << endl;
+	else cout << Disability << endl;
+	cout << "Assigned Doctor: ";
+	if (AssignedDoctor == NULL) cout << "NO DOCTOR ASSIGNED" << endl;
+	else cout << "Dr. " << AssignedDoctor->GetFirstName() << endl;
+	cout << "Prescription: ";
+	if (Prescription == NULL) cout << "NO PRESCRIPTION" << endl;
+	else cout << Prescription->GetName() << endl;
+	cout << "Notes: ";
+	if (Note == "") cout << "NONE" << endl;
+	else cout << Note << endl << endl;
+
+	PrintLine('=', 100);
+}
+
+
+//---Nurse--------
+string Nurse::GenerateNurseID(int n) {
+	string id = "NUR-";
+	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
+	id += to_string(n);
+	return id;
+}
+
+bool Nurse::Equals(Nurse nextNurse) {
+	bool match = true;
+	match = FirstName == nextNurse.FirstName ? match : false;
+	match = LastName == nextNurse.LastName ? match : false;
+	match = Age == nextNurse.Age ? match : false;
+	match = Gender == nextNurse.Gender ? match : false;
+	match = Phone == nextNurse.Phone ? match : false;
+	match = Email == nextNurse.Email ? match : false;
+	match = Address == nextNurse.Address ? match : false;
+	match = Password == nextNurse.Password ? match : false;
+	match = IC == nextNurse.IC ? match : false;
+	return match;
+}
+int Nurse::CompareTo(Nurse nextNurse, int attributeValue) {
+	int index = 0, value = 0;
+	switch (attributeValue) {
+		case AttributeValues::All:
+		case AttributeValues::Nurse::UserID:
+			return CompareStrings(this->ID, nextNurse.ID);
+		case AttributeValues::Nurse::FirstName:
+			value = CompareStrings(this->FirstName, nextNurse.FirstName);
+			break;
+		case AttributeValues::Nurse::LastName:
+			value = CompareStrings(this->LastName, nextNurse.LastName);
+			break;
+		case AttributeValues::Nurse::Age:
+			value = this->Age < nextNurse.Age ? 0 : 2;
+			value = this->Age == nextNurse.Age ? 1 : value;
+			break;
+		case AttributeValues::Nurse::Gender:
+			value = CompareStrings(string(1, this->Gender), string(1, nextNurse.Gender));
+			break;
+		case AttributeValues::Nurse::Phone:
+			value = CompareStrings(this->Phone, nextNurse.Phone);
+			break;
+		case AttributeValues::Nurse::Email:
+			value = CompareStrings(this->Email, nextNurse.Email);
+			break;
+		case AttributeValues::Nurse::Address:
+			value = CompareStrings(this->Address, nextNurse.Address);
+			break;
+		case AttributeValues::Nurse::Password:
+			value = CompareStrings(this->Password, nextNurse.Password);
+			break;
+		case AttributeValues::Nurse::IC:
+			value = CompareStrings(this->IC, nextNurse.IC);
+			break;
+		default:
+			return 1;
+	}
+	return value;
+	//return value == 1 ? CompareStrings(this->ID, nextNurse.ID) : value;
+}
+bool Nurse::MatchesRegex(string regExp, int attributeValue) {
+	switch (attributeValue) {
+		case AttributeValues::All:
+			if (regex_match(ID, regex(regExp)) || regex_match(FirstName, regex(regExp)) ||
+				regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
+				regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
+				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp)) ||
+				regex_match(Password, regex(regExp)) || regex_match(IC, regex(regExp))) {
+				return true;
+			}
+			break;
+		case AttributeValues::Nurse::UserID:
+			if (regex_match(ID, regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::FirstName:
+			if (regex_match(FirstName, regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::LastName:
+			if (regex_match(LastName, regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::Age:
+			if (regex_match(to_string(Age), regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::Gender:
+			if (regex_match(string(1, Gender), regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::Phone:
+			if (regex_match(Phone, regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::Email:
+			if (regex_match(Email, regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::Address:
+			if (regex_match(Address, regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::Password:
+			if (regex_match(Password, regex(regExp))) return true;
+			break;
+		case AttributeValues::Nurse::IC:
+			if (regex_match(IC, regex(regExp))) return true;
+			break;
+		default:
+			break;
+	}
+	return false;
+}
+void Nurse::DisplayTableHeader(int startIndex, int tableLength) {
+	PrintLine('=', 135);
+	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << left << "No.";
+	cout << setw(15) << left << "ID" <<
+		setw(15) << left << "Nurse ID" <<
+		setw(20) << "First Name" <<
+		setw(20) << "Last Name" <<
+		setw(5) << "Age" <<
+		setw(5) << "M/F" <<
+		setw(15) << "Phone" <<
+		setw(20) << "Email" <<
+		setw(20) << "Password" << endl;
+	PrintLine('-', 135);
+}
+void Nurse::DisplayTableRow(int startIndex, int index, int tableLength) {
+	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << index + startIndex;
+	cout << setw(15) << ID <<
+		setw(15) << NurseID <<
+		setw(20) << FirstName <<
+		setw(20) << LastName <<
+		setw(5) << Age <<
+		setw(5) << Gender <<
+		setw(15) << Phone <<
+		setw(20) << Email <<
+		setw(20) << Password << endl;
+}
+void Nurse::DisplayDetails() {
+	PrintLine('=', 100);
+
+	cout << "User ID: " << ID << endl;
+	cout << "Nurse ID: " << NurseID << endl << endl;
+
+	PrintLine('-', 100);
+
+	cout << "Name: " << FirstName << " " << LastName << endl;
+	cout << "IC: " << IC << endl;
+	cout << "Age: " << Age << endl;
+	cout << "Gender: " << Gender << endl;
+	cout << "Phone: " << Phone << endl;
+	cout << "Email: " << Email << endl;
+	cout << "Address: " << Address << endl;
+
+	PrintLine('-', 100);
+
+	cout << "Illness: ";
+	if (Illness == "") cout << "NOT DIAGNOSED YET" << endl;
+	else cout << Illness << endl;
+	cout << "Visit Date and Time: ";
+	if (VisitDate == "" || VisitTime == "") cout << "NO APPOINTMENT SCHEDULED" << endl;
+	else cout << VisitDate << ", " << VisitTime << endl;
+	cout << "Disability: ";
+	if (Disability == "") cout << "UNDEFINED" << endl;
+	else cout << Disability << endl;
+	cout << "Assigned Doctor: ";
+	if (AssignedDoctor == NULL) cout << "NO DOCTOR ASSIGNED" << endl;
+	else cout << "Dr. " << AssignedDoctor->GetFirstName() << endl;
+	cout << "Prescription: ";
+	if (Prescription == NULL) cout << "NO PRESCRIPTION" << endl;
+	else cout << Prescription->GetName() << endl;
+	cout << "Notes: ";
+	if (Note == "") cout << "NONE" << endl;
+	else cout << Note << endl << endl;
+
+	PrintLine('=', 100);
+}
+
+
 //Interface
 //void Patient::DisplayMainMenu() {
 //	int decision = -1;
@@ -318,7 +726,6 @@ void Patient::SortRecords(DoublyLinkedList<Patient>* patientList, int attributeV
 //void Patient::DisplaySearchPatients() {
 //
 //}
-
 //---Doctor--------
 //Interface
 //void Doctor::DisplayMainMenu() {
@@ -375,8 +782,6 @@ void Patient::SortRecords(DoublyLinkedList<Patient>* patientList, int attributeV
 //		}
 //	}
 //}
-
-
 //---Nurse--------
 //Interface
 //void Nurse::DisplayMainMenu() {
@@ -433,7 +838,6 @@ void Patient::SortRecords(DoublyLinkedList<Patient>* patientList, int attributeV
 //	}
 //}
 
-
 //---User--------
 bool User::Equals(User nextUser) {
 	bool match = true;
@@ -444,6 +848,7 @@ bool User::Equals(User nextUser) {
 	match = Phone == nextUser.Phone ? match : false;
 	match = Email == nextUser.Email ? match : false;
 	match = Address == nextUser.Address ? match : false;
+	match = Password == nextUser.Password ? match : false;
 	match = IC == nextUser.IC ? match : false;
 	return match;
 }
@@ -451,7 +856,7 @@ int User::CompareTo(User nextUser, int attributeValue) {
 	int index = 0, value = 0;
 	switch (attributeValue) {
 	case AttributeValues::All:
-	case AttributeValues::User::ID:
+	case AttributeValues::User::UserID:
 		return CompareStrings(this->ID, nextUser.ID);
 	case AttributeValues::User::FirstName:
 		value = CompareStrings(this->FirstName, nextUser.FirstName);
@@ -475,6 +880,9 @@ int User::CompareTo(User nextUser, int attributeValue) {
 	case AttributeValues::User::Address:
 		value = CompareStrings(this->Address, nextUser.Address);
 		break;
+	case AttributeValues::User::Password:
+		value = CompareStrings(this->Password, nextUser.Password);
+		break;
 	case AttributeValues::User::IC:
 		value = CompareStrings(this->IC, nextUser.IC);
 		break;
@@ -490,11 +898,12 @@ bool User::MatchesRegex(string regExp, int attributeValue) {
 		if (regex_match(ID, regex(regExp)) || regex_match(FirstName, regex(regExp)) ||
 			regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
 			regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
-			regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp)) || regex_match(IC, regex(regExp))) {
+			regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp)) ||
+			regex_match(Password, regex(regExp)) || regex_match(IC, regex(regExp))) {
 			return true;
 		}
 		break;
-	case AttributeValues::User::ID:
+	case AttributeValues::User::UserID:
 		if (regex_match(ID, regex(regExp))) return true;
 		break;
 	case AttributeValues::User::FirstName:
@@ -517,6 +926,9 @@ bool User::MatchesRegex(string regExp, int attributeValue) {
 		break;
 	case AttributeValues::User::Address:
 		if (regex_match(Address, regex(regExp))) return true;
+		break;
+	case AttributeValues::User::Password:
+		if (regex_match(Password, regex(regExp))) return true;
 		break;
 	case AttributeValues::User::IC:
 		if (regex_match(IC, regex(regExp))) return true;
@@ -585,7 +997,8 @@ void User::ShowDetails() {
 	cout << "User: " << ID << "; Name: " << FirstName << " " << LastName << endl;
 }
 void User::DisplayTableHeader(int startIndex, int tableLength) {
-	if (startIndex >= 0) cout << setw(to_string(tableLength).length() + 2) << left << "No.";
+	PrintLine('=', 120);
+	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << left << "No.";
 	cout << setw(15) << left << "ID" <<
 		setw(20) << "First Name" <<
 		setw(20) << "Last Name" <<
@@ -593,10 +1006,11 @@ void User::DisplayTableHeader(int startIndex, int tableLength) {
 		setw(5) << "M/F" <<
 		setw(15) << "Phone" <<
 		setw(20) << "Email" <<
-		setw(30) << "Address" << endl;
+		setw(20) << "Password" << endl;
+	PrintLine('-', 120);
 }
 void User::DisplayTableRow(int startIndex, int index, int tableLength) {
-	if (startIndex >= 0) cout << setw(to_string(tableLength).length() + 2) << index + startIndex;
+	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << index + startIndex;
 	cout << setw(15) << ID <<
 		setw(20) << FirstName <<
 		setw(20) << LastName <<
@@ -604,7 +1018,7 @@ void User::DisplayTableRow(int startIndex, int index, int tableLength) {
 		setw(5) << Gender <<
 		setw(15) << Phone <<
 		setw(20) << Email <<
-		setw(30) << Address << endl;
+		setw(20) << Password << endl;
 }
 
 ////Interface

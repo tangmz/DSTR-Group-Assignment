@@ -23,7 +23,7 @@ protected:
 		return left.Equals(right);
 	}
 public:
-	User(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address, string ic) {
+	User(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address, string password, string ic) {
 		ID = id;
 		FirstName = firstName;
 		LastName = lastName;
@@ -32,6 +32,7 @@ public:
 		Phone = phone;
 		Email = email;
 		Address = address;
+		Password = password;
 		IC = ic;
 	}
 	User() {
@@ -49,6 +50,7 @@ public:
 	string GetPhone() { return Phone; }
 	string GetEmail() { return Email; }
 	string GetAddress() { return Address; }
+	string GetPassword() { return Password; }
 	string GetIC() { return IC; }
 
 	void SetFirstName(string firstName) { FirstName = firstName; }

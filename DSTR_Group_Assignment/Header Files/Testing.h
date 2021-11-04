@@ -25,6 +25,7 @@ void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int m
 			GetRandomPhone(),
 			GetRandomName(NameList),
 			GetRandomName(NameList),
+			GetRandomName(NameList),
 			GetRandomPhone()
 		));
 	}
@@ -42,6 +43,7 @@ void AddPatients(DoublyLinkedList<User>* users, DoublyLinkedList<Patient>* patie
 			GetRandomPhone(),
 			GetRandomName(NameList),
 			GetRandomName(NameList),
+			GetRandomName(NameList),
 			GetRandomPhone()
 		);
 		Patient newPatient = Patient(
@@ -54,12 +56,80 @@ void AddPatients(DoublyLinkedList<User>* users, DoublyLinkedList<Patient>* patie
 			newUser.GetPhone(),
 			newUser.GetEmail(),
 			newUser.GetAddress(),
-			newUser.GetIC(),
-			rand() % (maxAge - minAge + 1) + minAge
+			newUser.GetPassword(),
+			newUser.GetIC()
 		);
 		//Parent* p2 = (Child*)pChild;
 		users->AddToEnd(newUser);
 		patients->AddToEnd(newPatient);
+	}
+}
+void AddDoctors(DoublyLinkedList<User>* users, DoublyLinkedList<Doctor>* doctors, int n = 100, int minAge = 20, int maxAge = 60) {
+	DoublyLinkedList<string>* NameList = LoadNames();
+	for (int i = 0; i < n; i++) {
+		cout << "Adding User: " << i << endl;
+		User newUser = User(
+			User::GenerateID(ApplicationLists::Users->GetLength() + 1),
+			GetRandomName(NameList),
+			GetRandomName(NameList),
+			rand() % (maxAge - minAge + 1) + minAge,
+			GetRandomGender(),
+			GetRandomPhone(),
+			GetRandomName(NameList),
+			GetRandomName(NameList),
+			GetRandomName(NameList),
+			GetRandomPhone()
+		);
+		Doctor newDoctor = Doctor(
+			Doctor::GenerateDoctorID(ApplicationLists::Doctors->GetLength() + 1),
+			newUser.GetID(),
+			newUser.GetFirstName(),
+			newUser.GetLastName(),
+			newUser.GetAge(),
+			newUser.GetGender(),
+			newUser.GetPhone(),
+			newUser.GetEmail(),
+			newUser.GetAddress(),
+			newUser.GetPassword(),
+			newUser.GetIC()
+		);
+		//Parent* p2 = (Child*)pChild;
+		users->AddToEnd(newUser);
+		doctors->AddToEnd(newDoctor);
+	}
+}
+void AddNurses(DoublyLinkedList<User>* users, DoublyLinkedList<Nurse>* nurses, int n = 100, int minAge = 20, int maxAge = 60) {
+	DoublyLinkedList<string>* NameList = LoadNames();
+	for (int i = 0; i < n; i++) {
+		cout << "Adding User: " << i << endl;
+		User newUser = User(
+			User::GenerateID(ApplicationLists::Users->GetLength() + 1),
+			GetRandomName(NameList),
+			GetRandomName(NameList),
+			rand() % (maxAge - minAge + 1) + minAge,
+			GetRandomGender(),
+			GetRandomPhone(),
+			GetRandomName(NameList),
+			GetRandomName(NameList),
+			GetRandomName(NameList),
+			GetRandomPhone()
+		);
+		Nurse newNurse = Nurse(
+			Nurse::GenerateNurseID(ApplicationLists::Nurses->GetLength() + 1),
+			newUser.GetID(),
+			newUser.GetFirstName(),
+			newUser.GetLastName(),
+			newUser.GetAge(),
+			newUser.GetGender(),
+			newUser.GetPhone(),
+			newUser.GetEmail(),
+			newUser.GetAddress(),
+			newUser.GetPassword(),
+			newUser.GetIC()
+		);
+		//Parent* p2 = (Child*)pChild;
+		users->AddToEnd(newUser);
+		nurses->AddToEnd(newNurse);
 	}
 }
 void DeleteUsers(DoublyLinkedList<User>* users) {

@@ -7,8 +7,6 @@
 #include <string>
 using namespace std;
 
-
-
 class Patient : User {
 private:
 	string PatientID;
@@ -19,9 +17,9 @@ private:
 	Doctor* AssignedDoctor;
 	Medicine* Prescription;
 	string Note;
-	int Priority;
 public:
-	Patient(string patientID, string id, string firstName, string lastName, int age, char gender, string phone, string email, string address, string ic, int priority) {
+	Patient(string patientID, string id, string firstName, string lastName, int age, char gender,
+		string phone, string email, string address, string password, string ic) {
 		PatientID = patientID;
 		ID = id;
 		FirstName = firstName;
@@ -31,6 +29,7 @@ public:
 		Phone = phone;
 		Email = email;
 		Address = address;
+		Password = password;
 		IC = ic;
 
 		Illness = "";
@@ -53,7 +52,6 @@ public:
 	Doctor* GetAssignedDoctor() { return AssignedDoctor; }
 	Medicine* GetPrescription() { return Prescription; }
 	string GetNote() { return Note; }
-	int GetPriority() { return Priority; }
 
 	void SetIllness(string illness) { Illness = illness; }
 	void SetVisitDate(string visitDate) { VisitDate = visitDate; }

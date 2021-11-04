@@ -2,6 +2,8 @@
 #include "AttributeValues.h"
 #include "LinkedList.h"
 #include "Patient.h"
+#include "Doctor.h"
+#include "Nurse.h"
 #include <string>
 
 class Interface {

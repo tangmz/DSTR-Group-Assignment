@@ -452,9 +452,7 @@ public:
 	}
 	void PrintList(int startIndex = -1) {
 		cout << "List Length: " << Length << endl;
-		PrintLine('-', 110);
 		Current->Data.DisplayTableHeader(startIndex, Length);
-		PrintLine('-', 110);
 
 		int index = 0;
 		Current = Head;
