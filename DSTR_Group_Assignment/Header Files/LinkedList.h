@@ -151,6 +151,7 @@ public:
 		//Go to the second last node and remove its next element
 		Current = Tail->PreviousElement;
 		Current->NextElement = NULL;
+		delete Tail;
 		Tail = Current;
 		Length--;
 	}
@@ -252,6 +253,11 @@ public:
 		}
 	}
 	void Clear() {
+		while (Head != NULL) {
+			Current = Head;
+			Head = Head->NextElement;
+			delete Current;
+		}
 		Head = NULL;
 		Tail = NULL;
 		Length = 0;

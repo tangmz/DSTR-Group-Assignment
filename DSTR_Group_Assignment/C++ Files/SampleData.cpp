@@ -68,3 +68,17 @@ string GetRandomVisitDate() {
 
 }
 
+string GetRandomTime() {
+	string hr = to_string(rand() % 24);
+	if (hr.length() == 1) hr = "0" + hr;
+	string min = to_string(rand() % 60);
+	if (min.length() == 1) min = "0" + min;
+
+	return hr + " " + min;
+}
+
+string GetRandomIllness() {
+	string illness[] = { "Flu", "Hair Loss", "Injury", "Covid", "AIDS", "Psychosis", "Intoxication" };
+	return illness[rand() % illness->size()];
+}
+

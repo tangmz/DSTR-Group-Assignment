@@ -177,7 +177,7 @@ bool Patient::MatchesRegex(string regExp, int attributeValue) {
 	return false;
 }
 void Patient::DisplayTableHeader(int startIndex, int tableLength) {
-	PrintLine('=', 160);
+	PrintLine('=', 185);
 	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << left << "No.";
 	cout << setw(15) << left << "ID" <<
 		setw(15) << left << "Patient ID" <<
@@ -188,8 +188,9 @@ void Patient::DisplayTableHeader(int startIndex, int tableLength) {
 		setw(15) << "Phone" <<
 		setw(20) << "Email" <<
 		setw(20) << "Illness" << 
-		setw(20) << "Visit Date (MM/DD)" << endl;
-	PrintLine('-', 160);
+		setw(20) << "Visit Date (MM/DD)" <<
+		setw(20) << "Visit Date (hh:mm)" << endl;
+	PrintLine('-', 185);
 }
 void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
 	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << index + startIndex;
@@ -202,7 +203,8 @@ void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
 		setw(15) << Phone <<
 		setw(20) << Email <<
 		setw(20) << Illness <<
-		setw(20) << VisitDate << endl;
+		setw(20) << VisitDate <<
+		setw(20) << VisitTime << endl;
 }
 void Patient::DisplayDetails() {
 	PrintLine('=', 100);
@@ -277,7 +279,7 @@ void Patient::ViewAllPatients(DoublyLinkedList<Patient>* patientList) {
 		cout << p1.GetFirstName() << " : " << p1.GetLastName() << endl;
 	}*/
 	patientList->DisplayPages(10);
-	system("pause");
+	//system("pause");
 }
 DoublyLinkedList<Patient>* Patient::SearchPatient(DoublyLinkedList<Patient>* patientList, string regExp, int attributeValue) {
 	return patientList->SearchByRegex(regExp, attributeValue);
@@ -391,6 +393,7 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList) {
 			break;
 		}
 		//cout << "Name " << selectedPatients->FirstName << endl;
+		system("cls");
 
 	}
 	

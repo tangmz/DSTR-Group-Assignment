@@ -19,7 +19,7 @@ private:
 	string Note;
 public:
 	Patient(string patientID, string id, string firstName, string lastName, int age, char gender,
-		string phone, string email, string address, string password, string ic, string visitDate) {
+		string phone, string email, string address, string password, string ic, string illness, string visitDate, string visitTime) {
 		PatientID = patientID;
 		ID = id;
 		FirstName = firstName;
@@ -32,9 +32,9 @@ public:
 		Password = password;
 		IC = ic;
 
-		Illness = "";
+		Illness = illness;
 		VisitDate = visitDate;
-		VisitTime = "";
+		VisitTime = visitTime;
 		Disability = "";
 		AssignedDoctor = NULL;
 		Prescription = NULL;
