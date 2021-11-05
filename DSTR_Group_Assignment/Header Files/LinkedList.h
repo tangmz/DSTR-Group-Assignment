@@ -440,7 +440,7 @@ public:
 	T* GetReference(int index) {
 		if (index >= Length) {
 			cout << "ERROR GET: Index " << index << " exceeds list length of " << Length << endl;
-			return &(T());
+			return NULL;
 		}
 
 		Current = Head;
