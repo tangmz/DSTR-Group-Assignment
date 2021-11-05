@@ -46,8 +46,9 @@ public:
 
 	//Optional
 	void notifyNurse();
-	void sortPatients(string criteria); //sort by name, id, disability, assigned doctor, or prescription
+	
 
 	//Interface
 	static void DisplayMainMenu();
+	static int sortPatientsDecision(); //sort by name, id, disability, assigned doctor, or prescription
 };

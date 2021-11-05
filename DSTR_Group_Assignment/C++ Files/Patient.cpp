@@ -177,7 +177,7 @@ bool Patient::MatchesRegex(string regExp, int attributeValue) {
 	return false;
 }
 void Patient::DisplayTableHeader(int startIndex, int tableLength) {
-	PrintLine('=', 135);
+	PrintLine('=', 160);
 	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << left << "No.";
 	cout << setw(15) << left << "ID" <<
 		setw(15) << left << "Patient ID" <<
@@ -187,8 +187,9 @@ void Patient::DisplayTableHeader(int startIndex, int tableLength) {
 		setw(5) << "M/F" <<
 		setw(15) << "Phone" <<
 		setw(20) << "Email" <<
-		setw(20) << "Illness" << endl;
-	PrintLine('-', 135);
+		setw(20) << "Illness" << 
+		setw(20) << "Visit Date (MM/DD)" << endl;
+	PrintLine('-', 160);
 }
 void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
 	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << index + startIndex;
@@ -200,7 +201,8 @@ void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
 		setw(5) << Gender <<
 		setw(15) << Phone <<
 		setw(20) << Email <<
-		setw(20) << Illness << endl;
+		setw(20) << Illness <<
+		setw(20) << VisitDate << endl;
 }
 void Patient::DisplayDetails() {
 	PrintLine('=', 100);
@@ -565,6 +567,27 @@ void Doctor::DisplayDetails() {
 	PrintLine('=', 100);
 }
 */
+
+int Doctor::sortPatientsDecision() {
+	system("cls");
+	int sortDecision = -1;
+	PrintLine('=', 70);
+	cout << "Sorting Patient List:" << endl;
+	PrintLine('=', 70);
+	cout << "Available Option: " << endl;
+	cout << "1. First Name" << endl;
+	cout << "2. Last Name" << endl;
+	cout << "3. Age" << endl;
+	cout << "4. Gender" << endl;
+	cout << "5. Phone" << endl;
+	cout << "6. Email" << endl;
+	cout << "7. Illness" << endl;
+	PrintLine('-', 70);
+	cout << "Select Option: ";
+	cin >> sortDecision;
+	cin.ignore();
+	return sortDecision;
+}
 
 string Doctor::GenerateDoctorID(int n) {
 	string id = "DOC-";

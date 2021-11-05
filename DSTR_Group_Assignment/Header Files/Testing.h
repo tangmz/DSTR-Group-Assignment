@@ -57,7 +57,8 @@ void AddPatients(DoublyLinkedList<User>* users, DoublyLinkedList<Patient>* patie
 			newUser.GetEmail(),
 			newUser.GetAddress(),
 			newUser.GetPassword(),
-			newUser.GetIC()
+			newUser.GetIC(),
+			GetRandomVisitDate()
 		);
 		//Parent* p2 = (Child*)pChild;
 		users->AddToEnd(newUser);
