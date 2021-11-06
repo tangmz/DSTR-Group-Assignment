@@ -11,14 +11,36 @@ private:
 	double ShelfLife;
 	string SideEffects;
 public:
+	Medicine(string medicineID, string name, string datePurchased, double shelfLife, string sideEffects) {
+		MedicineID = medicineID;
+		Name = name;
+		DatePurchased = datePurchased;
+		ShelfLife = shelfLife;
+		SideEffects = sideEffects;
+	}
+	Medicine() {
+
+	}
+
 	string GetMedicineID() { return MedicineID; }
 	string GetName() { return Name; }
 	string GetDatePurchased() { return DatePurchased; }
 	double GetShelfLife() { return ShelfLife; }
 	string GetSideEffects() { return SideEffects; }
 
-	void setName(string name) { Name = name; }
+	string SetName(string name) { Name = name; }
+	string SetDatePurchased(string datePurchased) { DatePurchased = datePurchased; }
+	double SetShelfLife(double shelfLife) { ShelfLife = shelfLife; }
+	string SetSideEffects(string sideEffects) { SideEffects = sideEffects; }
 
+	bool Equals(Medicine nextMedicine);
+	int CompareTo(Medicine nextMedicine, int attributeValue);
+	bool MatchesRegex(string regExp, int attributeValue);
+	void DisplayTableHeader(int startIndex, int tableLength);
+	void DisplayTableRow(int startIndex, int index, int tableLength);
+	void DisplayDetails();
+
+	static string GenerateMedicineID(int n);
 	string showDetails() {
 		string s = MedicineID + " : " + Name + "\nDate Purchased: " + DatePurchased +
 			"\nShelf Life: " + to_string(ShelfLife) + "\nSide Effects: " + SideEffects;

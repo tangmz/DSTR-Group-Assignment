@@ -53,7 +53,6 @@ public:
 	Medicine* GetPrescription() { return Prescription; }
 	string GetNote() { return Note; }
 
-
 	void SetIllness(string illness) { Illness = illness; }
 	void SetVisitDate(string visitDate) { VisitDate = visitDate; }
 	void SetVisitTime(string visitTime) { VisitTime = visitTime; }

@@ -98,7 +98,6 @@ int Patient::CompareTo(Patient nextPatient, int attributeValue) {
 			return 1;
 	}
 	return value;
-	//return value == 1 ? CompareStrings(this->ID, nextPatient.ID) : value;
 }
 bool Patient::MatchesRegex(string regExp, int attributeValue) {
 	switch (attributeValue) {
@@ -428,6 +427,7 @@ bool Doctor::Equals(Doctor nextDoctor) {
 	match = Address == nextDoctor.Address ? match : false;
 	match = Password == nextDoctor.Password ? match : false;
 	match = IC == nextDoctor.IC ? match : false;
+	match = DoctorID == nextDoctor.DoctorID ? match : false;
 	return match;
 }
 int Doctor::CompareTo(Doctor nextDoctor, int attributeValue) {
@@ -464,11 +464,13 @@ int Doctor::CompareTo(Doctor nextDoctor, int attributeValue) {
 		case AttributeValues::Doctor::IC:
 			value = CompareStrings(this->IC, nextDoctor.IC);
 			break;
+		case AttributeValues::Doctor::DoctorID:
+			value = CompareStrings(this->DoctorID, nextDoctor.DoctorID);
+			break;
 		default:
 			return 1;
 	}
 	return value;
-	//return value == 1 ? CompareStrings(this->ID, nextDoctor.ID) : value;
 }
 bool Doctor::MatchesRegex(string regExp, int attributeValue) {
 	switch (attributeValue) {
@@ -477,7 +479,8 @@ bool Doctor::MatchesRegex(string regExp, int attributeValue) {
 				regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
 				regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
 				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp)) ||
-				regex_match(Password, regex(regExp)) || regex_match(IC, regex(regExp))) {
+				regex_match(Password, regex(regExp)) || regex_match(IC, regex(regExp)) ||
+				regex_match(DoctorID, regex(regExp))) {
 				return true;
 			}
 			break;
@@ -511,12 +514,14 @@ bool Doctor::MatchesRegex(string regExp, int attributeValue) {
 		case AttributeValues::Doctor::IC:
 			if (regex_match(IC, regex(regExp))) return true;
 			break;
+		case AttributeValues::Doctor::DoctorID:
+			if (regex_match(DoctorID, regex(regExp))) return true;
+			break;
 		default:
 			break;
 	}
 	return false;
 }
-/*
 void Doctor::DisplayTableHeader(int startIndex, int tableLength) {
 	PrintLine('=', 135);
 	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << left << "No.";
@@ -559,30 +564,8 @@ void Doctor::DisplayDetails() {
 	cout << "Email: " << Email << endl;
 	cout << "Address: " << Address << endl;
 
-	PrintLine('-', 100);
-
-	cout << "Illness: ";
-	if (Illness == "") cout << "NOT DIAGNOSED YET" << endl;
-	else cout << Illness << endl;
-	cout << "Visit Date and Time: ";
-	if (VisitDate == "" || VisitTime == "") cout << "NO APPOINTMENT SCHEDULED" << endl;
-	else cout << VisitDate << ", " << VisitTime << endl;
-	cout << "Disability: ";
-	if (Disability == "") cout << "UNDEFINED" << endl;
-	else cout << Disability << endl;
-	cout << "Assigned Doctor: ";
-	if (AssignedDoctor == NULL) cout << "NO DOCTOR ASSIGNED" << endl;
-	else cout << "Dr. " << AssignedDoctor->GetFirstName() << endl;
-	cout << "Prescription: ";
-	if (Prescription == NULL) cout << "NO PRESCRIPTION" << endl;
-	else cout << Prescription->GetName() << endl;
-	cout << "Notes: ";
-	if (Note == "") cout << "NONE" << endl;
-	else cout << Note << endl << endl;
-
 	PrintLine('=', 100);
 }
-*/
 
 int Doctor::sortPatientsDecision() {
 	system("cls");
@@ -624,6 +607,7 @@ bool Nurse::Equals(Nurse nextNurse) {
 	match = Address == nextNurse.Address ? match : false;
 	match = Password == nextNurse.Password ? match : false;
 	match = IC == nextNurse.IC ? match : false;
+	match = NurseID == nextNurse.NurseID ? match : false;
 	return match;
 }
 int Nurse::CompareTo(Nurse nextNurse, int attributeValue) {
@@ -660,11 +644,13 @@ int Nurse::CompareTo(Nurse nextNurse, int attributeValue) {
 		case AttributeValues::Nurse::IC:
 			value = CompareStrings(this->IC, nextNurse.IC);
 			break;
+		case AttributeValues::Nurse::NurseID:
+			value = CompareStrings(this->NurseID, nextNurse.NurseID);
+			break;
 		default:
 			return 1;
 	}
 	return value;
-	//return value == 1 ? CompareStrings(this->ID, nextNurse.ID) : value;
 }
 bool Nurse::MatchesRegex(string regExp, int attributeValue) {
 	switch (attributeValue) {
@@ -673,7 +659,8 @@ bool Nurse::MatchesRegex(string regExp, int attributeValue) {
 				regex_match(LastName, regex(regExp)) || regex_match(to_string(Age), regex(regExp)) ||
 				regex_match(string(1, Gender), regex(regExp)) || regex_match(Phone, regex(regExp)) ||
 				regex_match(Email, regex(regExp)) || regex_match(Address, regex(regExp)) ||
-				regex_match(Password, regex(regExp)) || regex_match(IC, regex(regExp))) {
+				regex_match(Password, regex(regExp)) || regex_match(IC, regex(regExp)) ||
+				regex_match(NurseID, regex(regExp))) {
 				return true;
 			}
 			break;
@@ -707,12 +694,14 @@ bool Nurse::MatchesRegex(string regExp, int attributeValue) {
 		case AttributeValues::Nurse::IC:
 			if (regex_match(IC, regex(regExp))) return true;
 			break;
+		case AttributeValues::Nurse::NurseID:
+			if (regex_match(NurseID, regex(regExp))) return true;
+			break;
 		default:
 			break;
 	}
 	return false;
 }
-/*
 void Nurse::DisplayTableHeader(int startIndex, int tableLength) {
 	PrintLine('=', 135);
 	if (startIndex >= 0) cout << setw(to_string(startIndex + tableLength).length() + 2) << left << "No.";
@@ -755,30 +744,8 @@ void Nurse::DisplayDetails() {
 	cout << "Email: " << Email << endl;
 	cout << "Address: " << Address << endl;
 
-	PrintLine('-', 100);
-
-	cout << "Illness: ";
-	if (Illness == "") cout << "NOT DIAGNOSED YET" << endl;
-	else cout << Illness << endl;
-	cout << "Visit Date and Time: ";
-	if (VisitDate == "" || VisitTime == "") cout << "NO APPOINTMENT SCHEDULED" << endl;
-	else cout << VisitDate << ", " << VisitTime << endl;
-	cout << "Disability: ";
-	if (Disability == "") cout << "UNDEFINED" << endl;
-	else cout << Disability << endl;
-	cout << "Assigned Doctor: ";
-	if (AssignedDoctor == NULL) cout << "NO DOCTOR ASSIGNED" << endl;
-	else cout << "Dr. " << AssignedDoctor->GetFirstName() << endl;
-	cout << "Prescription: ";
-	if (Prescription == NULL) cout << "NO PRESCRIPTION" << endl;
-	else cout << Prescription->GetName() << endl;
-	cout << "Notes: ";
-	if (Note == "") cout << "NONE" << endl;
-	else cout << Note << endl << endl;
-
 	PrintLine('=', 100);
 }
-*/
 
 string Nurse::GenerateNurseID(int n) {
 	string id = "NUR-";
@@ -839,7 +806,6 @@ int User::CompareTo(User nextUser, int attributeValue) {
 		return 1;
 	}
 	return value;
-	//return value == 1 ? CompareStrings(this->ID, nextUser.ID) : value;
 }
 bool User::MatchesRegex(string regExp, int attributeValue) {
 	switch (attributeValue) {
