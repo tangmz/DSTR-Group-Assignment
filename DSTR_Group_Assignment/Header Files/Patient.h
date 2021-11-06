@@ -63,7 +63,7 @@ public:
 		if (this->Prescription == NULL) {
 			this->Prescription = new Medicine;
 		}
-		Prescription->setName(mediName); 
+		Prescription->SetName(mediName); 
 	}
 	void SetNote(string note) { Note = note; }
 

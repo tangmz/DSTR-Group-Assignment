@@ -18,7 +18,7 @@ int Medicine::CompareTo(Medicine nextMedicine, int attributeValue) {
 	switch (attributeValue) {
 		case AttributeValues::All:
 		case AttributeValues::Medicine::MedicineID:
-			return CompareStrings(this->ID, nextMedicine.ID);
+			return CompareStrings(this->MedicineID, nextMedicine.MedicineID);
 		case AttributeValues::Medicine::Name:
 			value = CompareStrings(this->Name, nextMedicine.Name);
 			break;

@@ -178,7 +178,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 	}
 }
 
-void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<User>* tempUser) {
+void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<User>* tempUser, DoublyLinkedList<Patient>* visitedPatientList) {
 	string patientID, id, firstName, lastName,
 		phone, email, address, password, ic, illness, visitDate, visitTime;
 	int age;
@@ -186,6 +186,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 	Patient p;
 	int decision = -1;
 	int decision1 = -1;
+	int targetIndex;
 	string keyword;
 	while (decision != 0) {
 		system("CLS");
@@ -193,7 +194,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 		cout << "Logged in as: Nurse" << endl;
 		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
-		cout << "1. Add New Patient to List" << endl;
+		cout << "1. Add New Patient to Waiting List" << endl;
 		cout << "2. View All Patients" << endl;
 		cout << "3. Search Patient" << endl;
 		cout << "4. View Sorted List of Patient" << endl;
@@ -283,6 +284,10 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 6:
 				//Notify patient
+				//Remove from waiting list, move to visit list
+				targetIndex = tempPatient->DisplayPages(10);
+				visitedPatientList->AddToStart(tempPatient->Get(targetIndex));
+				tempPatient->DeleteAtIndex(targetIndex);
 				break;
 			case 7:
 				//Collect payment
