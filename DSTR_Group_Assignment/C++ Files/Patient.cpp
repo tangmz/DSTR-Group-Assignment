@@ -295,7 +295,8 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Doubly
 	DoublyLinkedList<Patient>* filteredPatient = Patient::SearchPatient(patientList, name, AttributeValues::User::FirstName);
 	int selectedIndex = filteredPatient->DisplayPages(10);
 	if (selectedIndex == -1) return;
-	Patient* selectedPatients = filteredPatient->GetReference(selectedIndex);
+	Patient selectedPatients = filteredPatient->Get(selectedIndex);
+	Patient oldPatient = filteredPatient->Get(selectedIndex);
 	
 	system("cls");
 	string s;
@@ -303,7 +304,7 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Doubly
 	int decision = -1;
 	while (decision != 0) {
 		PrintLine('-', 100);
-		selectedPatients->DisplayDetails();
+		selectedPatients.DisplayDetails();
 		//PrintLine('-', 100);
 		cout << "1. Update Patient's First Name" << endl;
 		cout << "2. Update Patient's Last Name" << endl;
@@ -329,12 +330,12 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Doubly
 		case 1:
 			cout << "Enter new first name: ";
 			getline(cin, s);
-			selectedPatients->SetFirstName(s);
+			selectedPatients.SetFirstName(s);
 			break;
 		case 2:
 			cout << "Enter new last name: ";
 			getline(cin, s);
-			selectedPatients->SetLastName(s);
+			selectedPatients.SetLastName(s);
 			break;
 		case 3:
 			cout << "Enter new age: ";
@@ -344,63 +345,66 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Doubly
 				cout << "Enter new age: ";
 				getline(cin, s);
 			}
-			selectedPatients->SetAge(age);
+			selectedPatients.SetAge(age);
 			break;
 		case 4:
 			cout << "Enter new gender: ";
 			cin >> s;
 			cin.ignore();
-			selectedPatients->SetGender(s[0]);
+			selectedPatients.SetGender(s[0]);
 			break;
 		case 5:
 			cout << "Enter new phone: ";
 			getline(cin, s);
-			selectedPatients->SetPhone(s);
+			selectedPatients.SetPhone(s);
 			break;
 		case 6:
 			cout << "Enter new email: ";
 			getline(cin, s);
-			selectedPatients->SetEmail(s);
+			selectedPatients.SetEmail(s);
 			break;
 		case 7:
 			cout << "Enter new Address: ";
 			getline(cin, s);
-			selectedPatients->SetAddress(s);
+			selectedPatients.SetAddress(s);
 			break;
 		case 8:
 			cout << "Enter new illness: ";
 			getline(cin, s);
-			selectedPatients->SetIllness(s);
+			selectedPatients.SetIllness(s);
 			break;
 		case 9:
 			cout << "Enter new visit date: ";
 			getline(cin, s);
-			selectedPatients->SetVisitDate(s);
+			selectedPatients.SetVisitDate(s);
 			break;
 		case 10:
 			cout << "Enter new visit time: ";
 			getline(cin, s);
-			selectedPatients->SetVisitTime(s);
+			selectedPatients.SetVisitTime(s);
 			break;
 		case 11:
 			cout << "Enter new disability: ";
 			getline(cin, s);
-			selectedPatients->SetDisability(s);
+			selectedPatients.SetDisability(s);
 			break;
 		case 12:
 			cout << "Enter new prescription: ";
 			getline(cin, s);
-			selectedPatients->SetPrescriptionName(s);
+			selectedPatients.SetPrescriptionName(s);
 			break;
 		case 13:
 			cout << "Enter new patient note: ";
 			getline(cin, s);
-			selectedPatients->SetNote(s);
+			selectedPatients.SetNote(s);
 			break;
 		default:
 			break;
 		}
 		//cout << "Name " << selectedPatients->FirstName << endl;
+		//Patient pNew = Patient(selectedPatients->PatientID, selectedPatients->ID, selectedPatients->FirstName)
+		//cout << *selectedPatients->LastName
+		patientList->ReplaceNthValue(oldPatient, selectedPatients, 1);
 		system("cls");
 
 	}
