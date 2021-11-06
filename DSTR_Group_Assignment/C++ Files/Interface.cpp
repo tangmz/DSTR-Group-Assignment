@@ -173,8 +173,14 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 	}
 }
 
-void Interface::NurseInterface::DisplayMainMenu() {
+void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<User>* tempUser) {
+	string patientID, id, firstName, lastName,
+		phone, email, address, password, ic, illness, visitDate, visitTime;
+	int age;
+	char gender;
+	Patient p;
 	int decision = -1;
+	int decision1 = -1;
 	while (decision != 0) {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
@@ -198,12 +204,69 @@ void Interface::NurseInterface::DisplayMainMenu() {
 		{
 			case 1:
 				//Add patient
+				patientID = Patient::GeneratePatientID(tempPatient->GetLength());
+				id = User::GenerateID(tempUser->GetLength());
+				cout << "First Name: ";
+				getline(cin, firstName);
+				cout << "Last Name: ";
+				getline(cin, lastName);
+				cout << "Age: ";
+				cin >> age;
+				cin.ignore();
+				cout << "Gender: ";
+				cin >> gender;
+				cin.ignore();
+				cout << "Phone: ";
+				getline(cin, phone);
+				cout << "e-mail: ";
+				getline(cin, email);
+				cout << "Address: ";
+				getline(cin, address);
+				cout << "Password: ";
+				getline(cin, password);
+				cout << "I.C. Number: ";
+				getline(cin, ic);
+				cout << "Illness: ";
+				getline(cin, illness);
+				cout << "Visit Date: ";
+				getline(cin, visitDate);
+				cout << "Visit Time: ";
+				getline(cin, visitTime);
+				p = Patient(patientID, id, firstName, lastName, age, gender,
+					phone, email, address, password, ic, illness, visitDate, visitTime);
+				tempPatient->AddToEnd(p);
 				break;
 			case 2:
 				//View all patient
+				Patient::ViewAllPatients(tempPatient);
 				break;
 			case 3:
 				//Search patient
+				while (decision1 != 0) {
+					system("CLS");
+					Interface::General::PrintLine('=', 70);
+					cout << "Patient Record Search Engine" << endl;
+					Interface::General::PrintLine('=', 70);
+					cout << "Search By: " << endl;
+					cout << "1. Patient ID" << endl;
+					cout << "2. First Name" << endl;
+					cout << "3. Last Name" << endl;
+					cout << "4. Age" << endl;
+					cout << "5. Phone" << endl;
+					cout << "6. e-mail" << endl;
+					cout << "7. House Address" << endl;
+					cout << "8. I.C. Number" << endl;
+					cout << "0. Logout" << endl;
+
+					Interface::General::PrintLine('-', 70);
+					cout << "Select Option: ";
+					cin >> decision;
+				}
+
+					string keyword;
+					cout << "Keyword: ";
+					getline(cin, keyword);
+					Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName);
 				break;
 			case 4:
 				//View sorted list (need to create another list for sorted data?)
