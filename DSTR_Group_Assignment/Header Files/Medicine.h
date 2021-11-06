@@ -28,10 +28,10 @@ public:
 	double GetShelfLife() { return ShelfLife; }
 	string GetSideEffects() { return SideEffects; }
 
-	string SetName(string name) { Name = name; }
-	string SetDatePurchased(string datePurchased) { DatePurchased = datePurchased; }
-	double SetShelfLife(double shelfLife) { ShelfLife = shelfLife; }
-	string SetSideEffects(string sideEffects) { SideEffects = sideEffects; }
+	void SetName(string name) { Name = name; }
+	void SetDatePurchased(string datePurchased) { DatePurchased = datePurchased; }
+	void SetShelfLife(double shelfLife) { ShelfLife = shelfLife; }
+	void SetSideEffects(string sideEffects) { SideEffects = sideEffects; }
 
 	bool Equals(Medicine nextMedicine);
 	int CompareTo(Medicine nextMedicine, int attributeValue);

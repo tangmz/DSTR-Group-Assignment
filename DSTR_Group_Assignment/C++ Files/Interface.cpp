@@ -122,7 +122,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 			case 4:
 				//Modify patient record
 				//Let user choose which patient first
-				Patient::ModifyPatientRecord(patientList);
+				Patient::ModifyPatientRecord(patientList, visitedPatientList);
 				break;
 			case 5:
 				//View by visiting order

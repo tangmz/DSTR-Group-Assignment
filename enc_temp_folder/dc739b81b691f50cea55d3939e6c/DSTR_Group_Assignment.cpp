@@ -21,6 +21,6 @@ int main() {
 
 	ApplicationLists::Medicines->DisplayPages(15);
 
-	Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients);
+	//Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients);
 	return 0;
 }
