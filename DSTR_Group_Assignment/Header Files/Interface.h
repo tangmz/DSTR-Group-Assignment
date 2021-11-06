@@ -33,4 +33,7 @@ public:
 		static void DisplaySortPatients();
 		static void DisplaySearchPatients();
 	};
+	class Validator {
+		public bool isEmptyString(string item);
+	};
 };

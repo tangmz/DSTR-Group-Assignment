@@ -2,6 +2,8 @@
 #include "../Header Files/Interface.h"
 #include <iostream>
 #include <iomanip>
+#include <chrono>
+#include <ctime>
 using namespace std;
 
 void Interface::General::PrintLine(char symbol, int length) {
@@ -9,6 +11,12 @@ void Interface::General::PrintLine(char symbol, int length) {
 		cout << symbol;
 	}
 	cout << endl;
+}
+
+void Interface::Validator::isEmptyString(string item) {
+	if (item.length() == 0)
+		return false; // item is empty
+	return true; // item is valid
 }
 
 void Interface::UserInterface::DisplayStartupPage() {
@@ -249,7 +257,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 3:
 				//Search patient
-				while (decision1 != 0) {
+				while (decision1 > 0 && decision1 < 9) {
 					system("CLS");
 					Interface::General::PrintLine('=', 70);
 					cout << "Patient Record Search Engine" << endl;
@@ -263,21 +271,57 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 					cout << "6. e-mail" << endl;
 					cout << "7. House Address" << endl;
 					cout << "8. I.C. Number" << endl;
-					cout << "0. Logout" << endl;
 
 					Interface::General::PrintLine('-', 70);
 					cout << "Select Option: ";
 					cin >> decision;
 				}
-
-					
-					cout << "Keyword: ";
-					getline(cin, keyword);
-					Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName);
-				break;
+				switch (decision1) {
+					case 1:
+						cout << "Keyword: ";
+						getline(cin, keyword);
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::PatientID)->DisplayDetails;
+						break;
+					case 2:
+						cout << "Keyword: ";
+						getline(cin, keyword);
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName)->DisplayDetails;
+						break;
+					case 3:
+						cout << "Keyword: ";
+						getline(cin, keyword);
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::LastName)->DisplayDetails;
+						break;
+					case 4:
+						cout << "Keyword: ";
+						getline(cin, keyword);
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Age)->DisplayDetails;
+						break;
+					case 5:
+						cout << "Keyword: ";
+						getline(cin, keyword);
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Phone)->DisplayDetails;
+						break;
+					case 6:
+						cout << "Keyword: ";
+						getline(cin, keyword);
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Email)->DisplayDetails;
+						break;
+					case 7:
+						cout << "Keyword: ";
+						getline(cin, keyword);
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Address)->DisplayDetails;
+						break;
+					case 8:
+						cout << "Keyword: ";
+						getline(cin, keyword);
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::IC)->DisplayDetails;
+						break;
+				}
 			case 4:
 				//View sorted list (need to create another list for sorted data?)
 				//Let user choose sort by what
+				tempPatient->Sort(AttributeValues::User::Age)->DisplayPage(10)
 				break;
 			case 5:
 				//Change priority
@@ -301,7 +345,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 	}
 }
 
-void Interface::PatientInterface::DisplayMainMenu() {
+void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<Doctor>* tempDoctor) {
 	int decision = -1;
 	while (decision != 0) {
 		system("CLS");
@@ -319,11 +363,43 @@ void Interface::PatientInterface::DisplayMainMenu() {
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
-
+		string date, time;
 		switch (decision)
 		{
 			case 1:
 				//Create appointment
+				cout << "Today's Date: "date::format("%F", std::chrono::system_clock::now()) << endl;
+				cout << "Please enter the Appointment Date: " << endl;
+				getline(cin, date);
+				while (time.length == 0)
+				{
+					cout << "No value entered, please enter the date: ";
+					getline(cin, date);
+					if (date.length != 0)
+						break;
+				}
+				cout << "Available Time Slot:" << endl;
+				for (int i = 10; i < 18; i++) {
+					if (i < 12) {
+						cout << i << ":00" << "am" << "\t";
+						cout << i << ":30" << "am" << endl;
+					}
+					else if (i > 12) {
+						cout << i << ":00" << "pm" << "\t";
+						cout << i << ":30" << "pm" << endl;
+					}
+				}
+				cout << "Please enter the Appointment Time: ";
+				getline(cin, time);
+				while (time.length == 0)
+				{
+					cout << "No value entered, please enter the time: ";
+					getline(cin, time);
+					if (time.length != 0)
+						break;
+				}
+
+				//Patient::CreateAppointment(date, time, tempDoctor);
 				break;
 			case 2:
 				//Update appointment
@@ -337,7 +413,6 @@ void Interface::PatientInterface::DisplayMainMenu() {
 				break;
 			case 0:
 				//exit and go back to login page
-
 			default:
 				break;
 		}
