@@ -302,6 +302,7 @@ public:
 		//End reached
 		else {
 			cout << "No items matching " << replacedData << " found" << endl;
+			system("pause");
 		}
 	}
 	void ReplaceAllValues(T replacedData, T newData) {

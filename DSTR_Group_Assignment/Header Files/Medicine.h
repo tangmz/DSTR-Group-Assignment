@@ -17,6 +17,8 @@ public:
 	double GetShelfLife() { return ShelfLife; }
 	string GetSideEffects() { return SideEffects; }
 
+	void setName(string name) { Name = name; }
+
 	string showDetails() {
 		string s = MedicineID + " : " + Name + "\nDate Purchased: " + DatePurchased +
 			"\nShelf Life: " + to_string(ShelfLife) + "\nSide Effects: " + SideEffects;

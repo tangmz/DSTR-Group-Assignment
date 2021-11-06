@@ -73,7 +73,7 @@ void Interface::UserInterface::DisplayExitPage() {
 	cout << "EXITED THE PROGRAM" << endl;
 }
 
-void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* patientList) {
+void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList) {
 	int decision = -1;
 	int sortDecision;
 	while (decision != 0) {
@@ -89,6 +89,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 		cout << "5. View Patient Based On Visiting Order" << endl;
 		cout << "6. Notify Nurse" << endl;
 		cout << "7. View Sorted List of Patient" << endl;
+		cout << "8. View Patients' Details" << endl;
 		cout << "0. Logout" << endl;
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
@@ -137,25 +138,25 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 				system("cls");
 				switch (sortDecision) {
 				case 1:
-					patientList->Sort(AttributeValues::User::FirstName)->DisplayPages(10);
+					visitedPatientList->Sort(AttributeValues::User::FirstName)->DisplayPages(10);
 					break;
 				case 2:
-					patientList->Sort(AttributeValues::User::LastName)->DisplayPages(10);
+					visitedPatientList->Sort(AttributeValues::User::LastName)->DisplayPages(10);
 					break;
 				case 3:
-					patientList->Sort(AttributeValues::User::Age)->DisplayPages(10);
+					visitedPatientList->Sort(AttributeValues::User::Age)->DisplayPages(10);
 					break;
 				case 4:
-					patientList->Sort(AttributeValues::User::Gender)->DisplayPages(10);
+					visitedPatientList->Sort(AttributeValues::User::Gender)->DisplayPages(10);
 					break;
 				case 5:
-					patientList->Sort(AttributeValues::User::Phone)->DisplayPages(10);
+					visitedPatientList->Sort(AttributeValues::User::Phone)->DisplayPages(10);
 					break;
 				case 6:
-					patientList->Sort(AttributeValues::User::Email)->DisplayPages(10);
+					visitedPatientList->Sort(AttributeValues::User::Email)->DisplayPages(10);
 					break;
 				case 7:
-					patientList->Sort(AttributeValues::Patient::Illness)->DisplayPages(10);
+					visitedPatientList->Sort(AttributeValues::Patient::Illness)->DisplayPages(10);
 					break;
 				case 0:
 					break;
@@ -164,6 +165,10 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 					system("pause");
 					break;
 				}
+				break;
+			case 8:
+				patientList->Sort(AttributeValues::Patient::VisitTime)->Sort(AttributeValues::Patient::VisitDate)->DisplayDetails();
+				//system("pause");
 				break;
 			case 0:
 				//exit and go back to login page
@@ -181,6 +186,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 	Patient p;
 	int decision = -1;
 	int decision1 = -1;
+	string keyword;
 	while (decision != 0) {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
@@ -263,7 +269,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 					cin >> decision;
 				}
 
-					string keyword;
+					
 					cout << "Keyword: ";
 					getline(cin, keyword);
 					Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName);

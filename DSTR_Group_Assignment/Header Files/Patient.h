@@ -60,6 +60,12 @@ public:
 	void SetDisability(string disability) { Disability = disability; }
 	void SetAssignedDoctor(Doctor* doctor) { AssignedDoctor = doctor; }
 	void SetPrescription(Medicine* medicine) { Prescription = medicine; }
+	void SetPrescriptionName(string mediName) { 
+		if (this->Prescription == NULL) {
+			this->Prescription = new Medicine;
+		}
+		Prescription->setName(mediName); 
+	}
 	void SetNote(string note) { Note = note; }
 
 	bool Equals(Patient nextPatient);
@@ -84,7 +90,7 @@ public:
 	static void ChangePatientPriority(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
 	static void NotifyNextPatient(DoublyLinkedList<Patient>* patientList, int nextPatientIndex);
 	static void CollectPayment(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
-	static void ModifyPatientRecord(DoublyLinkedList<Patient>* patientList);
+	static void ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList);
 	//static void DisplayMainMenu();
 	//static void DisplaySortPatients();
 	//static void DisplaySearchPatients();
