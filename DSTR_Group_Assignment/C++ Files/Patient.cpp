@@ -283,11 +283,19 @@ void Patient::ViewAllPatients(DoublyLinkedList<Patient>* patientList) {
 DoublyLinkedList<Patient>* Patient::SearchPatient(DoublyLinkedList<Patient>* patientList, string regExp, int attributeValue) {
 	return patientList->SearchByRegex(regExp, attributeValue);
 }
-void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList) {
+void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList) {
 	//Here will return a Doubly linked list with only 1 (the selected) item inside, retains all operation of DoublyLL
-	int selectedIndex = patientList->DisplayPages(10);
+	string name;
+	system("cls");
+	cout << "Enter Keyword: ";
+	getline(cin, name);
+	name = ".*" + name + ".*";
+	cout << patientList->GetLength() << endl;
+	system("pause");
+	DoublyLinkedList<Patient>* filteredPatient = Patient::SearchPatient(patientList, name, AttributeValues::User::FirstName);
+	int selectedIndex = filteredPatient->DisplayPages(10);
 	if (selectedIndex == -1) return;
-	Patient* selectedPatients = patientList->GetReference(selectedIndex);
+	Patient* selectedPatients = filteredPatient->GetReference(selectedIndex);
 	
 	system("cls");
 	string s;
@@ -380,8 +388,9 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList) {
 			selectedPatients->SetDisability(s);
 			break;
 		case 12:
-			/*selectedMed = mediList->DisplayPages(10);
-			selectedPatients.Get(0).SetPrescription(&selectedMed.Get(0));*/
+			cout << "Enter new prescription: ";
+			getline(cin, s);
+			selectedPatients->SetPrescriptionName(s);
 			break;
 		case 13:
 			cout << "Enter new patient note: ";

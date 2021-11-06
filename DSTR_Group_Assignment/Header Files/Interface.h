@@ -21,7 +21,7 @@ public:
 	};
 	class DoctorInterface {
 	public:
-		static void DisplayMainMenu(DoublyLinkedList<Patient>* patientList);
+		static void DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList);
 	};
 	class NurseInterface {
 	public:

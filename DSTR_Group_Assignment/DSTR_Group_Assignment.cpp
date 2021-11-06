@@ -18,7 +18,6 @@ int main() {
 	AddDoctors(ApplicationLists::Users, ApplicationLists::Doctors, 10, 25, 30);
 	AddNurses(ApplicationLists::Users, ApplicationLists::Nurses, 25, 23, 30);
 
-	Interface::NurseInterface::DisplayMainMenu(ApplicationLists::Patients);
-
+	Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients);
 	return 0;
 }

@@ -11,6 +11,7 @@ using namespace std;
 class ApplicationLists {
 public:
 	static DoublyLinkedList<Patient>* Patients;
+	static DoublyLinkedList<Patient>* VisitedPatients;
 	static DoublyLinkedList<Doctor>* Doctors;
 	static DoublyLinkedList<Nurse>* Nurses;
 	//static DoublyLinkedList<Appointment>* Appointments;
@@ -24,3 +25,4 @@ DoublyLinkedList<Doctor>* ApplicationLists::Doctors = new DoublyLinkedList<Docto
 DoublyLinkedList<Medicine>* ApplicationLists::Medicines = new DoublyLinkedList<Medicine>();
 DoublyLinkedList<Nurse>* ApplicationLists::Nurses = new DoublyLinkedList<Nurse>();
 DoublyLinkedList<Patient>* ApplicationLists::Patients = new DoublyLinkedList<Patient>();
+DoublyLinkedList<Patient>* ApplicationLists::VisitedPatients = new DoublyLinkedList<Patient>();
