@@ -135,6 +135,19 @@ void AddNurses(DoublyLinkedList<User>* users, DoublyLinkedList<Nurse>* nurses, i
 		nurses->AddToEnd(newNurse);
 	}
 }
+void AddDrugs(DoublyLinkedList<Medicine>* medicines, int n = 100, double minShelfLife = 1, double maxShelfLife = 120) {
+	DoublyLinkedList<string>* DrugNameList = LoadDrugNames();
+	for (int i = 0; i < n; i++) {
+		cout << "Adding Drug: " << i << endl;
+		medicines->AddToEnd(Medicine(
+			Medicine::GenerateMedicineID(ApplicationLists::Medicines->GetLength() + 1),
+			GetRandomDrugName(DrugNameList),
+			(to_string(rand() % 12 + 1) + "/" + to_string(rand() % 31 + 1)),
+			rand() % int(maxShelfLife - minShelfLife + 1) + minShelfLife,
+			GetRandomDrugName(DrugNameList)
+		));
+	}
+}
 void DeleteUsers(DoublyLinkedList<User>* users) {
 	users->PopEnd();
 	users->PopStart();

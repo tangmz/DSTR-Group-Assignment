@@ -12,14 +12,31 @@ DoublyLinkedList<string>* LoadNames() {
 	DoublyLinkedList<string>* names = new DoublyLinkedList<string>();
 	string line;
 	ifstream inputFile = ifstream("Names.txt");
+	if (inputFile.fail()) cout << "FAILED" << endl;
 
 	while (getline(inputFile, line)) {
 		names->AddToEnd(line);
 	}
+	inputFile.close();
+	return names;
+}
+DoublyLinkedList<string>* LoadDrugNames() {
+	DoublyLinkedList<string>* names = new DoublyLinkedList<string>();
+	string line;
+	ifstream inputFile = ifstream("DrugNames.txt");
+	if (inputFile.fail()) cout << "FAILED" << endl;
+
+	while (getline(inputFile, line)) {
+		names->AddToEnd(line);
+	}
+	inputFile.close();
 	return names;
 }
 string GetRandomName(DoublyLinkedList<string>* nameList) {
 	return nameList->Get(rand() % nameList->GetLength());
+}
+string GetRandomDrugName(DoublyLinkedList<string>* drugList) {
+	return drugList->Get(rand() % drugList->GetLength());
 }
 string GetRandomPhone() {
 	string sampleNumbers = "0123456789";

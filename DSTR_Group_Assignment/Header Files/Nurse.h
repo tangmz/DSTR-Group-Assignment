@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-class Nurse : User {
+class Nurse : public User {
 private:
 	string NurseID;
 public:
