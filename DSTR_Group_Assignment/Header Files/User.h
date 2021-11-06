@@ -16,11 +16,11 @@ protected:
 	string Password;
 	string IC;
 
-	friend ostream& operator<<(ostream& output, const User& user) {
+	friend ostream& operator<<(ostream& output, const User user) {
 		return output << user.FirstName << " " << user.LastName;
 	}
-	friend bool operator==(User left, const User right) {
-		return left.Equals(right);
+	friend bool operator==(User& left, User& right) {
+		return (left).Equals(right);
 	}
 public:
 	User(string id, string firstName, string lastName, int age, char gender, string phone, string email, string address, string password, string ic) {

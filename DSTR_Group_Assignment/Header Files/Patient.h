@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 
-class Patient : User {
+class Patient : public User {
 private:
 	string PatientID;
 	string Illness;
