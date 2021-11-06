@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 using namespace std;
-const string STRING_COMPARISON_LIST = " ()_-,.AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
+const string STRING_COMPARISON_LIST = " ()_-,.:/AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
 
 static int CompareStrings(string strA, string strB) {
 	int index = 0;

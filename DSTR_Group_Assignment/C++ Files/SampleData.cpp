@@ -64,7 +64,7 @@ string GetRandomVisitDate() {
 	}
 	string monthS = to_string(month);
 	if (monthS.length() == 1) monthS = "0" + monthS;
-	return monthS + " " + day;
+	return monthS + "/" + day;
 
 }
 
@@ -74,7 +74,7 @@ string GetRandomTime() {
 	string min = to_string(rand() % 60);
 	if (min.length() == 1) min = "0" + min;
 
-	return hr + " " + min;
+	return hr + ":" + min;
 }
 
 string GetRandomIllness() {
