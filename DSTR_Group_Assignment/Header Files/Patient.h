@@ -17,6 +17,7 @@ private:
 	Doctor* AssignedDoctor;
 	Medicine* Prescription;
 	string Note;
+	bool isPaid;
 public:
 	Patient(string patientID, string id, string firstName, string lastName, int age, char gender,
 		string phone, string email, string address, string password, string ic, string illness, string visitDate, string visitTime) {
@@ -39,6 +40,7 @@ public:
 		AssignedDoctor = NULL;
 		Prescription = NULL;
 		Note = "";
+		isPaid = false;
 	}
 	Patient() {
 
@@ -52,6 +54,7 @@ public:
 	Doctor* GetAssignedDoctor() { return AssignedDoctor; }
 	Medicine* GetPrescription() { return Prescription; }
 	string GetNote() { return Note; }
+	bool GetPaid() { return isPaid; }
 
 	void SetIllness(string illness) { Illness = illness; }
 	void SetVisitDate(string visitDate) { VisitDate = visitDate; }
@@ -66,6 +69,7 @@ public:
 		Prescription->SetName(mediName); 
 	}
 	void SetNote(string note) { Note = note; }
+	void SetPaid(bool item) { isPaid = item; }
 
 	bool Equals(Patient nextPatient);
 	int CompareTo(Patient nextPatient, int attributeValue);

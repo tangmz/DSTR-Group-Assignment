@@ -378,7 +378,10 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 7:
 				//Collect payment
-				
+				Patient::SearchPatient(visitedPatientList, "0", AttributeValues::Patient::isPaid)->DisplayPages(10);
+				temp = visitedPatientList->Get(visitedPatientList->Sort(AttributeValues::Patient::isPaid)->DisplayPages(10));
+				temp.SetPaid(true);
+				Patient::SearchPatient(visitedPatientList, "1", AttributeValues::Patient::isPaid)->DisplayPages(10);
 				break;
 			case 0:
 				//exit and go back to login page
