@@ -29,11 +29,12 @@ public:
 	};
 	class PatientInterface {
 	public:
-		static void DisplayMainMenu();
+		static void DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<Doctor>* tempDoctor);
 		static void DisplaySortPatients();
 		static void DisplaySearchPatients();
 	};
 	class Validator {
-		public bool isEmptyString(string item);
+	public:
+		bool isEmptyString(string item);
 	};
 };

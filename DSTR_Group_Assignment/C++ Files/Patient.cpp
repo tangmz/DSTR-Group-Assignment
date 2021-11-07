@@ -290,8 +290,8 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Doubly
 	cout << "Enter Keyword: ";
 	getline(cin, name);
 	name = ".*" + name + ".*";
-	cout << patientList->GetLength() << endl;
-	system("pause");
+	//cout << patientList->GetLength() << endl;
+	//system("pause");
 	DoublyLinkedList<Patient>* filteredPatient = Patient::SearchPatient(patientList, name, AttributeValues::User::FirstName);
 	int selectedIndex = filteredPatient->DisplayPages(10);
 	if (selectedIndex == -1) return;

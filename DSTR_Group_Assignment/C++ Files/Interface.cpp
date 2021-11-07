@@ -13,7 +13,7 @@ void Interface::General::PrintLine(char symbol, int length) {
 	cout << endl;
 }
 
-void Interface::Validator::isEmptyString(string item) {
+bool Interface::Validator::isEmptyString(string item) {
 	if (item.length() == 0)
 		return false; // item is empty
 	return true; // item is valid
@@ -280,48 +280,48 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 					case 1:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::PatientID)->DisplayDetails;
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::PatientID)->DisplayDetails();
 						break;
 					case 2:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName)->DisplayDetails;
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName)->DisplayDetails();
 						break;
 					case 3:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::LastName)->DisplayDetails;
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::LastName)->DisplayDetails();
 						break;
 					case 4:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Age)->DisplayDetails;
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Age)->DisplayDetails();
 						break;
 					case 5:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Phone)->DisplayDetails;
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Phone)->DisplayDetails();
 						break;
 					case 6:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Email)->DisplayDetails;
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Email)->DisplayDetails();
 						break;
 					case 7:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Address)->DisplayDetails;
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Address)->DisplayDetails();
 						break;
 					case 8:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::IC)->DisplayDetails;
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::IC)->DisplayDetails();
 						break;
 				}
 			case 4:
 				//View sorted list (need to create another list for sorted data?)
 				//Let user choose sort by what
-				tempPatient->Sort(AttributeValues::User::Age)->DisplayPage(10)
+				tempPatient->Sort(AttributeValues::User::Age)->DisplayPages(10);
 				break;
 			case 5:
 				//Change priority
@@ -368,14 +368,14 @@ void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tem
 		{
 			case 1:
 				//Create appointment
-				cout << "Today's Date: "date::format("%F", std::chrono::system_clock::now()) << endl;
+				//cout << "Today's Date: " << date::format("%F", std::chrono::system_clock::now()) << endl;
 				cout << "Please enter the Appointment Date: " << endl;
 				getline(cin, date);
-				while (time.length == 0)
+				while (time.length() == 0)
 				{
 					cout << "No value entered, please enter the date: ";
 					getline(cin, date);
-					if (date.length != 0)
+					if (date.length() != 0)
 						break;
 				}
 				cout << "Available Time Slot:" << endl;
@@ -391,11 +391,11 @@ void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tem
 				}
 				cout << "Please enter the Appointment Time: ";
 				getline(cin, time);
-				while (time.length == 0)
+				while (time.length() == 0)
 				{
 					cout << "No value entered, please enter the time: ";
 					getline(cin, time);
-					if (time.length != 0)
+					if (time.length() != 0)
 						break;
 				}
 
