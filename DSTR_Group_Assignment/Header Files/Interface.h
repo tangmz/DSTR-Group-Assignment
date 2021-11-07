@@ -7,8 +7,9 @@
 #include "Nurse.h"
 #include <string>
 
+
 class Interface {
-public:
+public:	
 	class General {
 	public:
 		static void PrintLine(char symbol, int length);
@@ -22,7 +23,7 @@ public:
 	};
 	class DoctorInterface {
 	public:
-		static void DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList);
+		static void DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList, Doctor* currentDoctor);
 	};
 	class NurseInterface {
 	public:

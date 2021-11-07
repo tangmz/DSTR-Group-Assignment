@@ -7,7 +7,7 @@
 #include "../Header Files/LinkedList.h"
 #include "../Header Files/Comparison.h"
 #include "../Header Files/Appointment.h"
-#include "../Header Files/ApplicationLists.h"
+//#include "../Header Files/ApplicationLists.h"
 using namespace std;
 
 void PrintLine(char symbol, int length) {
@@ -1053,9 +1053,9 @@ string Medicine::GenerateMedicineID(int n) {
 }
 
 //---Appointment-------
-string Appointment::GenerateAppointmentID(int n) {
-	string id = "AP-";
-	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
-	id += to_string(n);
-	return id;
-}
+//string Appointment::GenerateAppointmentID(int n) {
+//	string id = "AP-";
+//	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
+//	id += to_string(n);
+//	return id;
+//}
