@@ -283,8 +283,10 @@ void Patient::ViewAllPatients(DoublyLinkedList<Patient>* patientList) {
 DoublyLinkedList<Patient>* Patient::SearchPatient(DoublyLinkedList<Patient>* patientList, string regExp, int attributeValue) {
 	return patientList->SearchByRegex(regExp, attributeValue);
 }
-void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList) {
-	//Here will return a Doubly linked list with only 1 (the selected) item inside, retains all operation of DoublyLL
+void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList,
+	DoublyLinkedList<Patient>* visitedPatientList) {
+	//Here will return a Doubly linked list with only 1 
+	//(the selected) item inside, retains all operation of DoublyLL
 	string name;
 	system("cls");
 	cout << "Enter Keyword: ";
@@ -292,7 +294,8 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, Doubly
 	name = ".*" + name + ".*";
 	//cout << patientList->GetLength() << endl;
 	//system("pause");
-	DoublyLinkedList<Patient>* filteredPatient = Patient::SearchPatient(patientList, name, AttributeValues::User::FirstName);
+	DoublyLinkedList<Patient>* filteredPatient = Patient::SearchPatient(patientList,
+		name, AttributeValues::User::FirstName);
 	int selectedIndex = filteredPatient->DisplayPages(10);
 	if (selectedIndex == -1) return;
 	Patient selectedPatients = filteredPatient->Get(selectedIndex);

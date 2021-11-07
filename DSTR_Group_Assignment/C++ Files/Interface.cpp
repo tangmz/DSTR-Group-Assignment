@@ -14,9 +14,14 @@ void Interface::General::PrintLine(char symbol, int length) {
 }
 
 bool Interface::Validator::isEmptyString(string item) {
-	if (item.length() == 0)
-		return false; // item is empty
-	return true; // item is valid
+	try {
+		if (item.length() == 0)
+			return false; // item is empty
+		return true; // item is valid
+	}
+	catch(exception e){
+		return false;
+	}
 }
 
 void Interface::UserInterface::DisplayStartupPage() {
@@ -109,6 +114,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 		{
 			case 1:
 				//View all patient
+				patientList->combineList(visitedPatientList)->DisplayPages(10);
 				Patient::ViewAllPatients(patientList);
 				break;
 			case 2:
@@ -186,7 +192,8 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 	}
 }
 
-void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<User>* tempUser, DoublyLinkedList<Patient>* visitedPatientList) {
+void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<User>* tempUser, 
+	DoublyLinkedList<Patient>* visitedPatientList) {
 	string patientID, id, firstName, lastName,
 		phone, email, address, password, ic, illness, visitDate, visitTime;
 	int age;
@@ -272,7 +279,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 					cout << "7. House Address" << endl;
 					cout << "8. I.C. Number" << endl;
 
-					Interface::General::PrintLine('-', 70);
+					Interface::General::PrintLine('=', 70);
 					cout << "Select Option: ";
 					cin >> decision;
 				}
