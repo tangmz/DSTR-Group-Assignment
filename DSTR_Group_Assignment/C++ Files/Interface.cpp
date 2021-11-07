@@ -19,6 +19,40 @@ bool Interface::Validator::isEmptyString(string item) {
 	return true; // item is valid
 }
 
+void ChooseSorting(DoublyLinkedList<Patient>* visitedPatientList) {
+	int sortDecision = Doctor::sortPatientsDecision();
+	system("cls");
+	switch (sortDecision) {
+	case 1:
+		visitedPatientList->Sort(AttributeValues::User::FirstName)->DisplayPages(10);
+		break;
+	case 2:
+		visitedPatientList->Sort(AttributeValues::User::LastName)->DisplayPages(10);
+		break;
+	case 3:
+		visitedPatientList->Sort(AttributeValues::User::Age)->DisplayPages(10);
+		break;
+	case 4:
+		visitedPatientList->Sort(AttributeValues::User::Gender)->DisplayPages(10);
+		break;
+	case 5:
+		visitedPatientList->Sort(AttributeValues::User::Phone)->DisplayPages(10);
+		break;
+	case 6:
+		visitedPatientList->Sort(AttributeValues::User::Email)->DisplayPages(10);
+		break;
+	case 7:
+		visitedPatientList->Sort(AttributeValues::Patient::Illness)->DisplayPages(10);
+		break;
+	case 0:
+		break;
+	default:
+		cout << "Invalid Input" << endl;
+		system("pause");
+		break;
+	}
+}
+
 void Interface::UserInterface::DisplayStartupPage() {
 	Interface::General::PrintLine('=', 100);
 	cout << "||" << setw(96) << left << "PATIENT QUEUE MANAGEMENT SYSTEM" << "||" << endl;
@@ -142,37 +176,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 			case 7:
 				//View sorted list
 				//Let user choose sort by what
-				sortDecision = Doctor::sortPatientsDecision();
-				system("cls");
-				switch (sortDecision) {
-				case 1:
-					visitedPatientList->Sort(AttributeValues::User::FirstName)->DisplayPages(10);
-					break;
-				case 2:
-					visitedPatientList->Sort(AttributeValues::User::LastName)->DisplayPages(10);
-					break;
-				case 3:
-					visitedPatientList->Sort(AttributeValues::User::Age)->DisplayPages(10);
-					break;
-				case 4:
-					visitedPatientList->Sort(AttributeValues::User::Gender)->DisplayPages(10);
-					break;
-				case 5:
-					visitedPatientList->Sort(AttributeValues::User::Phone)->DisplayPages(10);
-					break;
-				case 6:
-					visitedPatientList->Sort(AttributeValues::User::Email)->DisplayPages(10);
-					break;
-				case 7:
-					visitedPatientList->Sort(AttributeValues::Patient::Illness)->DisplayPages(10);
-					break;
-				case 0:
-					break;
-				default:
-					cout << "Invalid Input" << endl;
-					system("pause");
-					break;
-				}
+				ChooseSorting(visitedPatientList);
 				break;
 			case 8:
 				patientList->Sort(AttributeValues::Patient::VisitTime)->Sort(AttributeValues::Patient::VisitDate)->DisplayDetails();
@@ -321,7 +325,8 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 			case 4:
 				//View sorted list (need to create another list for sorted data?)
 				//Let user choose sort by what
-				tempPatient->Sort(AttributeValues::User::Age)->DisplayPages(10);
+				//tempPatient->Sort(AttributeValues::User::Age)->DisplayPages(10);
+				ChooseSorting(visitedPatientList);
 				break;
 			case 5:
 				//Change priority
