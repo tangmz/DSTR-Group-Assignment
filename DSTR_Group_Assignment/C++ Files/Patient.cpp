@@ -260,12 +260,12 @@ void Patient::UpdateAppointmentTime(DoublyLinkedList<Patient>* patientList, stri
 	//ApplicationLists::Appointments->SearchByRegex(appointmentID, AttributeValues::Appointment::AppointmentID)->Get(0)->SetTime(newTime);
 }
 void CreateAppointment(string date, string time, Doctor* doctor) {
-	Appointment newAppointment = Appointment(
+	/*Appointment newAppointment = Appointment(
 		Appointment::GenerateAppointmentID(ApplicationLists::Appointments->GetLength() + 1),
 		date,
 		time
 	);
-	ApplicationLists::Appointments->AddToEnd(newAppointment);
+	ApplicationLists::Appointments->AddToEnd(newAppointment);*/
 }
 int Patient::GetQueueNumber(DoublyLinkedList<Patient>* patientList) {
 	//Get patient's visit date and find all patients visiting on the same day
