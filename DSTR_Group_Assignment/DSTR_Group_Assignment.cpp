@@ -13,6 +13,9 @@
 using namespace std;
 
 int main() {
+	//Storage for current active users
+	static Doctor* currentDoctor;
+
 	srand(unsigned(time(NULL)));
 	AddPatients(ApplicationLists::Users, ApplicationLists::Patients, 150, 18, 21);
 	AddDoctors(ApplicationLists::Users, ApplicationLists::Doctors, 10, 25, 30);
@@ -22,6 +25,11 @@ int main() {
 	ApplicationLists::CurrentLoginPatient = ApplicationLists::Patients->GetReference(0);
 	ApplicationLists::CurrentLoginDoctor = ApplicationLists::Doctors->GetReference(0);
 	ApplicationLists::CurrentLoginNurse = ApplicationLists::Nurses->GetReference(0);
+	currentDoctor = ApplicationLists::Doctors->GetReference(0);
+	cout << ApplicationLists::Doctors->GetReference(0)->GetFirstName() << endl;
+	currentDoctor->setIsAvailable(true);
+
+	ApplicationLists::Medicines->DisplayPages(15);
 
 	//TEMPORARY: Quick access to main menu interfaces
 	int answer = -1;

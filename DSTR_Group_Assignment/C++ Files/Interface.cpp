@@ -6,6 +6,8 @@
 #include <ctime>
 using namespace std;
 
+
+
 void Interface::General::PrintLine(char symbol, int length) {
 	for (int i = 0; i < length; i++) {
 		cout << symbol;
@@ -120,9 +122,10 @@ void Interface::UserInterface::DisplayExitPage() {
 	cout << "EXITED THE PROGRAM" << endl;
 }
 
-void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList) {
+void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList, Doctor* currentDoctor) {
 	int decision = -1;
-	int sortDecision = -1;
+	int sortDecision;
+	int availableDecision = -1;
 	while (decision != 0) {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
@@ -134,7 +137,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 		cout << "3. Search Patient by Illness" << endl;
 		cout << "4. Modify Patient's Record" << endl;
 		cout << "5. View Patient Based On Visiting Order" << endl;
-		cout << "6. Notify Nurse" << endl;
+		cout << "6. Set Availability" << endl;
 		cout << "7. View Sorted List of Patient" << endl;
 		cout << "8. View Patients' Details" << endl;
 		cout << "0. Logout" << endl;
@@ -186,7 +189,29 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 				patientList->Sort(AttributeValues::Patient::VisitTime)->Sort(AttributeValues::Patient::VisitDate)->DisplayPages(10);
 				break;
 			case 6:
-				//Notify nurse
+				//Set availability
+				system("cls");
+				Interface::General::PrintLine('=', 70);
+				cout << "Current status is: " << currentDoctor->getIsAvailable() << endl;
+				Interface::General::PrintLine('-', 70);
+				cout << "1. Set to available" << endl;
+				cout << "2. Set to not available" << endl;
+				cin >> availableDecision;
+				cin.ignore();
+				switch (availableDecision)
+				{
+				case 1:
+					currentDoctor->setIsAvailable(true);
+					break;
+				case 2:
+					currentDoctor->setIsAvailable(false);
+					break;
+				default:
+					cout << "Invalid input, aborting operation." << endl;
+					cout << system("pause");
+					break;
+				}
+				
 				break;
 			case 7:
 				//View sorted list
@@ -216,13 +241,15 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 	int decision1 = -1;
 	int targetIndex;
 	string keyword;
+	int i;
+	Patient temp;
 	while (decision != 0) {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
 		cout << "Logged in as: Nurse" << endl;
 		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
-		cout << "1. Add New Patient to Waiting List" << endl;
+		cout << "1. Register New Walk-In Patient" << endl;
 		cout << "2. View All Patients" << endl;
 		cout << "3. Search Patient" << endl;
 		cout << "4. View Sorted List of Patient" << endl;
@@ -346,6 +373,10 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 5:
 				//Change priority
+				i = tempPatient->DisplayPages(10);
+				temp = tempPatient->Get(i);
+				tempPatient->DeleteAtIndex(i);
+				tempPatient->AddToStart(temp);
 				break;
 			case 6:
 				//Notify patient
@@ -356,6 +387,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 7:
 				//Collect payment
+				
 				break;
 			case 0:
 				//exit and go back to login page
@@ -368,16 +400,17 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 
 void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<Doctor>* tempDoctor) {
 	int decision = -1;
+	string keyword;
+	bool validator = true;
 	while (decision != 0) {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
 		cout << "Logged in as: Patient" << endl;
 		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
-		cout << "1. Create Appointment" << endl;
+		cout << "1. Register New Walk-In Appointment" << endl;
 		cout << "2. Update Appointment" << endl;
-		cout << "3. Cancel Appointment" << endl;
-		cout << "4. Get Queue Number" << endl;
+		cout << "3. Get Queue Number" << endl;
 		cout << "0. Logout" << endl;
 
 		Interface::General::PrintLine('-', 70);

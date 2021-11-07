@@ -1,5 +1,6 @@
 //#pragma once
 //#include "Doctor.h"
+//#include "LinkedList.h"
 //#include <iostream>
 //#include <string>
 //using namespace std;
@@ -14,6 +15,16 @@
 //	bool Paid;
 //	bool Cancelled;
 //public:
+//	Appointment(string ID,string date,string time) {
+//		AppointmentID = ID;
+//		Date = date;
+//		Time = time;
+//		Patient = NULL;
+//		Doctor = NULL;
+//		Paid = false;
+//		Cancelled = false;
+//
+//	}
 //	string GetAppointmentID() { return AppointmentID; }
 //	string GetDate() { return Date; }
 //	string GetTime() { return Time; }
@@ -24,4 +35,8 @@
 //
 //	void setPaid();
 //	void showDetails();
+//	void setDoctor(Doctor* doc);
+//	void setPatient();
+//
+//	static string GenerateAppointmentID(int n);
 //};

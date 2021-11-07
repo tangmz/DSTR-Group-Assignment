@@ -55,10 +55,10 @@ public:
 	/*DoublyLinkedList<Patient>* combineList(DoublyLinkedList<T>* second) {
 		DoublyLinkedList<Patient>* combined = new DoublyLinkedList;
 		for (int i = 0; i < this->GetLength(); i++) {
-			combined->AddToEnd(this.Get(i));
+			combined->AddToEnd(this->Get(i));
 		}
 		for (int i = 0; i < second->GetLength(); i++) {
-			combined->AddToEnd(second.Get(i));
+			combined->AddToEnd(second->Get(i));
 		}
 		return combined;
 	}*/

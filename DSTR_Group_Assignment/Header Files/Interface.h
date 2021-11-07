@@ -1,13 +1,15 @@
 #pragma once
 #include "AttributeValues.h"
+#include "Appointment.h"
 #include "LinkedList.h"
 #include "Patient.h"
 #include "Doctor.h"
 #include "Nurse.h"
 #include <string>
 
+
 class Interface {
-public:
+public:	
 	class General {
 	public:
 		static void PrintLine(char symbol, int length);
@@ -21,7 +23,7 @@ public:
 	};
 	class DoctorInterface {
 	public:
-		static void DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList);
+		static void DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList, Doctor* currentDoctor);
 	};
 	class NurseInterface {
 	public:
@@ -39,6 +41,6 @@ public:
 	};
 	class Validator {
 	public:
-		bool isEmptyString(string item);
+		static bool isEmptyString(string item);
 	};
 };
