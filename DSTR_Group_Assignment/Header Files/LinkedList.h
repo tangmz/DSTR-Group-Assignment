@@ -439,6 +439,18 @@ public:
 		return sortedList;
 	}
 
+	//Similar done by MZ
+	//DoublyLinkedList<T>* Combine(DoublyLinkedList<T>* list2) {
+	//	DoublyLinkedList<T>* combinedList = new DoublyLinkedList<T>();
+	//	for (int i = 0; i < Length; i++) {
+	//		combinedList->AddToEnd(this->Get(i));
+	//	}
+	//	for (int i = 0; i < list2->GetLength(); i++) {
+	//		combinedList->AddToEnd(list2->Get(i));
+	//	}
+	//	return combinedList;
+	//}
+
 	/*
 	* GET, PRINT, LENGTH FUNCTIONS
 	*/
