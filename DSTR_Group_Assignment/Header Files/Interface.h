@@ -36,6 +36,6 @@ public:
 	};
 	class Validator {
 	public:
-		bool isEmptyString(string item);
+		static bool isEmptyString(string item);
 	};
 };

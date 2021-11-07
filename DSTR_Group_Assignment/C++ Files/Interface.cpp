@@ -207,6 +207,8 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 	int decision1 = -1;
 	int targetIndex;
 	string keyword;
+	int i;
+	Patient temp;
 	while (decision != 0) {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
@@ -337,6 +339,10 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 5:
 				//Change priority
+				i = tempPatient->DisplayPages(10);
+				temp = tempPatient->Get(i);
+				tempPatient->DeleteAtIndex(i);
+				tempPatient->AddToStart(temp);
 				break;
 			case 6:
 				//Notify patient
@@ -360,16 +366,17 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 
 void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<Doctor>* tempDoctor) {
 	int decision = -1;
+	string keyword;
+	bool validator = true;
 	while (decision != 0) {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
 		cout << "Logged in as: Patient" << endl;
 		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
-		cout << "1. Create Appointment" << endl;
+		cout << "1. Register New Walk-In Appointment" << endl;
 		cout << "2. Update Appointment" << endl;
-		cout << "3. Cancel Appointment" << endl;
-		cout << "4. Get Queue Number" << endl;
+		cout << "3. Get Queue Number" << endl;
 		cout << "0. Logout" << endl;
 
 
@@ -419,10 +426,16 @@ void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tem
 				//Let user choose to update date, time, doctor (no need payment as unreasonable to let patient set payment for themselves)
 				break;
 			case 3:
-				//Cancel appointment
-				break;
-			case 4:
 				//Get queue number
+				while (validator) {
+					cout << "Please enter your I.C. Number";
+					getline(cin, keyword);
+					validator = Interface::Validator::isEmptyString(keyword);
+					//Doctor::setIsAvailable(true);
+				}
+				for (int i = 0; i < tempPatient->GetLength(); i++) {
+
+				}
 				break;
 			case 0:
 				//exit and go back to login page
