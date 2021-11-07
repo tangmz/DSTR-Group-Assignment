@@ -24,6 +24,7 @@ public:
 		Address = address;
 		Password = password;
 		IC = ic;
+		isAvailable = true;
 	}
 	Doctor() {
 
