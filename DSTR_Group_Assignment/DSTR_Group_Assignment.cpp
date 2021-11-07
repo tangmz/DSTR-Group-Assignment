@@ -19,8 +19,31 @@ int main() {
 	AddNurses(ApplicationLists::Users, ApplicationLists::Nurses, 25, 23, 30);
 	AddDrugs(ApplicationLists::Medicines, 50, 1, 60);
 
-	ApplicationLists::Medicines->DisplayPages(15);
+	ApplicationLists::CurrentLoginPatient = ApplicationLists::Patients->GetReference(0);
+	ApplicationLists::CurrentLoginDoctor = ApplicationLists::Doctors->GetReference(0);
+	ApplicationLists::CurrentLoginNurse = ApplicationLists::Nurses->GetReference(0);
 
-	Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients);
+	//TEMPORARY: Quick access to main menu interfaces
+	int answer = -1;
+	do {
+		system("cls");
+		cout << "1 - Doctor Main Menu\n2 - Nurse Main Menu\n3 - Patient Main Menu\n4 - Exit\n > ";
+		cin >> answer;
+		cin.ignore();
+		switch (answer) {
+			case 1:
+				Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients);
+				break;
+			case 2:
+				Interface::NurseInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::Users, ApplicationLists::VisitedPatients);
+				break;
+			case 3:
+				Interface::PatientInterface::DisplayMainMenu(ApplicationLists::CurrentLoginPatient, ApplicationLists::Patients, ApplicationLists::Doctors);
+				break;
+			case 4:
+			default:
+				break;
+		}
+	} while (answer != 4);
 	return 0;
 }
