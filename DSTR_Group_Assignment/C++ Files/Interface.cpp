@@ -117,7 +117,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 				cout << "Enter Keyword: ";
 				getline(cin, s);
 				s = ".*" + s + ".*";
-				Patient::SearchPatient(patientList, s, AttributeValues::User::FirstName)->DisplayPages(10);
+				Patient::SearchPatient(visitedPatientList, s, AttributeValues::User::FirstName)->DisplayPages(10);
 				break;
 			case 3:
 				//Search by illness
@@ -125,7 +125,7 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 				cout << "Enter Keyword: ";
 				getline(cin, s);
 				s = ".*" + s + ".*";
-				Patient::SearchPatient(patientList, s, AttributeValues::Patient::Illness)->DisplayPages(10);
+				Patient::SearchPatient(visitedPatientList, s, AttributeValues::Patient::Illness)->DisplayPages(10);
 				break;
 			case 4:
 				//Modify patient record
