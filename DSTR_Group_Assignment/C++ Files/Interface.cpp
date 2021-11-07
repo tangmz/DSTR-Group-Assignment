@@ -219,7 +219,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 		{
 			case 1:
 				//Add patient
-				patientID = Patient::GeneratePatientID(tempPatient->GetLength());
+				patientID = Patient::GeneratePatientID(tempPatient->GetLength() + visitedPatientList->GetLength());
 				id = User::GenerateID(tempUser->GetLength());
 				cout << "First Name: ";
 				getline(cin, firstName);
