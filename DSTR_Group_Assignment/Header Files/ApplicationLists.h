@@ -10,6 +10,10 @@ using namespace std;
 
 class ApplicationLists {
 public:
+	static Patient* CurrentLoginPatient;
+	static Doctor* CurrentLoginDoctor;
+	static Nurse* CurrentLoginNurse;
+
 	static DoublyLinkedList<Patient>* Patients;
 	static DoublyLinkedList<Patient>* VisitedPatients;
 	static DoublyLinkedList<Doctor>* Doctors;
@@ -20,6 +24,10 @@ public:
 };
 
 //DoublyLinkedList<Appointment>* ApplicationLists::Appointments = new DoublyLinkedList<Appointment>();
+Patient* ApplicationLists::CurrentLoginPatient = new Patient();
+Doctor* ApplicationLists::CurrentLoginDoctor = new Doctor();
+Nurse* ApplicationLists::CurrentLoginNurse = new Nurse();
+
 DoublyLinkedList<User>* ApplicationLists::Users = new DoublyLinkedList<User>();
 DoublyLinkedList<Doctor>* ApplicationLists::Doctors = new DoublyLinkedList<Doctor>();
 DoublyLinkedList<Medicine>* ApplicationLists::Medicines = new DoublyLinkedList<Medicine>();

@@ -253,6 +253,11 @@ string Patient::GeneratePatientID(int n) {
 	id += to_string(n);
 	return id;
 }
+void Patient::CreateAppointment(string date, string time, Doctor* doctor) {
+	VisitDate = date;
+	VisitTime = time;
+	AssignedDoctor = doctor;
+}
 void Patient::UpdateAppointmentDate(DoublyLinkedList<Patient>* patientList, string newDate) {
 	//ApplicationLists::Appointments->SearchByRegex(appointmentID, AttributeValues::Appointment::AppointmentID)->Get(0)->SetDate(newDate);
 }

@@ -150,10 +150,19 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 		switch (decision)
 		{
 			case 1:
+			{
 				//View all patient
-				patientList->combineList(visitedPatientList)->DisplayPages(10);
+				DoublyLinkedList<Patient> combined = DoublyLinkedList<Patient>();
+				for (int i = 0; i < patientList->GetLength(); i++) {
+					combined.AddToEnd(patientList->Get(i));
+				}
+				for (int i = 0; i < visitedPatientList->GetLength(); i++) {
+					combined.AddToEnd(visitedPatientList->Get(i));
+				}
+				combined.DisplayPages(10);
 				Patient::ViewAllPatients(patientList);
 				break;
+			}
 			case 2:
 				//Search by name
 				system("cls");				
@@ -392,7 +401,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 	}
 }
 
-void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<Doctor>* tempDoctor) {
+void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<Doctor>* tempDoctor) {
 	int decision = -1;
 	string keyword;
 	bool validator = true;
@@ -407,63 +416,29 @@ void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tem
 		cout << "3. Get Queue Number" << endl;
 		cout << "0. Logout" << endl;
 
-
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
-		string date, time;
+		cin.ignore();
 		switch (decision)
 		{
 			case 1:
 				//Create appointment
 				//cout << "Today's Date: " << date::format("%F", std::chrono::system_clock::now()) << endl;
-				cout << "Please enter the Appointment Date: " << endl;
-				getline(cin, date);
-				while (time.length() == 0)
-				{
-					cout << "No value entered, please enter the date: ";
-					getline(cin, date);
-					if (date.length() != 0)
-						break;
-				}
-				cout << "Available Time Slot:" << endl;
-				for (int i = 10; i < 18; i++) {
-					if (i < 12) {
-						cout << i << ":00" << "am" << "\t";
-						cout << i << ":30" << "am" << endl;
-					}
-					else if (i > 12) {
-						cout << i << ":00" << "pm" << "\t";
-						cout << i << ":30" << "pm" << endl;
-					}
-				}
-				cout << "Please enter the Appointment Time: ";
-				getline(cin, time);
-				while (time.length() == 0)
-				{
-					cout << "No value entered, please enter the time: ";
-					getline(cin, time);
-					if (time.length() != 0)
-						break;
-				}
-
-				//Patient::CreateAppointment(date, time, Doctor* doctor);
+				Interface::PatientInterface::DisplayAppointmentCreate(patientUser);
 				break;
 			case 2:
 				//Update appointment
 				//Let user choose to update date, time, doctor (no need payment as unreasonable to let patient set payment for themselves)
+				Interface::PatientInterface::DisplayAppointmentUpdate(patientUser);
 				break;
 			case 3:
+				//Cancel appointment
+				Interface::PatientInterface::DisplayAppointmentCancel(patientUser);
+				break;
+			case 4:
 				//Get queue number
-				while (validator) {
-					cout << "Please enter your I.C. Number";
-					getline(cin, keyword);
-					validator = Interface::Validator::isEmptyString(keyword);
-					//Doctor::setIsAvailable(true);
-				}
-				for (int i = 0; i < tempPatient->GetLength(); i++) {
-
-				}
+				Interface::PatientInterface::DisplayQueueNumber(patientUser, tempPatient);
 				break;
 			case 0:
 				//exit and go back to login page
@@ -471,4 +446,368 @@ void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tem
 				break;
 		}
 	}
+}
+void Interface::PatientInterface::DisplaySortPatients() {
+
+}
+void Interface::PatientInterface::DisplaySearchPatients() {
+
+}
+void Interface::PatientInterface::DisplayAppointmentCreate(Patient* patientUser) {
+	if (patientUser->GetVisitTime() != "" && patientUser->GetVisitDate() != "") {
+		cout << "Appointment Already Scheduled." << endl;
+		system("pause");
+		return;
+	}
+
+	string date, time;
+
+	//Select Date
+	/*cout << "Please enter the Appointment Date: " << endl;
+	getline(cin, date);
+	while (date.length() == 0)
+	{
+		cout << "No value entered, please enter the date: ";
+		getline(cin, date);
+		if (date.length() != 0)
+			break;
+	}*/
+	bool datePassed = true, dayEntered = false;
+	string dayString = "", monthString = "";
+	int dayInt = 0, monthInt = 0;
+
+	do {
+		datePassed = true;
+		dayEntered = false;
+		dayString = "";
+		monthString = "";
+		dayInt = 0;
+		monthInt = 0;
+
+		system("cls");
+		cout << "Enter Intended Visit Date (dd/mm): ";
+		getline(cin, date);
+
+		//Get day and month values
+		for (int index = 0; index < int(date.length()); index++) {
+			if (isdigit(date[index]) && !dayEntered) {
+				dayString += date[index];
+			}
+			else if (isdigit(date[index]) && dayEntered) {
+				monthString += date[index];
+			}
+
+			if (!isdigit(date[index]) && !dayEntered) dayEntered = true;
+			else if (!isdigit(date[index]) && dayEntered) break;
+		}
+		try {
+			dayInt = stoi(dayString);
+			monthInt = stoi(monthString);
+		}
+		catch (...) {
+			datePassed = false;
+		}
+
+		//Check if date values are valid
+		if (monthInt <= 0 || monthInt > 12) datePassed = false;
+		if ((monthInt <= 7 && monthInt % 2 == 1) || (monthInt >= 8 && monthInt % 2 == 0)) {
+			//31-day month
+			if (dayInt <= 0 || dayInt > 31) datePassed = false;
+		}
+		else if (((monthInt <= 7 && monthInt % 2 == 0) || (monthInt >= 8 && monthInt % 2 == 1)) && monthInt != 2) {
+			//30-day month
+			if (dayInt <= 0 || dayInt > 30) datePassed = false;
+		}
+		else if (monthInt == 2) {
+			//February = 28-day month (no year included)
+			if (dayInt <= 0 || dayInt > 29) datePassed = false;
+		}
+		else {
+			//Invalid Month
+			datePassed = false;
+		}
+
+		if (!datePassed) {
+			cout << "Invalid Date Entered. Please Enter Again. [" << dayString << " and" << monthString << "]" << endl;
+			system("pause");
+		}
+	} while (!datePassed);
+
+	date = "";
+	if (monthString.length() == 1) date += "0";
+	date += monthString;
+	date += "/";
+	if (dayString.length() == 1) date += "0";
+	date += dayString;
+
+	//Select Time
+	/*cout << "Available Time Slot:" << endl;
+	for (int i = 10; i < 18; i++) {
+		if (i < 12) {
+			cout << i << ":00" << "am" << "\t";
+			cout << i << ":30" << "am" << endl;
+		}
+		else if (i > 12) {
+			cout << i << ":00" << "pm" << "\t";
+			cout << i << ":30" << "pm" << endl;
+		}
+	}
+	cout << "Please enter the Appointment Time: ";
+	getline(cin, time);
+	while (time.length() == 0)
+	{
+		cout << "No value entered, please enter the time: ";
+		getline(cin, time);
+		if (time.length() != 0)
+			break;
+	}*/
+	bool timePassed = true, hourEntered = false;
+	string hourString = "", minuteString = "";
+	int hourInt = 0, minuteInt = 0;
+
+	do {
+		timePassed = true;
+		hourEntered = false;
+		hourString = "";
+		minuteString = "";
+		hourInt = 0;
+		minuteInt = 0;
+
+		system("cls");
+		cout << "Enter Intended Visit Time (hh:mm): ";
+		getline(cin, time);
+
+		//Get hour and minute values
+		for (int index = 0; index < int(time.length()); index++) {
+			if (isdigit(time[index]) && !hourEntered) {
+				hourString += time[index];
+			}
+			else if (isdigit(time[index]) && hourEntered) {
+				minuteString += time[index];
+			}
+
+			if (!isdigit(time[index]) && !hourEntered) hourEntered = true;
+			else if (!isdigit(time[index]) && hourEntered) break;
+		}
+		try {
+			hourInt = stoi(hourString);
+			minuteInt = stoi(minuteString);
+		}
+		catch (...) {
+			timePassed = false;
+		}
+
+		//Check if time values are valid
+		if (hourInt < 0 || hourInt >= 24) timePassed = false;
+		if (minuteInt < 0 || minuteInt >= 60) timePassed = false;
+
+		if (!timePassed) {
+			cout << "Invalid Time Entered. Please Enter Again. [" << hourString << " and" << minuteString << "]" << endl;
+			system("pause");
+		}
+	} while (!timePassed);
+
+	time = "";
+	if (hourString.length() == 1) time += "0";
+	time += hourString;
+	time += ":";
+	if (minuteString.length() == 1) time += "0";
+	time += minuteString;
+
+	//Create Appointment
+	patientUser->CreateAppointment(date, time, NULL);
+	cout << "Appointment Created on " << time << ", " << date << endl;
+	system("pause");
+}
+void Interface::PatientInterface::DisplayAppointmentUpdate(Patient* patientUser) {
+	if (patientUser->GetVisitTime() == "" || patientUser->GetVisitDate() == "") {
+		cout << "Currently No Appointment Scheduled." << endl;
+	}
+	else {
+		system("cls");
+		cout << "Current Appointment Time and Date: " << patientUser->GetVisitTime() << ", " << patientUser->GetVisitDate() << endl;
+		cout << "Update:\n1 - Date\n2 - Time\nOther - Cancel Changes\n > ";
+
+		char answer;
+		cin >> answer;
+		cin.ignore();
+
+		if (answer == '1') {
+			string date;
+
+			bool datePassed = true, dayEntered = false;
+			string dayString = "", monthString = "";
+			int dayInt = 0, monthInt = 0;
+
+			do {
+				datePassed = true;
+				dayEntered = false;
+				dayString = "";
+				monthString = "";
+				dayInt = 0;
+				monthInt = 0;
+
+				cout << "Enter Intended Visit Date (dd/mm): ";
+				getline(cin, date);
+
+				//Get day and month values
+				for (int index = 0; index < int(date.length()); index++) {
+					if (isdigit(date[index]) && !dayEntered) {
+						dayString += date[index];
+					}
+					else if (isdigit(date[index]) && dayEntered) {
+						monthString += date[index];
+					}
+
+					if (!isdigit(date[index]) && !dayEntered) dayEntered = true;
+					else if (!isdigit(date[index]) && dayEntered) break;
+				}
+				try {
+					dayInt = stoi(dayString);
+					monthInt = stoi(monthString);
+				}
+				catch (...) {
+					datePassed = false;
+				}
+
+				//Check if date values are valid
+				if (monthInt <= 0 || monthInt > 12) datePassed = false;
+				if ((monthInt <= 7 && monthInt % 2 == 1) || (monthInt >= 8 && monthInt % 2 == 0)) {
+					//31-day month
+					if (dayInt <= 0 || dayInt > 31) datePassed = false;
+				}
+				else if (((monthInt <= 7 && monthInt % 2 == 0) || (monthInt >= 8 && monthInt % 2 == 1)) && monthInt != 2) {
+					//30-day month
+					if (dayInt <= 0 || dayInt > 30) datePassed = false;
+				}
+				else if (monthInt == 2) {
+					//February = 28-day month (no year included)
+					if (dayInt <= 0 || dayInt > 29) datePassed = false;
+				}
+				else {
+					//Invalid Month
+					datePassed = false;
+				}
+
+				if (!datePassed) {
+					cout << "Invalid Date Entered. Please Enter Again. [" << dayString << " and" << monthString << "]" << endl;
+				}
+			} while (!datePassed);
+
+			date = "";
+			if (monthString.length() == 1) date += "0";
+			date += monthString;
+			date += "/";
+			if (dayString.length() == 1) date += "0";
+			date += dayString;
+
+			patientUser->SetVisitDate(date);
+		}
+		else if (answer == '2') {
+			string time;
+
+			bool timePassed = true, hourEntered = false;
+			string hourString = "", minuteString = "";
+			int hourInt = 0, minuteInt = 0;
+
+			do {
+				timePassed = true;
+				hourEntered = false;
+				hourString = "";
+				minuteString = "";
+				hourInt = 0;
+				minuteInt = 0;
+
+				cout << "Enter Intended Visit Time (hh:mm): ";
+				getline(cin, time);
+
+				//Get hour and minute values
+				for (int index = 0; index < int(time.length()); index++) {
+					if (isdigit(time[index]) && !hourEntered) {
+						hourString += time[index];
+					}
+					else if (isdigit(time[index]) && hourEntered) {
+						minuteString += time[index];
+					}
+
+					if (!isdigit(time[index]) && !hourEntered) hourEntered = true;
+					else if (!isdigit(time[index]) && hourEntered) break;
+				}
+				try {
+					hourInt = stoi(hourString);
+					minuteInt = stoi(minuteString);
+				}
+				catch (...) {
+					timePassed = false;
+				}
+
+				//Check if time values are valid
+				if (hourInt < 0 || hourInt >= 24) timePassed = false;
+				if (minuteInt < 0 || minuteInt >= 60) timePassed = false;
+
+				if (!timePassed) {
+					cout << "Invalid Time Entered. Please Enter Again. [" << hourString << " and" << minuteString << "]" << endl;
+				}
+			} while (!timePassed);
+
+			time = "";
+			if (hourString.length() == 1) time += "0";
+			time += hourString;
+			time += ":";
+			if (minuteString.length() == 1) time += "0";
+			time += minuteString;
+
+			patientUser->SetVisitTime(time);
+		}
+	}
+	system("pause");
+}
+void Interface::PatientInterface::DisplayAppointmentCancel(Patient* patientUser) {
+	if (patientUser->GetVisitTime() == "" || patientUser->GetVisitDate() == "") {
+		cout << "Currently No Appointment Scheduled." << endl;
+	}
+	else {
+		system("cls");
+		cout << "Current Appointment: Meeting at " << patientUser->GetVisitTime() << ", " << patientUser->GetVisitDate() << endl;
+		cout << "Are you sure you want to cancel the appointment? [Enter \'Y\' to confirm]: ";
+
+		char answer;
+		cin >> answer;
+		cin.ignore();
+
+		answer = toupper(answer);
+		if (answer == 'Y') {
+			patientUser->SetVisitDate("");
+			patientUser->SetVisitTime("");
+			patientUser->SetAssignedDoctor(NULL);
+			patientUser->SetPrescription(NULL);
+			cout << "Appointment Cancelled." << endl;
+		}
+		else {
+			cout << "Appointment Still Active." << endl;
+		}
+	}
+	system("pause");
+}
+void Interface::PatientInterface::DisplayQueueNumber(Patient* patientUser, DoublyLinkedList<Patient>* patientList) {
+	if (patientUser->GetVisitDate() == "" || patientUser->GetVisitTime() == "") {
+		cout << "No Appointment Scheduled." << endl;
+		system("pause");
+		return;
+	}
+
+	DoublyLinkedList<Patient>* sameDayPatients = patientList
+		->SearchByRegex(patientUser->GetVisitDate(), AttributeValues::Patient::VisitDate)
+		->Sort(AttributeValues::Patient::VisitTime);
+	cout << "Total patients on same date: " << sameDayPatients->GetLength() << endl;
+	for (int i = 0; i < sameDayPatients->GetLength(); i++) {
+		if (sameDayPatients->Get(i).GetPatientID() == patientUser->GetPatientID()) {
+			cout << "Queue Number " << i + 1 << endl;
+			system("pause");
+			return;
+		}
+	}
+	cout << "ERROR DISPLAY_QUEUE_NUMBER: No matching patient ID found." << endl;
+	system("pause");
+	return;
 }
