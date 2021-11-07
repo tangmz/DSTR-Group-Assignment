@@ -9,6 +9,7 @@ using namespace std;
 class Doctor : public User {
 private:
 	string DoctorID;
+	bool isAvailable;
 public:
 	Doctor(string doctorID, string userID, string firstName, string lastName, int age, char gender,
 		string phone, string email, string address, string password, string ic) {
@@ -43,6 +44,12 @@ public:
 	//void modifyPatientRecord(Patient newPatient);
 	static string GenerateDoctorID(int n);
 	void sortPatientsbyVisit();
+	void setIsAvailable(bool available) {
+		this->isAvailable = available;
+	}
+	bool getIsAvailable(){
+		return isAvailable;
+	}
 
 	//Optional
 	void notifyNurse();

@@ -6,6 +6,8 @@
 #include "../Header Files/Medicine.h"
 #include "../Header Files/LinkedList.h"
 #include "../Header Files/Comparison.h"
+#include "../Header Files/Appointment.h"
+#include "../Header Files/ApplicationLists.h"
 using namespace std;
 
 void PrintLine(char symbol, int length) {
@@ -256,6 +258,14 @@ void Patient::UpdateAppointmentDate(DoublyLinkedList<Patient>* patientList, stri
 }
 void Patient::UpdateAppointmentTime(DoublyLinkedList<Patient>* patientList, string newTime) {
 	//ApplicationLists::Appointments->SearchByRegex(appointmentID, AttributeValues::Appointment::AppointmentID)->Get(0)->SetTime(newTime);
+}
+void CreateAppointment(string date, string time, Doctor* doctor) {
+	Appointment newAppointment = Appointment(
+		Appointment::GenerateAppointmentID(ApplicationLists::Appointments->GetLength() + 1),
+		date,
+		time
+	);
+	ApplicationLists::Appointments->AddToEnd(newAppointment);
 }
 int Patient::GetQueueNumber(DoublyLinkedList<Patient>* patientList) {
 	//Get patient's visit date and find all patients visiting on the same day
@@ -1037,6 +1047,14 @@ void Medicine::DisplayDetails() {
 
 string Medicine::GenerateMedicineID(int n) {
 	string id = "MED-";
+	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
+	id += to_string(n);
+	return id;
+}
+
+//---Appointment-------
+string Appointment::GenerateAppointmentID(int n) {
+	string id = "AP-";
 	for (int i = 0; i < 6 - ceil(log10(n + 1)); i++) id += "0";
 	id += to_string(n);
 	return id;

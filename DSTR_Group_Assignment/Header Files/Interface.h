@@ -1,5 +1,6 @@
 #pragma once
 #include "AttributeValues.h"
+#include "Appointment.h"
 #include "LinkedList.h"
 #include "Patient.h"
 #include "Doctor.h"

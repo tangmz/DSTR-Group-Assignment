@@ -213,7 +213,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 		cout << "Logged in as: Nurse" << endl;
 		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
-		cout << "1. Add New Patient to Waiting List" << endl;
+		cout << "1. Register New Walk-In Patient" << endl;
 		cout << "2. View All Patients" << endl;
 		cout << "3. Search Patient" << endl;
 		cout << "4. View Sorted List of Patient" << endl;
@@ -347,6 +347,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 7:
 				//Collect payment
+				
 				break;
 			case 0:
 				//exit and go back to login page
@@ -411,7 +412,7 @@ void Interface::PatientInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tem
 						break;
 				}
 
-				//Patient::CreateAppointment(date, time, tempDoctor);
+				//Patient::CreateAppointment(date, time, Doctor* doctor);
 				break;
 			case 2:
 				//Update appointment
