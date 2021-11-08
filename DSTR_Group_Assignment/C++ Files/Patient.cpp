@@ -113,7 +113,7 @@ bool Patient::MatchesRegex(string regExp, int attributeValue) {
 				regex_match(Disability, regex(regExp)) ||
 				regex_match(AssignedDoctor->GetDoctorID(), regex(regExp)) ||
 				regex_match(Prescription->GetMedicineID(), regex(regExp)) ||
-				regex_match(Note, regex(regExp))) {
+				regex_match(Note, regex(regExp)) || regex_match(to_string(isPaid), regex(regExp))) {
 				return true;
 			}
 			break;
@@ -171,6 +171,8 @@ bool Patient::MatchesRegex(string regExp, int attributeValue) {
 		case AttributeValues::Patient::Note:
 			if (regex_match(Note, regex(regExp))) return true;
 			break;
+		case AttributeValues::Patient::isPaid:
+			if (regex_match(to_string(isPaid), regex(regExp))) return true;
 		default:
 			break;
 	}

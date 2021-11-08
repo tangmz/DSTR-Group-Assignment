@@ -440,7 +440,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>*& temp
 	int decision = -1, decision1 = -1,
 		targetIndex = -1, targetDocIndex = -1;
 	int i;
-	Patient temp;
+	Patient temp, oldTemp;
 	while (decision != 0) {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
@@ -647,8 +647,11 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>*& temp
 			case 7:
 				//Collect payment
 				targetIndex = Patient::SearchPatient(visitedPatientList, ".*0.*", AttributeValues::Patient::isPaid)->Sort(AttributeValues::Patient::FirstName)->DisplayPages(10);
-				temp = visitedPatientList->Get(0);
+				temp = visitedPatientList->Get(targetIndex);
+				oldTemp = visitedPatientList->Get(targetIndex);
 				temp.SetPaid(true);
+				tempPatient->ReplaceNthValue(oldTemp, temp, 1);
+				oldTemp = temp;
 
 				//------testing purpose------
 				//Patient::SearchPatient(visitedPatientList, "1", AttributeValues::Patient::isPaid)->DisplayPages(10);
