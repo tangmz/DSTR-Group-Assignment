@@ -14,7 +14,7 @@ private:
 	string VisitDate;
 	string VisitTime;
 	string Disability;
-	Doctor AssignedDoctor;
+	Doctor* AssignedDoctor;
 	Medicine* Prescription;
 	string Note;
 	bool isPaid;
@@ -37,7 +37,7 @@ public:
 		VisitDate = visitDate;
 		VisitTime = visitTime;
 		Disability = "";
-		//AssignedDoctor = NULL;
+		AssignedDoctor = NULL;
 		Prescription = NULL;
 		Note = "";
 		isPaid = false;
@@ -51,7 +51,7 @@ public:
 	string GetVisitDate() { return VisitDate; }
 	string GetVisitTime() { return VisitTime; }
 	string GetDisability() { return Disability; }
-	Doctor GetAssignedDoctor() { return AssignedDoctor; }
+	Doctor* GetAssignedDoctor() { return AssignedDoctor; }
 	Medicine* GetPrescription() { return Prescription; }
 	string GetNote() { return Note; }
 	bool GetPaid() { return isPaid; }
@@ -60,7 +60,7 @@ public:
 	void SetVisitDate(string visitDate) { VisitDate = visitDate; }
 	void SetVisitTime(string visitTime) { VisitTime = visitTime; }
 	void SetDisability(string disability) { Disability = disability; }
-	void SetAssignedDoctor(Doctor doctor) { AssignedDoctor = doctor; }
+	void SetAssignedDoctor(Doctor* doctor) { AssignedDoctor = doctor; }
 	void SetPrescription(Medicine* medicine) { Prescription = medicine; }
 	void SetPrescriptionName(string mediName) { 
 		if (this->Prescription == NULL) {

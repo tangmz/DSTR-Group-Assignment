@@ -49,7 +49,7 @@ void ChooseSorting(DoublyLinkedList<Patient>* visitedPatientList) {
 		visitedPatientList->Sort(AttributeValues::User::Email)->DisplayPages(10);
 		break;
 	case 7:
-		visitedPatientList->Sort(AttributeValues::Patient::Illness)->DisplayPages(10);
+		visitedPatientList->Sort(AttributeValues::Patient::isPaid)->DisplayPages(10);
 		break;
 	case 0:
 		break;
@@ -443,7 +443,8 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
-
+		cin.ignore();
+		string s;
 		switch (decision)
 		{
 			case 1:
@@ -483,6 +484,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 					phone, email, address, password, ic, illness, visitDate, visitTime);
 				tempPatient->AddToEnd(p);
 				cout << "Patient has been successfully added to the list" << endl;
+				system("pause");
 				break;
 			case 2:
 				//View all patient
@@ -490,7 +492,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 3:
 				//Search patient
-				while (decision1 > 0 && decision1 < 9) {
+				while (decision1 != 0) {
 					system("CLS");
 					Interface::General::PrintLine('=', 70);
 					cout << "Patient Record Search Engine" << endl;
@@ -504,16 +506,19 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 					cout << "6. e-mail" << endl;
 					cout << "7. House Address" << endl;
 					cout << "8. I.C. Number" << endl;
+					cout << "0. Exit" << endl;
 
 					Interface::General::PrintLine('=', 70);
 					cout << "Select Option: ";
-					cin >> decision;
-				}
-				switch (decision1) {
+					cin >> decision1;
+					cin.ignore();
+					switch (decision1) {
 					case 1:
-						cout << "Keyword: ";
+						system("cls");
+						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::PatientID)->DisplayDetails();
+						s = ".*" + s + ".*";
+						Patient::SearchPatient(visitedPatientList, s, AttributeValues::User::FirstName)->DisplayPages(10);
 						break;
 					case 2:
 						cout << "Keyword: ";
@@ -550,7 +555,11 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 						getline(cin, keyword);
 						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::IC)->DisplayDetails();
 						break;
+					default:
+						break;
+					}
 				}
+				break;
 			case 4:
 				//View sorted list (need to create another list for sorted data?)
 				//Let user choose sort by what
@@ -579,17 +588,20 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 					}
 					else {
 						temp = tempPatient->Get(targetIndex);
-						temp.SetAssignedDoctor(tempDoctor->Get(targetDocIndex));
+						temp.SetAssignedDoctor(tempDoctor->GetReference(targetDocIndex));
 						visitedPatientList->AddToStart(temp);
 						tempPatient->DeleteAtIndex(targetIndex);
-						cout << "Patient is assigned to: Dr." << temp.GetAssignedDoctor().GetLastName() << endl;
+						Interface::General::PrintLine('=', 70);
+						cout << "Patient is assigned to: Dr." << temp.GetLastName() << endl;
+						Interface::General::PrintLine('=', 70);
+						system("pause");
 					}
 				}
 				break;
 			case 7:
 				//Collect payment
-				targetIndex = Patient::SearchPatient(visitedPatientList, "0", AttributeValues::Patient::isPaid)->Sort(AttributeValues::Patient::FirstName)->DisplayPages(10);
-				temp = visitedPatientList->Get(targetIndex);
+				targetIndex = Patient::SearchPatient(visitedPatientList, ".*0.*", AttributeValues::Patient::isPaid)->Sort(AttributeValues::Patient::FirstName)->DisplayPages(10);
+				temp = visitedPatientList->Get(0);
 				temp.SetPaid(true);
 
 				//------testing purpose------
