@@ -297,7 +297,7 @@ void Patient::ViewAllPatients(DoublyLinkedList<Patient>* patientList) {
 DoublyLinkedList<Patient>* Patient::SearchPatient(DoublyLinkedList<Patient>* patientList, string regExp, int attributeValue) {
 	return patientList->SearchByRegex(regExp, attributeValue);
 }
-void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList,
+void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>*& patientList,
 	DoublyLinkedList<Patient>* visitedPatientList) {
 	//Here will return a Doubly linked list with only 1 
 	//(the selected) item inside, retains all operation of DoublyLL
@@ -358,11 +358,11 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList,
 			cout << "Enter new age: ";
 			getline(cin, s);
 		
-			while (age < 0) {
+			while (stoi(s) < 0) {
 				cout << "Enter new age: ";
 				getline(cin, s);
 			}
-			selectedPatients.SetAge(age);
+			selectedPatients.SetAge(stoi(s));
 			break;
 		case 4:
 			cout << "Enter new gender: ";
@@ -422,6 +422,7 @@ void Patient::ModifyPatientRecord(DoublyLinkedList<Patient>* patientList,
 		//Patient pNew = Patient(selectedPatients->PatientID, selectedPatients->ID, selectedPatients->FirstName)
 		//cout << *selectedPatients->LastName
 		patientList->ReplaceNthValue(oldPatient, selectedPatients, 1);
+		oldPatient = selectedPatients;
 		system("cls");
 
 	}

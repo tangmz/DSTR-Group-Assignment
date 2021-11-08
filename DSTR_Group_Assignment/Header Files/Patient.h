@@ -93,7 +93,7 @@ public:
 	static void ChangePatientPriority(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
 	static void NotifyNextPatient(DoublyLinkedList<Patient>* patientList, int nextPatientIndex);
 	static void CollectPayment(DoublyLinkedList<Patient>* patientList, Patient targetPatient);
-	static void ModifyPatientRecord(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList);
+	static void ModifyPatientRecord(DoublyLinkedList<Patient>*& patientList, DoublyLinkedList<Patient>* visitedPatientList);
 	//static void DisplayMainMenu();
 	//static void DisplaySortPatients();
 	//static void DisplaySearchPatients();
