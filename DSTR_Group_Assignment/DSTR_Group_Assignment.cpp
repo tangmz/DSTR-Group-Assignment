@@ -38,8 +38,8 @@ void skipLogin() {
 
 void addOwnSampleData() {
 	Doctor d1 = Doctor("Doctor", "UserID", "John", "Smith", 21, 'M', "123", "mail", "addr", "pass", "IC");
-	Nurse n1 = Nurse("Nurse", "UseID", "NFname", "NLname", 1, 'F', "0123", "mail", "addr", "pass", "ic");
-	Patient p1 = Patient("Patient", "UserID", "PFname", "PLname", 2, 'M', "phone", "mail", "addr", "pass", "ic", "illness", "visitD", "visitT");
+	Nurse n1 = Nurse("Nurse", "UseID", "Jessie", "Carl", 1, 'F', "0123", "mail", "addr", "pass", "ic");
+	Patient p1 = Patient("Patient", "UserID", "Momi", "Poko", 2, 'M', "phone", "mail", "addr", "pass", "ic", "illness", "visitD", "visitT");
 	ApplicationLists::Doctors->AddToEnd(d1);
 	ApplicationLists::Nurses->AddToEnd(n1);
 	ApplicationLists::Patients->AddToEnd(p1);

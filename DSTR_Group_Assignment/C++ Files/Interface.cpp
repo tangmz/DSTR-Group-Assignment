@@ -90,6 +90,12 @@ string Interface::UserInterface::DisplayLoginPage(DoublyLinkedList<Doctor>*& doc
 		Interface::General::PrintLine('-', 70);
 		cout << "Your Option: ";
 		cin >> decision;
+		if (cin.fail()) {
+            decision = -1;
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
 		cin.ignore();
 		switch (decision) {
 		case 4:
@@ -208,6 +214,12 @@ void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userL
 
 		cout << "1 - Register New Doctor\n2 - Register New Nurse\n3 - Back to Login\n > ";
 		cin >> answer;
+		if (cin.fail()) {
+			answer = -1;
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
+		}
 		cin.ignore();
 
 		char gender;
@@ -327,6 +339,12 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>*& pat
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
+		if (cin.fail()) {
+			decision = -1;
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
+		}
 		cin.ignore();
 		string s;
 
@@ -441,6 +459,12 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>*& temp
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
+		if (cin.fail()) {
+			decision = -1;
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
+		}
 		cin.ignore();
 		string keyword;
 		switch (decision)
@@ -653,6 +677,12 @@ void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLi
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
 		cin >> decision;
+		if (cin.fail()) {
+			decision = -1;
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
+		}
 		cin.ignore();
 		switch (decision)
 		{
@@ -751,28 +781,6 @@ void Interface::PatientInterface::DisplayAppointmentCreate(Patient* patientUser)
 	date += "/";
 	if (dayString.length() == 1) date += "0";
 	date += dayString;
-
-	//Select Time
-	/*cout << "Available Time Slot:" << endl;
-	for (int i = 10; i < 18; i++) {
-		if (i < 12) {
-			cout << i << ":00" << "am" << "\t";
-			cout << i << ":30" << "am" << endl;
-		}
-		else if (i > 12) {
-			cout << i << ":00" << "pm" << "\t";
-			cout << i << ":30" << "pm" << endl;
-		}
-	}
-	cout << "Please enter the Appointment Time: ";
-	getline(cin, time);
-	while (time.length() == 0)
-	{
-		cout << "No value entered, please enter the time: ";
-		getline(cin, time);
-		if (time.length() != 0)
-			break;
-	}*/
 	bool timePassed = true, hourEntered = false;
 	string hourString = "", minuteString = "";
 	int hourInt = 0, minuteInt = 0;
