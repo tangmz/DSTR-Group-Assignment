@@ -38,6 +38,7 @@ public:
 		static void DisplayAppointmentUpdate(Patient* patientUser);
 		static void DisplayAppointmentCancel(Patient* patientUser);
 		static void DisplayQueueNumber(Patient* patientUser, DoublyLinkedList<Patient>* patientList);
+		static void DisplayCurrentDetails(Patient* patientUser);
 	};
 	class Validator {
 	public:

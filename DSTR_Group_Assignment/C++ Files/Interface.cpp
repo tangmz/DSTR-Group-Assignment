@@ -124,7 +124,7 @@ void Interface::UserInterface::DisplayExitPage() {
 
 void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList, Doctor* currentDoctor) {
 	int decision = -1;
-	int sortDecision;
+	int sortDecision = -1;
 	int availableDecision = -1;
 	while (decision != 0) {
 		system("CLS");
@@ -400,18 +400,15 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 
 void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<Doctor>* tempDoctor) {
 	int decision = -1;
-	string keyword;
-	bool validator = true;
-	while (decision != 0) {
+	do {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
 		cout << "Logged in as: Patient" << endl;
 		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
-		cout << "1. Register New Walk-In Appointment" << endl;
-		cout << "2. Update Appointment" << endl;
-		cout << "3. Get Queue Number" << endl;
-		cout << "0. Logout" << endl;
+		cout << "1. Get Queue Number" << endl;
+		cout << "2. View Current Patient Details" << endl;
+		cout << "3. Logout" << endl;
 
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
@@ -419,6 +416,20 @@ void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLi
 		cin.ignore();
 		switch (decision)
 		{
+			case 1:
+				//Get queue number
+				Interface::PatientInterface::DisplayQueueNumber(patientUser, tempPatient);
+				break;
+			case 2:
+				//View current patient details
+				Interface::PatientInterface::DisplayCurrentDetails(patientUser);
+				break;
+			case 3: //exit and go back to login page
+			default:
+				break;
+		}
+		/*
+		    UNUSED CODE
 			case 1:
 				//Create appointment
 				//cout << "Today's Date: " << date::format("%F", std::chrono::system_clock::now()) << endl;
@@ -433,16 +444,8 @@ void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLi
 				//Cancel appointment
 				Interface::PatientInterface::DisplayAppointmentCancel(patientUser);
 				break;
-			case 4:
-				//Get queue number
-				Interface::PatientInterface::DisplayQueueNumber(patientUser, tempPatient);
-				break;
-			case 0:
-				//exit and go back to login page
-			default:
-				break;
-		}
-	}
+		*/
+	} while (decision != 3);
 }
 void Interface::PatientInterface::DisplaySortPatients() {
 
@@ -807,4 +810,9 @@ void Interface::PatientInterface::DisplayQueueNumber(Patient* patientUser, Doubl
 	cout << "ERROR DISPLAY_QUEUE_NUMBER: No matching patient ID found." << endl;
 	system("pause");
 	return;
+}
+void Interface::PatientInterface::DisplayCurrentDetails(Patient* patientUser) {
+	system("cls");
+	patientUser->DisplayDetails();
+	system("pause");
 }
