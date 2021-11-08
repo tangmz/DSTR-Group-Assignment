@@ -37,7 +37,7 @@ void skipLogin() {
 }
 
 void addOwnSampleData() {
-	Doctor d1 = Doctor("Doktah", "UserID", "Fname", "lname", 21, 'M', "123", "mail", "addr", "pass", "IC");
+	Doctor d1 = Doctor("Doctor", "UserID", "John", "Smith", 21, 'M', "123", "mail", "addr", "pass", "IC");
 	Nurse n1 = Nurse("Nurse", "UseID", "NFname", "NLname", 1, 'F', "0123", "mail", "addr", "pass", "ic");
 	Patient p1 = Patient("Patient", "UserID", "PFname", "PLname", 2, 'M', "phone", "mail", "addr", "pass", "ic", "illness", "visitD", "visitT");
 	ApplicationLists::Doctors->AddToEnd(d1);
@@ -65,7 +65,6 @@ int main() {
 	string role = "";
 	while (role != "Invalid") {
 		system("cls");
-		Interface::UserInterface::DisplayStartupPage();
 		role = Interface::UserInterface::DisplayLoginPage(ApplicationLists::Doctors, ApplicationLists::Nurses, ApplicationLists::Patients,
 			ApplicationLists::CurrentLoginDoctor, ApplicationLists::CurrentLoginNurse, ApplicationLists::CurrentLoginPatient);
 

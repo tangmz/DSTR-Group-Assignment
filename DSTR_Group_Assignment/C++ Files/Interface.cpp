@@ -73,12 +73,13 @@ string Interface::UserInterface::DisplayLoginPage(DoublyLinkedList<Doctor>*& doc
 	* simultaneously discover the role the user logged in as
 	* Once login successfully, while loop will break
 	*/
-
+	
 	string user, pass = "";
 	int decision = -1;
 	Doctor* searchDoctor = NULL; Nurse* searchNurse = NULL; Patient* searchPatient = NULL;
 	while (decision != 0) {
 		system("CLS");
+		Interface::UserInterface::DisplayStartupPage();
 		cout << "Hello, Welcome to Klinik Sulaiman Patient Management System." << endl << endl;
 		cout << "Log in as: " << endl;
 		cout << "1. Doctor" << endl;
@@ -469,7 +470,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 3:
 				//Search patient
-				while (decision1 > 0 && decision1 < 9) {
+				while (decision1 != 0) {
 					system("CLS");
 					Interface::General::PrintLine('=', 70);
 					cout << "Patient Record Search Engine" << endl;
@@ -483,53 +484,57 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 					cout << "6. e-mail" << endl;
 					cout << "7. House Address" << endl;
 					cout << "8. I.C. Number" << endl;
+					cout << "0. Exit" << endl;
 
 					Interface::General::PrintLine('=', 70);
 					cout << "Select Option: ";
-					cin >> decision;
-				}
-				switch (decision1) {
+					cin >> decision1;
+					cin.ignore();
+					switch (decision1) {
 					case 1:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::PatientID)->DisplayDetails();
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::PatientID)->DisplayPages(10);
 						break;
 					case 2:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName)->DisplayDetails();
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName)->DisplayPages(10);
 						break;
 					case 3:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::LastName)->DisplayDetails();
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::LastName)->DisplayPages(10);
 						break;
 					case 4:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Age)->DisplayDetails();
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Age)->DisplayPages(10);
 						break;
 					case 5:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Phone)->DisplayDetails();
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Phone)->DisplayPages(10);
 						break;
 					case 6:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Email)->DisplayDetails();
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Email)->DisplayPages(10);
 						break;
 					case 7:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Address)->DisplayDetails();
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Address)->DisplayPages(10);
 						break;
 					case 8:
 						cout << "Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::IC)->DisplayDetails();
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::IC)->DisplayPages(10);
 						break;
+					}
 				}
+				
+				break;
 			case 4:
 				//View sorted list (need to create another list for sorted data?)
 				//Let user choose sort by what
