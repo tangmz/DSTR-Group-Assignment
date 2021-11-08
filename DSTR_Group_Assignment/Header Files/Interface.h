@@ -18,7 +18,7 @@ public:
 	public:
 		static void DisplayStartupPage();
 		static std::string DisplayLoginPage();
-		static std::string DisplayRegisterPage();
+		static void DisplayRegisterPage(DoublyLinkedList<User>* userList, DoublyLinkedList<Doctor>* doctorList, DoublyLinkedList<Nurse>* nurseList);
 		static void DisplayExitPage();
 	};
 	class DoctorInterface {
@@ -38,6 +38,7 @@ public:
 		static void DisplayAppointmentUpdate(Patient* patientUser);
 		static void DisplayAppointmentCancel(Patient* patientUser);
 		static void DisplayQueueNumber(Patient* patientUser, DoublyLinkedList<Patient>* patientList);
+		static void DisplayCurrentDetails(Patient* patientUser);
 	};
 	class Validator {
 	public:

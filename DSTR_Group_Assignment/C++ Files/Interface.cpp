@@ -115,8 +115,91 @@ string Interface::UserInterface::DisplayLoginPage() {
 	}
 	return "Invalid";
 }
-string Interface::UserInterface::DisplayRegisterPage(){
-	return "";
+void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userList, DoublyLinkedList<Doctor>* doctorList, DoublyLinkedList<Nurse>* nurseList){
+	char answer;
+
+	do {
+		Interface::General::PrintLine('=', 100);
+		cout << "REGISTER NEW DOCTOR / NURSE" << endl;
+		Interface::General::PrintLine('=', 100);
+
+		cout << "1 - Register New Doctor\n2 - Register New Nurse\n3 - Back to Login\n > ";
+		cin >> answer;
+		cin.ignore();
+
+		char gender;
+		string firstName, lastName, ageString, ic, email, password, phone, address;
+		int age;
+		bool inputPass = true;
+		switch (answer) {
+			case '1': //Doctor
+			case '2': //Nurse
+				cout << "First Name: ";
+				getline(cin, firstName);
+				cout << "Last Name: ";
+				getline(cin, lastName);
+				cout << "IC: ";
+				getline(cin, ic);
+
+				do {
+					inputPass = true;
+					cout << "Gender [(M)ale / (F)emale / (N)on-Binary]: ";
+					cin >> gender;
+					cin.ignore();
+
+					gender = toupper(gender);
+					if (gender != 'M' && gender != 'F' && gender != 'N') {
+						inputPass = false;
+						cout << "Invalid Gender Selected." << endl;
+					}
+				} while (!inputPass);
+
+				do {
+					inputPass = true;
+					cout << "Age: ";
+					getline(cin, ageString);
+					try {
+						age = stoi(ageString);
+					}
+					catch (...) {
+						inputPass = false;
+						cout << "Invalid Age Entered." << endl;
+					}
+				} while (!inputPass);
+
+				cout << "Email: ";
+				getline(cin, email);
+				cout << "Password: ";
+				getline(cin, password);
+				cout << "Phone Number: ";
+				getline(cin, phone);
+				cout << "Address: ";
+				getline(cin, address);
+				if (answer == '1') {
+					doctorList->AddToEnd(Doctor(
+						Doctor::GenerateDoctorID(doctorList->GetLength() + 1),
+						Doctor::GenerateID(userList->GetLength() + 1),
+						firstName, lastName, age, gender, phone, email, address, password, ic
+					))
+				}
+				else if (answer == '2') {
+					nurseList->AddToEnd(Nurse(
+						Nurse::GenerateNurseID(nurseList->GetLength() + 1),
+						Nurse::GenerateID(userList->GetLength() + 1),
+						firstName, lastName, age, gender, phone, email, address, password, ic
+					))
+				}
+				else {
+					cout << "Inputted Information Cannot Be Stored." << endl;
+				}
+				break;
+			case '3': //Back to Login = Exit
+			default:
+				break;
+		}
+	} while (answer != '1' && answer != '2' && answer != '3');
+
+	return;
 }
 void Interface::UserInterface::DisplayExitPage() {
 	cout << "EXITED THE PROGRAM" << endl;
@@ -124,7 +207,7 @@ void Interface::UserInterface::DisplayExitPage() {
 
 void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList, Doctor* currentDoctor) {
 	int decision = -1;
-	int sortDecision;
+	int sortDecision = -1;
 	int availableDecision = -1;
 	while (decision != 0) {
 		system("CLS");
@@ -403,18 +486,15 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 
 void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<Doctor>* tempDoctor) {
 	int decision = -1;
-	string keyword;
-	bool validator = true;
-	while (decision != 0) {
+	do {
 		system("CLS");
 		Interface::General::PrintLine('=', 70);
 		cout << "Logged in as: Patient" << endl;
 		Interface::General::PrintLine('=', 70);
 		cout << "Available Option: " << endl;
-		cout << "1. Register New Walk-In Appointment" << endl;
-		cout << "2. Update Appointment" << endl;
-		cout << "3. Get Queue Number" << endl;
-		cout << "0. Logout" << endl;
+		cout << "1. Get Queue Number" << endl;
+		cout << "2. View Current Patient Details" << endl;
+		cout << "3. Logout" << endl;
 
 		Interface::General::PrintLine('-', 70);
 		cout << "Select Option: ";
@@ -422,6 +502,20 @@ void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLi
 		cin.ignore();
 		switch (decision)
 		{
+			case 1:
+				//Get queue number
+				Interface::PatientInterface::DisplayQueueNumber(patientUser, tempPatient);
+				break;
+			case 2:
+				//View current patient details
+				Interface::PatientInterface::DisplayCurrentDetails(patientUser);
+				break;
+			case 3: //exit and go back to login page
+			default:
+				break;
+		}
+		/*
+		    UNUSED CODE
 			case 1:
 				//Create appointment
 				//cout << "Today's Date: " << date::format("%F", std::chrono::system_clock::now()) << endl;
@@ -436,16 +530,8 @@ void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLi
 				//Cancel appointment
 				Interface::PatientInterface::DisplayAppointmentCancel(patientUser);
 				break;
-			case 4:
-				//Get queue number
-				Interface::PatientInterface::DisplayQueueNumber(patientUser, tempPatient);
-				break;
-			case 0:
-				//exit and go back to login page
-			default:
-				break;
-		}
-	}
+		*/
+	} while (decision != 3);
 }
 void Interface::PatientInterface::DisplaySortPatients() {
 
@@ -810,4 +896,9 @@ void Interface::PatientInterface::DisplayQueueNumber(Patient* patientUser, Doubl
 	cout << "ERROR DISPLAY_QUEUE_NUMBER: No matching patient ID found." << endl;
 	system("pause");
 	return;
+}
+void Interface::PatientInterface::DisplayCurrentDetails(Patient* patientUser) {
+	system("cls");
+	patientUser->DisplayDetails();
+	system("pause");
 }
