@@ -209,6 +209,7 @@ void Patient::DisplayTableRow(int startIndex, int index, int tableLength) {
 		setw(20) << VisitTime << endl;
 }
 void Patient::DisplayDetails() {
+	system("CLS");
 	PrintLine('=', 100);
 
 	cout << "User ID: " << ID << endl;
@@ -232,6 +233,9 @@ void Patient::DisplayDetails() {
 	cout << "Visit Date and Time: ";
 	if (VisitDate == "" || VisitTime == "") cout << "NO APPOINTMENT SCHEDULED" << endl;
 	else cout << VisitDate << ", " << VisitTime << endl;
+	cout << "Payment Status: ";
+	if (isPaid == false) cout << "APPOINTMENT UNPAID" << endl;
+	else cout << "PAYMENT HAS BEEN MADE" << endl;
 	cout << "Disability: ";
 	if (Disability == "") cout << "UNDEFINED" << endl;
 	else cout << Disability << endl;

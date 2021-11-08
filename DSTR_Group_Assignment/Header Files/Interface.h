@@ -13,6 +13,7 @@ public:
 	class General {
 	public:
 		static void PrintLine(char symbol, int length);
+		static void Title();
 	};
 	class UserInterface {
 	public:

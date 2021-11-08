@@ -26,6 +26,13 @@ bool Interface::Validator::isEmptyString(string item) {
 	}
 }
 
+void Interface::General::Title() {
+	cout << "      | / T     T  T===   T  | /       ==  T    |\\   /|       " << endl;
+	cout << "===== |/  |     |  |   |  |  |/       |__  |    | \\ / | ===== " << endl;
+	cout << "===== |\\  |     |  |   |  |  |\\          | |    |     | ===== " << endl;
+	cout << "      | \\ .___  |  |   |  |  | \\ .    ===  .___ |     |       " << endl;
+}
+
 void ChooseSorting(DoublyLinkedList<Patient>* visitedPatientList) {
 	int sortDecision = Doctor::sortPatientsDecision();
 	system("cls");
@@ -79,6 +86,10 @@ string Interface::UserInterface::DisplayLoginPage(DoublyLinkedList<Doctor>*& doc
 	Doctor* searchDoctor = NULL; Nurse* searchNurse = NULL; Patient* searchPatient = NULL;
 	while (decision != 0) {
 		system("CLS");
+		Interface::General::PrintLine('-', 70);
+		Interface::General::Title();
+		Interface::General::PrintLine('-', 70);
+		cout << endl;
 		cout << "Hello, Welcome to Klinik Sulaiman Patient Management System." << endl << endl;
 		cout << "Log in as: " << endl;
 		cout << "1. Doctor" << endl;
@@ -637,8 +648,14 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>*& temp
 						tempDoctor->GetReference(targetDocIndex)->setIsAvailable(false);
 						visitedPatientList->AddToStart(temp);
 						tempPatient->DeleteAtIndex(targetIndex);
+						system("CLS");
+						Interface::General::Title();
 						Interface::General::PrintLine('=', 70);
-						cout << "Patient is assigned to: Dr." << temp.GetAssignedDoctor()->GetLastName() << endl;
+						Interface::General::PrintLine('=', 70);
+						cout << endl;
+						cout << "Patient "<< temp.GetLastName() << " is assigned to: Dr." << temp.GetAssignedDoctor()->GetLastName() << endl;
+						cout << endl;
+						Interface::General::PrintLine('=', 70);
 						Interface::General::PrintLine('=', 70);
 						system("pause");
 					}
@@ -646,12 +663,17 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>*& temp
 				break;
 			case 7:
 				//Collect payment
+				targetIndex = -1;
 				targetIndex = Patient::SearchPatient(visitedPatientList, ".*0.*", AttributeValues::Patient::isPaid)->Sort(AttributeValues::Patient::FirstName)->DisplayPages(10);
-				temp = visitedPatientList->Get(targetIndex);
-				oldTemp = visitedPatientList->Get(targetIndex);
-				temp.SetPaid(true);
-				tempPatient->ReplaceNthValue(oldTemp, temp, 1);
-				oldTemp = temp;
+				if (targetIndex != -1) {
+					temp = visitedPatientList->Get(targetIndex);
+					oldTemp = visitedPatientList->Get(targetIndex);
+					temp.SetPaid(true);
+					visitedPatientList->ReplaceNthValue(oldTemp, temp, 1);
+					oldTemp = temp;
+					temp.DisplayDetails();
+					system("pause");
+				}
 
 				//------testing purpose------
 				//Patient::SearchPatient(visitedPatientList, "1", AttributeValues::Patient::isPaid)->DisplayPages(10);
