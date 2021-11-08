@@ -65,7 +65,8 @@ void Interface::UserInterface::DisplayStartupPage() {
 	cout << "||" << setw(96) << left << "PATIENT QUEUE MANAGEMENT SYSTEM" << "||" << endl;
 	Interface::General::PrintLine('=', 100);
 }
-string Interface::UserInterface::DisplayLoginPage() {
+string Interface::UserInterface::DisplayLoginPage(DoublyLinkedList<Doctor>*& doctorList, DoublyLinkedList<Nurse>*& nurseList, 
+	DoublyLinkedList<Patient>*& patientList, Doctor*& currentDoctor, Nurse*& currentNurse, Patient*& currentPatient) {
 	//returns the login role as a string upon successful login, else return "Invalid"
 	/*Usage
 	* while((role = DisplayLoginPage()) == "Invalid"); //Perma loop login function
@@ -74,48 +75,129 @@ string Interface::UserInterface::DisplayLoginPage() {
 	*/
 
 	string user, pass = "";
-	system("CLS");
-	cout << "Hello, Welcome to Klinik Sulaiman Patient Management System." << endl << endl;
-	cout << "Keyword: \"Reg\" to register, \"Exit\" to exit" << endl;
-	cout << "Please enter your username: ";
-
-	cin >> user;
-	cin.ignore();
-	if (user == "Reg") return "Register";
-	if (user == "Exit") return "Exit";
-	if (user == "Doktah") {									//Hard coded Doctor's username
-		while (pass != "42069" || "0") {					//Hard coded pass: 42069, and 0 to return to login page again
-			cout << "Please enter password (or type 0 to return): ";
-			cin >> pass;
-			if (pass == "0") { return "Invalid"; }			//Will recur this function again from first login page (in main function)
-			if (pass == "42069") { return "Doctor"; }		//Login successful, return login role
-			system("CLS");
-			cout << "Wrong password, please try again." << endl << flush;
+	int decision = -1;
+	Doctor* searchDoctor = NULL; Nurse* searchNurse = NULL; Patient* searchPatient = NULL;
+	while (decision != 0) {
+		system("CLS");
+		cout << "Hello, Welcome to Klinik Sulaiman Patient Management System." << endl << endl;
+		cout << "Log in as: " << endl;
+		cout << "1. Doctor" << endl;
+		cout << "2. Nurse" << endl;
+		cout << "3. Patient" << endl;
+		Interface::General::PrintLine('-', 70);
+		cout << "4. Register" << endl;
+		cout << "0. Exit" << endl;
+		Interface::General::PrintLine('-', 70);
+		cout << "Your Option: ";
+		cin >> decision;
+		cin.ignore();
+		switch (decision) {
+		case 4:
+			return "Register";
+		case 5:
+			return "Invalid";
+		case 1:
+			cout << "Enter ID: ";
+			getline(cin, user);
+			//Use searchByRegex to check if user exist, only execute if both IC and ID are not found
+			if (doctorList->SearchByRegex(user, AttributeValues::Doctor::DoctorID)->GetLength() == 0 &&
+				doctorList->SearchByRegex(user, AttributeValues::Doctor::IC)->GetLength() == 0) {
+				cout << "User not found" << endl;
+				system("pause");				
+			}
+			else {
+				//Not using searchByRegex to get direct reference of the static list
+				//Get the distinct user from the list
+				for (int i = 0; i < doctorList->GetLength(); i++) {
+					searchDoctor = doctorList->GetReference(i);
+					if (searchDoctor->GetDoctorID() == user || searchDoctor->GetIC() == user) {
+						break;
+					}
+				}
+				cout << "Name: " << searchDoctor->GetFirstName() << " " << searchDoctor->GetLastName() << endl;
+				cout << "Enter Password: ";
+				getline(cin, pass);
+				if (pass == searchDoctor->GetPassword()) {
+					currentDoctor = searchDoctor;
+					return "Doctor";
+				}
+				else {
+					cout << "Wrong password" << endl;
+					system("pause");
+				}
+			}
+			break;
+		case 2:
+			cout << "Enter ID: ";
+			getline(cin, user);
+			//Use searchByRegex to check if user exist
+			if (nurseList->SearchByRegex(user, AttributeValues::Nurse::NurseID)->GetLength() == 0 &&
+				nurseList->SearchByRegex(user, AttributeValues::Nurse::IC)->GetLength() == 0) {
+				cout << "User not found" << endl;
+				system("pause");
+			}
+			else {
+				//Not using searchByRegex to get direct reference of the static list
+				//Get the distinct user from the list
+				for (int i = 0; i < nurseList->GetLength(); i++) {
+					searchNurse = nurseList->GetReference(i);
+					if (searchNurse->GetNurseID() == user || searchNurse->GetIC() == user) {
+						break;
+					}
+				}
+				cout << "Name: " << searchNurse->GetFirstName() << " " << searchNurse->GetLastName() << endl;
+				cout << "Enter Password: ";
+				getline(cin, pass);
+				if (pass == searchNurse->GetPassword()) {
+					currentNurse = searchNurse;
+					return "Nurse";
+				}
+				else {
+					cout << "Wrong password" << endl;
+					system("pause");
+				}
+			}
+			break;
+		case 3:
+			cout << "Enter ID: ";
+			getline(cin, user);
+			//Use searchByRegex to check if user exist
+			if (patientList->SearchByRegex(user, AttributeValues::Patient::PatientID)->GetLength() == 0 &&
+				patientList->SearchByRegex(user, AttributeValues::Patient::IC)->GetLength() == 0) {
+				cout << "User not found" << endl;
+				system("pause");
+			}
+			else {
+				//Not using searchByRegex to get direct reference of the static list
+				//Get the distinct user from the list
+				for (int i = 0; i < patientList->GetLength(); i++) {
+					searchPatient = patientList->GetReference(i);
+					if (searchPatient->GetPatientID() == user || searchPatient->GetIC() == user) {
+						break;
+					}
+				}
+				cout << "Name: " << searchPatient->GetFirstName() << " " << searchPatient->GetLastName() << endl;
+				cout << "Enter Password: ";
+				getline(cin, pass);
+				if (pass == searchPatient->GetPassword()) {
+					currentPatient = searchPatient;
+					return "Patient";
+				}
+				else {
+					cout << "Wrong password" << endl;
+					system("pause");
+				}
+			}
+			break;
+		default:
+			break;
 		}
 	}
-	else if (user == "Nurse") {	//Same code as "Doctor" above
-		while (pass != "Nurse" || "0") {
-			cout << "Please enter password (or type 0 to return): ";
-			cin >> pass;
-			if (pass == "0") { return "Invalid"; }
-			if (pass == "Nurse") { return "Nurse"; }
-			system("CLS");
-			cout << "Wrong password, please try again." << endl << flush;
-		}
-	}
-	else { //patient
-		/*
-		* while loop to check if username exist
-		* if exist loop until password is correct, or 0 to cancel
-		* if does not exist, finish first while loop, go below to show username not found
-		*/
-		cout << endl << "Username not found.." << endl << "Returning to Login page." << endl;
-		system("PAUSE");
-		return "Invalid";
-	}
+	
 	return "Invalid";
 }
 void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userList, DoublyLinkedList<Doctor>* doctorList, DoublyLinkedList<Nurse>* nurseList){
+	system("cls");
 	char answer;
 
 	do {
@@ -180,14 +262,14 @@ void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userL
 						Doctor::GenerateDoctorID(doctorList->GetLength() + 1),
 						Doctor::GenerateID(userList->GetLength() + 1),
 						firstName, lastName, age, gender, phone, email, address, password, ic
-					))
+					));
 				}
 				else if (answer == '2') {
 					nurseList->AddToEnd(Nurse(
 						Nurse::GenerateNurseID(nurseList->GetLength() + 1),
 						Nurse::GenerateID(userList->GetLength() + 1),
 						firstName, lastName, age, gender, phone, email, address, password, ic
-					))
+					));
 				}
 				else {
 					cout << "Inputted Information Cannot Be Stored." << endl;

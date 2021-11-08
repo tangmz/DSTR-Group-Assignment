@@ -29,9 +29,51 @@ int main() {
 	cout << ApplicationLists::Doctors->GetReference(0)->GetFirstName() << endl;
 	currentDoctor->setIsAvailable(true);
 
-	ApplicationLists::Medicines->DisplayPages(15);
+	//ApplicationLists::Medicines->DisplayPages(15);
 
-	//TEMPORARY: Quick access to main menu interfaces
+	DoublyLinkedList<Doctor>* testDoc = new DoublyLinkedList<Doctor>();
+	Doctor d1 = Doctor("Doktah", "UserID", "Fname", "lname", 21, 'M', "123", "mail", "addr", "pass", "IC");
+	Nurse n1 = Nurse("Nurse", "UseID", "NFname", "NLname", 1, 'F', "0123", "mail", "addr", "pass", "ic");
+	Patient p1 = Patient("Patient", "UserID", "PFname", "PLname", 2, 'M', "phone", "mail", "addr", "pass", "ic", "illness", "visitD", "visitT");
+	ApplicationLists::Doctors->AddToEnd(d1);
+	ApplicationLists::Nurses->AddToEnd(n1);
+	ApplicationLists::Patients->AddToEnd(p1);
+
+	string role = "";
+	while (role != "Invalid") {
+		system("cls");
+		Interface::UserInterface::DisplayStartupPage();
+		role = Interface::UserInterface::DisplayLoginPage(ApplicationLists::Doctors, ApplicationLists::Nurses, ApplicationLists::Patients,
+			ApplicationLists::CurrentLoginDoctor, ApplicationLists::CurrentLoginNurse, ApplicationLists::CurrentLoginPatient);
+
+		if (role == "Invalid") {
+			break; //Change to system exit later
+		}
+		else if (role == "Register") {
+			Interface::UserInterface::DisplayRegisterPage(ApplicationLists::Users, ApplicationLists::Doctors, ApplicationLists::Nurses);
+		}
+		else if (role == "Doctor") {
+			Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients, ApplicationLists::CurrentLoginDoctor);
+		}
+		else if (role == "Nurse") {
+			Interface::NurseInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::Users, ApplicationLists::VisitedPatients);
+		}
+		else if (role == "Patient") {
+			Interface::PatientInterface::DisplayMainMenu(ApplicationLists::CurrentLoginPatient, ApplicationLists::Patients, ApplicationLists::Doctors);
+		}
+	}
+
+
+	cout << ApplicationLists::CurrentLoginDoctor->GetFirstName() << endl;
+	cout << ApplicationLists::CurrentLoginNurse->GetFirstName() << endl;
+	cout << ApplicationLists::CurrentLoginPatient->GetFirstName() << endl;
+	system("pause");
+	//TEMPORARY: Quick access to main menu interfaces [call skipLogin()]
+	
+	return 0;
+}
+
+void skipLogin() {
 	int answer = -1;
 	do {
 		system("cls");
@@ -39,19 +81,18 @@ int main() {
 		cin >> answer;
 		cin.ignore();
 		switch (answer) {
-			case 1:
-				Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients, ApplicationLists::CurrentLoginDoctor);
-				break;
-			case 2:
-				Interface::NurseInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::Users, ApplicationLists::VisitedPatients);
-				break;
-			case 3:
-				Interface::PatientInterface::DisplayMainMenu(ApplicationLists::CurrentLoginPatient, ApplicationLists::Patients, ApplicationLists::Doctors);
-				break;
-			case 4:
-			default:
-				break;
+		case 1:
+			Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients, ApplicationLists::CurrentLoginDoctor);
+			break;
+		case 2:
+			Interface::NurseInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::Users, ApplicationLists::VisitedPatients);
+			break;
+		case 3:
+			Interface::PatientInterface::DisplayMainMenu(ApplicationLists::CurrentLoginPatient, ApplicationLists::Patients, ApplicationLists::Doctors);
+			break;
+		case 4:
+		default:
+			break;
 		}
 	} while (answer != 4);
-	return 0;
 }
