@@ -196,7 +196,8 @@ string Interface::UserInterface::DisplayLoginPage(DoublyLinkedList<Doctor>*& doc
 	
 	return "Invalid";
 }
-void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userList, DoublyLinkedList<Doctor>* doctorList, DoublyLinkedList<Nurse>* nurseList){
+void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userList, 
+	DoublyLinkedList<Doctor>* doctorList, DoublyLinkedList<Nurse>* nurseList){
 	system("cls");
 	char answer;
 
@@ -396,15 +397,14 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 }
 
 void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<User>* tempUser, 
-	DoublyLinkedList<Patient>* visitedPatientList) {
+	DoublyLinkedList<Patient>* visitedPatientList, DoublyLinkedList<Doctor>* tempDoctor) {
 	string patientID, id, firstName, lastName,
 		phone, email, address, password, ic, illness, visitDate, visitTime;
 	int age;
 	char gender;
 	Patient p;
-	int decision = -1;
-	int decision1 = -1;
-	int targetIndex;
+	int decision = -1, decision1 = -1,
+		targetIndex = -1, targetDocIndex = -1;
 	string keyword;
 	int i;
 	Patient temp;
@@ -431,6 +431,8 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 		{
 			case 1:
 				//Add patient
+				system("CLS");
+				Interface::General::PrintLine('=',70);
 				patientID = Patient::GeneratePatientID(tempPatient->GetLength() + visitedPatientList->GetLength());
 				id = User::GenerateID(tempUser->GetLength());
 				cout << "First Name: ";
@@ -459,9 +461,11 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				getline(cin, visitDate);
 				cout << "Visit Time: ";
 				getline(cin, visitTime);
+				Interface::General::PrintLine('=', 70);
 				p = Patient(patientID, id, firstName, lastName, age, gender,
 					phone, email, address, password, ic, illness, visitDate, visitTime);
 				tempPatient->AddToEnd(p);
+				cout << "Patient has been successfully added to the list" << endl;
 				break;
 			case 2:
 				//View all patient
@@ -546,16 +550,33 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 			case 6:
 				//Notify patient
 				//Remove from waiting list, move to visit list
-				targetIndex = tempPatient->DisplayPages(10);
-				visitedPatientList->AddToStart(tempPatient->Get(targetIndex));
-				tempPatient->DeleteAtIndex(targetIndex);
+				while (targetIndex == -1) {
+					targetIndex = tempPatient->DisplayPages(10);
+				}
+				while (targetDocIndex == -1) {
+					targetDocIndex = tempDoctor->DisplayPages(10);
+					if (!tempDoctor->Get(targetDocIndex).getIsAvailable()) {
+						cout << "Doctor is not available, please select another doctor!" << endl;
+						system("CLS");
+						targetDocIndex = -1;
+					}
+					else {
+						temp = tempPatient->Get(targetIndex);
+						temp.SetAssignedDoctor(tempDoctor->Get(targetDocIndex));
+						visitedPatientList->AddToStart(temp);
+						tempPatient->DeleteAtIndex(targetIndex);
+						cout << "Patient is assigned to: Dr." << temp.GetAssignedDoctor().GetLastName() << endl;
+					}
+				}
 				break;
 			case 7:
 				//Collect payment
-				Patient::SearchPatient(visitedPatientList, "0", AttributeValues::Patient::isPaid)->DisplayPages(10);
-				temp = visitedPatientList->Get(visitedPatientList->Sort(AttributeValues::Patient::isPaid)->DisplayPages(10));
+				targetIndex = Patient::SearchPatient(visitedPatientList, "0", AttributeValues::Patient::isPaid)->Sort(AttributeValues::Patient::FirstName)->DisplayPages(10);
+				temp = visitedPatientList->Get(targetIndex);
 				temp.SetPaid(true);
-				Patient::SearchPatient(visitedPatientList, "1", AttributeValues::Patient::isPaid)->DisplayPages(10);
+
+				//------testing purpose------
+				//Patient::SearchPatient(visitedPatientList, "1", AttributeValues::Patient::isPaid)->DisplayPages(10);
 				break;
 			case 0:
 				//exit and go back to login page
@@ -596,23 +617,6 @@ void Interface::PatientInterface::DisplayMainMenu(Patient* patientUser, DoublyLi
 			default:
 				break;
 		}
-		/*
-		    UNUSED CODE
-			case 1:
-				//Create appointment
-				//cout << "Today's Date: " << date::format("%F", std::chrono::system_clock::now()) << endl;
-				Interface::PatientInterface::DisplayAppointmentCreate(patientUser);
-				break;
-			case 2:
-				//Update appointment
-				//Let user choose to update date, time, doctor (no need payment as unreasonable to let patient set payment for themselves)
-				Interface::PatientInterface::DisplayAppointmentUpdate(patientUser);
-				break;
-			case 3:
-				//Cancel appointment
-				Interface::PatientInterface::DisplayAppointmentCancel(patientUser);
-				break;
-		*/
 	} while (decision != 3);
 }
 void Interface::PatientInterface::DisplaySortPatients() {
@@ -629,17 +633,6 @@ void Interface::PatientInterface::DisplayAppointmentCreate(Patient* patientUser)
 	}
 
 	string date, time;
-
-	//Select Date
-	/*cout << "Please enter the Appointment Date: " << endl;
-	getline(cin, date);
-	while (date.length() == 0)
-	{
-		cout << "No value entered, please enter the date: ";
-		getline(cin, date);
-		if (date.length() != 0)
-			break;
-	}*/
 	bool datePassed = true, dayEntered = false;
 	string dayString = "", monthString = "";
 	int dayInt = 0, monthInt = 0;
