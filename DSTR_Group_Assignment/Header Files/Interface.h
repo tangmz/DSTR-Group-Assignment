@@ -24,11 +24,11 @@ public:
 	};
 	class DoctorInterface {
 	public:
-		static void DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList, Doctor* currentDoctor);
+		static void DisplayMainMenu(DoublyLinkedList<Patient>*& patientList, DoublyLinkedList<Patient>*& visitedPatientList, Doctor*& currentDoctor);
 	};
 	class NurseInterface {
 	public:
-		static void DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<User>* tempUser, DoublyLinkedList<Patient>* visitedPatientList, DoublyLinkedList<Doctor>* tempDoctor);
+		static void DisplayMainMenu(DoublyLinkedList<Patient>*& tempPatient, DoublyLinkedList<User>*& tempUser, DoublyLinkedList<Patient>*& visitedPatientList, DoublyLinkedList<Doctor>*& tempDoctor);
 	};
 	class PatientInterface {
 	public:

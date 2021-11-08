@@ -305,7 +305,7 @@ void Interface::UserInterface::DisplayExitPage() {
 	cout << "EXITED THE PROGRAM" << endl;
 }
 
-void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* patientList, DoublyLinkedList<Patient>* visitedPatientList, Doctor* currentDoctor) {
+void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>*& patientList, DoublyLinkedList<Patient>*& visitedPatientList, Doctor*& currentDoctor) {
 	int decision = -1;
 	int sortDecision = -1;
 	int availableDecision = -1;
@@ -343,7 +343,6 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 					combined.AddToEnd(visitedPatientList->Get(i));
 				}
 				combined.DisplayPages(10);
-				Patient::ViewAllPatients(patientList);
 				break;
 			}
 			case 2:
@@ -413,8 +412,8 @@ void Interface::DoctorInterface::DisplayMainMenu(DoublyLinkedList<Patient>* pati
 	}
 }
 
-void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempPatient, DoublyLinkedList<User>* tempUser, 
-	DoublyLinkedList<Patient>* visitedPatientList, DoublyLinkedList<Doctor>* tempDoctor) {
+void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>*& tempPatient, DoublyLinkedList<User>*& tempUser, 
+	DoublyLinkedList<Patient>*& visitedPatientList, DoublyLinkedList<Doctor>*& tempDoctor) {
 	string patientID, id, firstName, lastName,
 		phone, email, address, password, ic, illness, visitDate, visitTime;
 	int age;
@@ -577,7 +576,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 			case 4:
 				//View sorted list (need to create another list for sorted data?)
 				//Let user choose sort by what
-				ChooseSorting(visitedPatientList);
+				ChooseSorting(tempPatient);
 				break;
 			case 5:
 				//Change priority
@@ -592,23 +591,30 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 			case 6:
 				//Notify patient
 				//Remove from waiting list, move to visit list
+				targetIndex = -1;
 				while (targetIndex == -1) {
 					targetIndex = tempPatient->DisplayPages(10);
 				}
-				while (targetDocIndex == -1) {
+				targetDocIndex = -2;
+				while (targetDocIndex == -2) {
 					targetDocIndex = tempDoctor->DisplayPages(10);
-					if (!tempDoctor->Get(targetDocIndex).getIsAvailable()) {
+					if (targetDocIndex == -1) {
+						break;
+					}
+					else if (!tempDoctor->Get(targetDocIndex).getIsAvailable()) {
 						cout << "Doctor is not available, please select another doctor!" << endl;
+						system("pause");
 						system("CLS");
-						targetDocIndex = -1;
+						targetDocIndex = -2;
 					}
 					else {
 						temp = tempPatient->Get(targetIndex);
 						temp.SetAssignedDoctor(tempDoctor->GetReference(targetDocIndex));
+						tempDoctor->GetReference(targetDocIndex)->setIsAvailable(false);
 						visitedPatientList->AddToStart(temp);
 						tempPatient->DeleteAtIndex(targetIndex);
 						Interface::General::PrintLine('=', 70);
-						cout << "Patient is assigned to: Dr." << temp.GetLastName() << endl;
+						cout << "Patient is assigned to: Dr." << temp.GetAssignedDoctor()->GetLastName() << endl;
 						Interface::General::PrintLine('=', 70);
 						system("pause");
 					}
