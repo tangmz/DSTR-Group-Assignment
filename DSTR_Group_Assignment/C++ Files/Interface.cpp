@@ -422,7 +422,6 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 	Patient p;
 	int decision = -1, decision1 = -1,
 		targetIndex = -1, targetDocIndex = -1;
-	string keyword;
 	int i;
 	Patient temp;
 	while (decision != 0) {
@@ -444,7 +443,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 		cout << "Select Option: ";
 		cin >> decision;
 		cin.ignore();
-		string s;
+		string keyword;
 		switch (decision)
 		{
 			case 1:
@@ -492,6 +491,7 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 				break;
 			case 3:
 				//Search patient
+				decision1 = -1;
 				while (decision1 != 0) {
 					system("CLS");
 					Interface::General::PrintLine('=', 70);
@@ -517,43 +517,57 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 						system("cls");
 						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						s = ".*" + s + ".*";
-						Patient::SearchPatient(visitedPatientList, s, AttributeValues::User::FirstName)->DisplayPages(10);
+						keyword = ".*" + keyword + ".*";
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::User::FirstName)->DisplayPages(10);
 						break;
 					case 2:
-						cout << "Keyword: ";
+						system("cls");
+						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName)->DisplayDetails();
+						keyword = ".*" + keyword + ".*";
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::FirstName)->DisplayPages(10);
 						break;
 					case 3:
-						cout << "Keyword: ";
+						system("cls");
+						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::LastName)->DisplayDetails();
+						keyword = ".*" + keyword + ".*";
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::LastName)->DisplayPages(10);
 						break;
 					case 4:
-						cout << "Keyword: ";
+						system("cls");
+						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Age)->DisplayDetails();
+						keyword = ".*" + keyword + ".*";
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Age)->DisplayPages(10);
 						break;
 					case 5:
-						cout << "Keyword: ";
+						system("cls");
+						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Phone)->DisplayDetails();
+						keyword = ".*" + keyword + ".*";
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Phone)->DisplayPages(10);
 						break;
 					case 6:
-						cout << "Keyword: ";
+						system("cls");
+						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Email)->DisplayDetails();
+						keyword = ".*" + keyword + ".*";
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Email)->DisplayPages(10);
 						break;
 					case 7:
-						cout << "Keyword: ";
+						system("cls");
+						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Address)->DisplayDetails();
+						keyword = ".*" + keyword + ".*";
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::Address)->DisplayPages(10);
 						break;
 					case 8:
-						cout << "Keyword: ";
+						system("cls");
+						cout << "Enter Keyword: ";
 						getline(cin, keyword);
-						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::IC)->DisplayDetails();
+						keyword = ".*" + keyword + ".*";
+						Patient::SearchPatient(tempPatient, keyword, AttributeValues::Patient::IC)->DisplayPages(10);
 						break;
 					default:
 						break;
@@ -563,12 +577,14 @@ void Interface::NurseInterface::DisplayMainMenu(DoublyLinkedList<Patient>* tempP
 			case 4:
 				//View sorted list (need to create another list for sorted data?)
 				//Let user choose sort by what
-				//tempPatient->Sort(AttributeValues::User::Age)->DisplayPages(10);
 				ChooseSorting(visitedPatientList);
 				break;
 			case 5:
 				//Change priority
 				i = tempPatient->DisplayPages(10);
+				if (i == -1) {
+					break;
+				}
 				temp = tempPatient->Get(i);
 				tempPatient->DeleteAtIndex(i);
 				tempPatient->AddToStart(temp);

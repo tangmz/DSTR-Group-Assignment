@@ -598,6 +598,7 @@ int Doctor::sortPatientsDecision() {
 	cout << "5. Phone" << endl;
 	cout << "6. Email" << endl;
 	cout << "7. Illness" << endl;
+	cout << "0. Exit" << endl;
 	PrintLine('-', 70);
 	cout << "Select Option: ";
 	cin >> sortDecision;
