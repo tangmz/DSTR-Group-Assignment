@@ -35,24 +35,25 @@ public:
 		static const int AssignedDoctor = 18;
 		static const int Prescription = 19;
 		static const int Note = 20;
+		static const int isPaid = 21;
 	};
 
 	class Medicine {
 	public:
-		static const int MedicineID = 21;
-		static const int Name = 22;
-		static const int DatePurchased = 23;
-		static const int ShelfLife = 24;
-		static const int SideEffects = 25;
+		static const int MedicineID = 22;
+		static const int Name = 23;
+		static const int DatePurchased = 24;
+		static const int ShelfLife = 25;
+		static const int SideEffects = 26;
 	};
 	class Appointment {
 	public:
-		static const int AppointmentID = 26;
-		static const int Date = 27;
-		static const int Time = 28;
-		static const int Patient = 29;
-		static const int Doctor = 30;
-		static const int Paid = 31;
-		static const int Cancelled = 32;
+		static const int AppointmentID = 27;
+		static const int Date = 28;
+		static const int Time = 29;
+		static const int Patient = 30;
+		static const int Doctor = 31;
+		static const int Paid = 32;
+		static const int Cancelled = 33;
 	};
 };

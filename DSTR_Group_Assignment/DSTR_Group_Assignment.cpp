@@ -40,7 +40,7 @@ int main() {
 		cin.ignore();
 		switch (answer) {
 			case 1:
-				Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients);
+				Interface::DoctorInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::VisitedPatients,currentDoctor);
 				break;
 			case 2:
 				Interface::NurseInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::Users, ApplicationLists::VisitedPatients);
