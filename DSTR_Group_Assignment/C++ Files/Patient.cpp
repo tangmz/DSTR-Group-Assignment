@@ -7,7 +7,6 @@
 #include "../Header Files/LinkedList.h"
 #include "../Header Files/Comparison.h"
 #include "../Header Files/Appointment.h"
-#include "../Header Files/ApplicationLists.h"
 using namespace std;
 
 void PrintLine(char symbol, int length) {
