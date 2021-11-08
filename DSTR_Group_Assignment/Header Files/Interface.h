@@ -18,7 +18,7 @@ public:
 	public:
 		static void DisplayStartupPage();
 		static std::string DisplayLoginPage();
-		static std::string DisplayRegisterPage();
+		static void DisplayRegisterPage(DoublyLinkedList<User>* userList, DoublyLinkedList<Doctor>* doctorList, DoublyLinkedList<Nurse>* nurseList);
 		static void DisplayExitPage();
 	};
 	class DoctorInterface {

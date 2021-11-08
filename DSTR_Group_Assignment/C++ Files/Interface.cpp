@@ -115,8 +115,91 @@ string Interface::UserInterface::DisplayLoginPage() {
 	}
 	return "Invalid";
 }
-string Interface::UserInterface::DisplayRegisterPage(){
-	return "";
+void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userList, DoublyLinkedList<Doctor>* doctorList, DoublyLinkedList<Nurse>* nurseList){
+	char answer;
+
+	do {
+		Interface::General::PrintLine('=', 100);
+		cout << "REGISTER NEW DOCTOR / NURSE" << endl;
+		Interface::General::PrintLine('=', 100);
+
+		cout << "1 - Register New Doctor\n2 - Register New Nurse\n3 - Back to Login\n > ";
+		cin >> answer;
+		cin.ignore();
+
+		char gender;
+		string firstName, lastName, ageString, ic, email, password, phone, address;
+		int age;
+		bool inputPass = true;
+		switch (answer) {
+			case '1': //Doctor
+			case '2': //Nurse
+				cout << "First Name: ";
+				getline(cin, firstName);
+				cout << "Last Name: ";
+				getline(cin, lastName);
+				cout << "IC: ";
+				getline(cin, ic);
+
+				do {
+					inputPass = true;
+					cout << "Gender [(M)ale / (F)emale / (N)on-Binary]: ";
+					cin >> gender;
+					cin.ignore();
+
+					gender = toupper(gender);
+					if (gender != 'M' && gender != 'F' && gender != 'N') {
+						inputPass = false;
+						cout << "Invalid Gender Selected." << endl;
+					}
+				} while (!inputPass);
+
+				do {
+					inputPass = true;
+					cout << "Age: ";
+					getline(cin, ageString);
+					try {
+						age = stoi(ageString);
+					}
+					catch (...) {
+						inputPass = false;
+						cout << "Invalid Age Entered." << endl;
+					}
+				} while (!inputPass);
+
+				cout << "Email: ";
+				getline(cin, email);
+				cout << "Password: ";
+				getline(cin, password);
+				cout << "Phone Number: ";
+				getline(cin, phone);
+				cout << "Address: ";
+				getline(cin, address);
+				if (answer == '1') {
+					doctorList->AddToEnd(Doctor(
+						Doctor::GenerateDoctorID(doctorList->GetLength() + 1),
+						Doctor::GenerateID(userList->GetLength() + 1),
+						firstName, lastName, age, gender, phone, email, address, password, ic
+					))
+				}
+				else if (answer == '2') {
+					nurseList->AddToEnd(Nurse(
+						Nurse::GenerateNurseID(nurseList->GetLength() + 1),
+						Nurse::GenerateID(userList->GetLength() + 1),
+						firstName, lastName, age, gender, phone, email, address, password, ic
+					))
+				}
+				else {
+					cout << "Inputted Information Cannot Be Stored." << endl;
+				}
+				break;
+			case '3': //Back to Login = Exit
+			default:
+				break;
+		}
+	} while (answer != '1' && answer != '2' && answer != '3');
+
+	return;
 }
 void Interface::UserInterface::DisplayExitPage() {
 	cout << "EXITED THE PROGRAM" << endl;
