@@ -180,14 +180,14 @@ void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userL
 						Doctor::GenerateDoctorID(doctorList->GetLength() + 1),
 						Doctor::GenerateID(userList->GetLength() + 1),
 						firstName, lastName, age, gender, phone, email, address, password, ic
-					))
+					));
 				}
 				else if (answer == '2') {
 					nurseList->AddToEnd(Nurse(
 						Nurse::GenerateNurseID(nurseList->GetLength() + 1),
 						Nurse::GenerateID(userList->GetLength() + 1),
 						firstName, lastName, age, gender, phone, email, address, password, ic
-					))
+					));
 				}
 				else {
 					cout << "Inputted Information Cannot Be Stored." << endl;
