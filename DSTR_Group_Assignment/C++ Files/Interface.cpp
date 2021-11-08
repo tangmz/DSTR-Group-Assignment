@@ -220,8 +220,17 @@ void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userL
 				getline(cin, firstName);
 				cout << "Last Name: ";
 				getline(cin, lastName);
-				cout << "IC: ";
-				getline(cin, ic);
+
+				do {
+					inputPass = true;
+					cout << "IC: ";
+					getline(cin, ic);
+					if (userList->SearchByRegex(ic, AttributeValues::User::IC)->GetLength() > 0) {
+						inputPass = false;
+						cout << "Duplicate IC Found. Please Use Another IC." << endl;
+					}
+				} while (!inputPass);
+
 
 				do {
 					inputPass = true;
@@ -249,8 +258,16 @@ void Interface::UserInterface::DisplayRegisterPage(DoublyLinkedList<User>* userL
 					}
 				} while (!inputPass);
 
-				cout << "Email: ";
-				getline(cin, email);
+				do {
+					inputPass = true;
+					cout << "Email: ";
+					getline(cin, email);
+					if (userList->SearchByRegex(email, AttributeValues::User::Email)->GetLength() > 0) {
+						inputPass = false;
+						cout << "Duplicate Email Found. Please Use Another Email." << endl;
+					}
+				} while (!inputPass);
+
 				cout << "Password: ";
 				getline(cin, password);
 				cout << "Phone Number: ";
