@@ -19,7 +19,7 @@ public:
 	public:
 		static void DisplayStartupPage();
 		static std::string DisplayLoginPage(DoublyLinkedList<Doctor>*& doctorList, DoublyLinkedList<Nurse>*& nurseList,
-			DoublyLinkedList<Patient>*& patientList, Doctor*& currentDoctor, Nurse*& currentNurse, Patient*& currentPatient);
+			DoublyLinkedList<Patient>* patientList, Doctor*& currentDoctor, Nurse*& currentNurse, Patient*& currentPatient);
 		static void DisplayRegisterPage(DoublyLinkedList<User>* userList, DoublyLinkedList<Doctor>* doctorList, DoublyLinkedList<Nurse>* nurseList);
 		static void DisplayExitPage();
 	};

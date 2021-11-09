@@ -73,7 +73,7 @@ void Interface::UserInterface::DisplayStartupPage() {
 	Interface::General::PrintLine('=', 100);
 }
 string Interface::UserInterface::DisplayLoginPage(DoublyLinkedList<Doctor>*& doctorList, DoublyLinkedList<Nurse>*& nurseList,
-	DoublyLinkedList<Patient>*& patientList, Doctor*& currentDoctor, Nurse*& currentNurse, Patient*& currentPatient) {
+	DoublyLinkedList<Patient>* patientList, Doctor*& currentDoctor, Nurse*& currentNurse, Patient*& currentPatient) {
 	//returns the login role as a string upon successful login, else return "Invalid"
 	/*Usage
 	* while((role = DisplayLoginPage()) == "Invalid"); //Perma loop login function

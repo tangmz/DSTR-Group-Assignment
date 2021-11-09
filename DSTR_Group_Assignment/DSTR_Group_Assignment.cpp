@@ -37,12 +37,24 @@ void skipLogin() {
 }
 
 void addOwnSampleData() {
-	Doctor d1 = Doctor("Doctor", "UserID", "John", "Smith", 21, 'M', "123", "mail", "addr", "pass", "IC");
-	Nurse n1 = Nurse("Nurse", "UseID", "Jessie", "Carl", 1, 'F', "0123", "mail", "addr", "pass", "ic");
-	Patient p1 = Patient("Patient", "UserID", "Momi", "Poko", 2, 'M', "phone", "mail", "addr", "pass", "ic", "illness", "visitD", "visitT");
+	Doctor d1 = Doctor(Doctor::GenerateDoctorID(ApplicationLists::Doctors->GetLength() + 1),
+		User::GenerateID(ApplicationLists::Users->GetLength() + 1),
+		"John", "Smith", 21, 'M', "123", "mail", "addr", "pass", "010203040506");
+	Nurse n1 = Nurse(Nurse::GenerateNurseID(ApplicationLists::Nurses->GetLength() + 1),
+		User::GenerateID(ApplicationLists::Users->GetLength() + 1),
+		"Jessie", "Carl", 1, 'F', "0123", "mail", "addr", "pass", "020304050607");
+	Patient p1 = Patient(Patient::GeneratePatientID(ApplicationLists::Patients->GetLength() + 1),
+		User::GenerateID(ApplicationLists::Users->GetLength() + 1),
+		"Momi", "Poko", 2, 'M', "phone", "mail", "addr", "pass", "030405060708", "Injury", "visitD", "visitT");
+	Medicine m1 = Medicine(Medicine::GenerateMedicineID(ApplicationLists::Medicines->GetLength() + 1),
+		"Paracetamol", "01/01", 12.0, "None");
+	ApplicationLists::Users->AddToEnd(d1);
+	ApplicationLists::Users->AddToEnd(n1);
+	ApplicationLists::Users->AddToEnd(p1);
 	ApplicationLists::Doctors->AddToEnd(d1);
 	ApplicationLists::Nurses->AddToEnd(n1);
 	ApplicationLists::Patients->AddToEnd(p1);
+	ApplicationLists::Medicines->AddToEnd(m1);
 }
 
 int main() {
@@ -50,22 +62,23 @@ int main() {
 	//skipLogin();
 
 	srand(unsigned(time(NULL)));
-	AddPatients(ApplicationLists::Users, ApplicationLists::Patients, 150, 18, 21);
-	AddDoctors(ApplicationLists::Users, ApplicationLists::Doctors, 10, 25, 30);
-	AddNurses(ApplicationLists::Users, ApplicationLists::Nurses, 25, 23, 30);
-	AddDrugs(ApplicationLists::Medicines, 50, 1, 60);
+	addOwnSampleData();
+	//AddPatients(ApplicationLists::Users, ApplicationLists::Patients, 150, 18, 21);
+	//AddDoctors(ApplicationLists::Users, ApplicationLists::Doctors, 10, 25, 30);
+	//AddNurses(ApplicationLists::Users, ApplicationLists::Nurses, 25, 23, 30);
+	//AddDrugs(ApplicationLists::Medicines, 50, 1, 60);
 
 	ApplicationLists::CurrentLoginPatient = ApplicationLists::Patients->GetReference(0);
 	ApplicationLists::CurrentLoginDoctor = ApplicationLists::Doctors->GetReference(0);
 	ApplicationLists::CurrentLoginNurse = ApplicationLists::Nurses->GetReference(0);
 
 	//ApplicationLists::Medicines->DisplayPages(15);
-	addOwnSampleData();
 
 	string role = "";
 	while (role != "Invalid") {
 		system("cls");
-		role = Interface::UserInterface::DisplayLoginPage(ApplicationLists::Doctors, ApplicationLists::Nurses, ApplicationLists::Patients,
+		role = Interface::UserInterface::DisplayLoginPage(ApplicationLists::Doctors, ApplicationLists::Nurses,
+			ApplicationLists::Patients->combineList(ApplicationLists::VisitedPatients),
 			ApplicationLists::CurrentLoginDoctor, ApplicationLists::CurrentLoginNurse, ApplicationLists::CurrentLoginPatient);
 
 		if (role == "Invalid") {
@@ -81,7 +94,8 @@ int main() {
 			Interface::NurseInterface::DisplayMainMenu(ApplicationLists::Patients, ApplicationLists::Users, ApplicationLists::VisitedPatients, ApplicationLists::Doctors);
 		}
 		else if (role == "Patient") {
-			Interface::PatientInterface::DisplayMainMenu(ApplicationLists::CurrentLoginPatient, ApplicationLists::Patients, ApplicationLists::Doctors);
+			Interface::PatientInterface::DisplayMainMenu(ApplicationLists::CurrentLoginPatient,
+				ApplicationLists::Patients->combineList(ApplicationLists::VisitedPatients), ApplicationLists::Doctors);
 		}
 	}
 

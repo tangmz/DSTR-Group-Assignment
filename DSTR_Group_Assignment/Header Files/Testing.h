@@ -15,7 +15,7 @@ using namespace std;
 void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int maxAge = 60) {
 	DoublyLinkedList<string>* NameList = LoadNames();
 	for (int i = 0; i < n; i++) {
-		cout << "Adding User: " << i << endl;
+		//cout << "Adding User: " << i << endl;
 		users->AddToEnd(User(
 			User::GenerateID(ApplicationLists::Users->GetLength() + 1),
 			GetRandomName(NameList),
@@ -33,7 +33,7 @@ void AddUsers(DoublyLinkedList<User>* users, int n = 100, int minAge = 20, int m
 void AddPatients(DoublyLinkedList<User>* users, DoublyLinkedList<Patient>* patients, int n = 100, int minAge = 20, int maxAge = 60) {
 	DoublyLinkedList<string>* NameList = LoadNames();
 	for (int i = 0; i < n; i++) {
-		cout << "Adding User: " << i << endl;
+		//cout << "Adding User: " << i << endl;
 		User newUser = User(
 			User::GenerateID(ApplicationLists::Users->GetLength() + 1),
 			GetRandomName(NameList),
@@ -70,7 +70,7 @@ void AddPatients(DoublyLinkedList<User>* users, DoublyLinkedList<Patient>* patie
 void AddDoctors(DoublyLinkedList<User>* users, DoublyLinkedList<Doctor>* doctors, int n = 100, int minAge = 20, int maxAge = 60) {
 	DoublyLinkedList<string>* NameList = LoadNames();
 	for (int i = 0; i < n; i++) {
-		cout << "Adding User: " << i << endl;
+		//cout << "Adding User: " << i << endl;
 		User newUser = User(
 			User::GenerateID(ApplicationLists::Users->GetLength() + 1),
 			GetRandomName(NameList),
@@ -104,7 +104,7 @@ void AddDoctors(DoublyLinkedList<User>* users, DoublyLinkedList<Doctor>* doctors
 void AddNurses(DoublyLinkedList<User>* users, DoublyLinkedList<Nurse>* nurses, int n = 100, int minAge = 20, int maxAge = 60) {
 	DoublyLinkedList<string>* NameList = LoadNames();
 	for (int i = 0; i < n; i++) {
-		cout << "Adding User: " << i << endl;
+		//cout << "Adding User: " << i << endl;
 		User newUser = User(
 			User::GenerateID(ApplicationLists::Users->GetLength() + 1),
 			GetRandomName(NameList),
@@ -138,7 +138,7 @@ void AddNurses(DoublyLinkedList<User>* users, DoublyLinkedList<Nurse>* nurses, i
 void AddDrugs(DoublyLinkedList<Medicine>* medicines, int n = 100, double minShelfLife = 1, double maxShelfLife = 120) {
 	DoublyLinkedList<string>* DrugNameList = LoadDrugNames();
 	for (int i = 0; i < n; i++) {
-		cout << "Adding Drug: " << i << endl;
+		//cout << "Adding Drug: " << i << endl;
 		medicines->AddToEnd(Medicine(
 			Medicine::GenerateMedicineID(ApplicationLists::Medicines->GetLength() + 1),
 			GetRandomDrugName(DrugNameList),
