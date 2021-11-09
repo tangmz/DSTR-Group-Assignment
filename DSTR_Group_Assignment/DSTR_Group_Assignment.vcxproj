@@ -140,14 +140,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="C++ Files\Appointment.cpp" />
-    <ClCompile Include="C++ Files\Doctor.cpp" />
     <ClCompile Include="C++ Files\Interface.cpp" />
-    <ClCompile Include="C++ Files\Medicine.cpp" />
-    <ClCompile Include="C++ Files\Nurse.cpp" />
     <ClCompile Include="C++ Files\Patient.cpp" />
-    <ClCompile Include="C++ Files\SampleData.cpp" />
-    <ClCompile Include="C++ Files\User.cpp" />
     <ClCompile Include="DSTR_Group_Assignment.cpp" />
   </ItemGroup>
   <ItemGroup>
