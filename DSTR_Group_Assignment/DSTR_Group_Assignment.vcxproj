@@ -141,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="C++ Files\Interface.cpp" />
-    <ClCompile Include="C++ Files\Patient.cpp" />
+    <ClCompile Include="C++ Files\Classes.cpp" />
     <ClCompile Include="DSTR_Group_Assignment.cpp" />
   </ItemGroup>
   <ItemGroup>
